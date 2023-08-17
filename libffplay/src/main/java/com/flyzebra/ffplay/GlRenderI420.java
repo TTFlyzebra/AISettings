@@ -18,23 +18,23 @@ import javax.microedition.khronos.opengles.GL10;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlRender
  */
-public class GlRenderYuv implements GLSurfaceView.Renderer {
+public class GlRenderI420 implements GLSurfaceView.Renderer {
     private final Context context;
     private final FloatBuffer vertexBuffer;
     private final FloatBuffer textureBuffer;
     //顶点坐标
     static float[] vertexData = {   // in counterclockwise order:
-            -1f, -1f, 0.0f, // bottom left
-            +1f, -1f, 0.0f, // bottom right
-            -1f, +1f, 0.0f, // top left
-            +1f, +1f, 0.0f,  // top right
+            -1f, -1f, // bottom left
+            +1f, -1f, // bottom right
+            -1f, +1f, // top left
+            +1f, +1f,  // top right
     };
     //纹理坐标
     static float[] textureData = {   // in counterclockwise order:
-            0.0f, 1.0f, 0.0f, // bottom left
-            1.0f, 1.0f, 0.0f, // bottom right
-            0.0f, 0.0f, 0.0f, // top left
-            1.0f, 0.0f, 0.0f,  // top right
+            0.0f, 1.0f, // bottom left
+            1.0f, 1.0f, // bottom right
+            0.0f, 0.0f, // top left
+            1.0f, 0.0f,  // top right
     };
 
     protected float[] vMatrixData = {
@@ -60,7 +60,7 @@ public class GlRenderYuv implements GLSurfaceView.Renderer {
 
     private final Object objectLock = new Object();
 
-    public GlRenderYuv(Context context) {
+    public GlRenderI420(Context context) {
         this.context = context;
 
         vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
@@ -100,8 +100,8 @@ public class GlRenderYuv implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        String vertexShader = GlShaderUtil.readRawTextFile(context, R.raw.glsl_yuv_vertex);
-        String fragmentShader = GlShaderUtil.readRawTextFile(context, R.raw.glsl_yuv_fragment);
+        String vertexShader = GlShaderUtil.readRawTextFile(context, R.raw.glsl_i420_vertex);
+        String fragmentShader = GlShaderUtil.readRawTextFile(context, R.raw.glsl_i420_fragment);
         glprogram = GlShaderUtil.createProgram(vertexShader, fragmentShader);
         vPosition = GLES20.glGetAttribLocation(glprogram, "vPosition");
         fPosition = GLES20.glGetAttribLocation(glprogram, "fPosition");
@@ -118,12 +118,6 @@ public class GlRenderYuv implements GLSurfaceView.Renderer {
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         }
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        GLES20.glClearColor(0.0f, 0.7f, 0.0f, 1.0f);
     }
 
     @Override
@@ -133,9 +127,8 @@ public class GlRenderYuv implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        GLES20.glClearColor(0.0f, 0.70f, 0.0f, 1.0f);
         if (width <= 0 || height <= 0) return;
+        GLES20.glClearColor(0.0f, 0.70f, 0.0f, 1.0f);
         synchronized (objectLock) {
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
@@ -156,8 +149,8 @@ public class GlRenderYuv implements GLSurfaceView.Renderer {
 
         GLES20.glEnableVertexAttribArray(vPosition);
         GLES20.glEnableVertexAttribArray(fPosition);
-        GLES20.glVertexAttribPointer(vPosition, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-        GLES20.glVertexAttribPointer(fPosition, 3, GLES20.GL_FLOAT, false, 0, textureBuffer);
+        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 0, vertexBuffer);
+        GLES20.glVertexAttribPointer(fPosition, 2, GLES20.GL_FLOAT, false, 0, textureBuffer);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         GLES20.glDisableVertexAttribArray(vPosition);
         GLES20.glDisableVertexAttribArray(fPosition);

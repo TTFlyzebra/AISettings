@@ -4,7 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.flyzebra.utils.FlyLog;
 import com.flyzebra.utils.GlShaderUtil;
 
 import java.nio.ByteBuffer;
@@ -19,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlRender
  */
-public class GlRenderNv12 implements GLSurfaceView.Renderer {
+public class GlRenderNV12 implements GLSurfaceView.Renderer {
     private final Context context;
     private final FloatBuffer vertexBuffer;
     private final FloatBuffer textureBuffer;
@@ -59,7 +58,7 @@ public class GlRenderNv12 implements GLSurfaceView.Renderer {
 
     private final Object objectLock = new Object();
 
-    public GlRenderNv12(Context context) {
+    public GlRenderNV12(Context context) {
         this.context = context;
 
         vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
@@ -78,7 +77,6 @@ public class GlRenderNv12 implements GLSurfaceView.Renderer {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
-        FlyLog.e("xxxxxxxxxxxxxxx width = %d, height=%d", this.width, this.height);
         y = ByteBuffer.wrap(new byte[this.width * this.height]);
         uv = ByteBuffer.wrap(new byte[this.width * this.height / 2]);
     }

@@ -11,15 +11,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.flyzebra.aisettings.fm.AdasFragment;
 import com.flyzebra.utils.FlyLog;
 
 public class AdasActivity extends AppCompatActivity {
-    private static final String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+    private static final String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
-    private Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,7 @@ public class AdasActivity extends AppCompatActivity {
             }
         }
 
-        //replaceFragMent(new AdasFragment());
+        replaceFragMent(new AdasFragment());
     }
 
 
@@ -45,7 +42,6 @@ public class AdasActivity extends AppCompatActivity {
     }
 
     public void replaceFragMent(Fragment fragment) {
-        mFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.ac_fm01, fragment);
         ft.commit();

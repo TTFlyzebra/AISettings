@@ -19,7 +19,7 @@ import java.util.List;
  * Discription: This is GlVideoView
  */
 public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback, ICallBack {
-    private GlRenderNv12 glRender;
+    private GlRenderNV12 glRender;
     private FfPlayer ffplayer;
     private MediaDecoder mediaDecoder;
     private AudioPlayer audioPlayer;
@@ -44,7 +44,7 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
 
     private void init(Context context) {
         setEGLContextClientVersion(2);
-        glRender = new GlRenderNv12(context);
+        glRender = new GlRenderNV12(context);
         setRenderer(glRender);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         getHolder().addCallback(this);
