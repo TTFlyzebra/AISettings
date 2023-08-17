@@ -7,17 +7,25 @@
  */
 package com.flyzebra.aisettings.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-public class TouchEventView extends FrameLayout implements View.OnTouchListener {
+import com.flyzebra.aisettings.R;
+import com.flyzebra.utils.FlyLog;
+
+public class TouchEventView extends RelativeLayout implements View.OnTouchListener {
+    private LinearLayout selected_v;
+    private LinearLayout selected_h;
     private float down_x;
     private float down_y;
     private float move_x;
     private float move_y;
+
     public TouchEventView(Context context) {
         this(context, null);
     }
@@ -36,15 +44,42 @@ public class TouchEventView extends FrameLayout implements View.OnTouchListener 
         init(context);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
         setFocusable(true);
         setOnClickListener(v -> {
         });
         setOnTouchListener(this);
+
+        selected_v = new LinearLayout(context);
+        LinearLayout.LayoutParams params_v = new LinearLayout.LayoutParams(-1, 100);
+        addView(selected_v, params_v);
+        selected_v.setBackgroundResource(R.drawable.rectangle);
+        selected_v.setOnClickListener(v -> {
+        });
+        selected_v.setOnTouchListener((v, event) -> {
+            FlyLog.e("selected_v onTouch" + event);
+            return false;
+        });
+
+        selected_h = new LinearLayout(context);
+        LinearLayout child = new LinearLayout(context);
+        LinearLayout.LayoutParams params_child = new LinearLayout.LayoutParams(3, -1);
+        child.setBackgroundResource(R.color.YELLOW);
+        selected_h.addView(child, params_child);
+        LinearLayout.LayoutParams params_h = new LinearLayout.LayoutParams(20, -1);
+        addView(selected_h, params_h);
+        selected_h.setOnClickListener(v -> {
+        });
+        selected_h.setOnTouchListener((v, event) -> {
+            FlyLog.e("selected_v onTouch" + event);
+            return false;
+        });
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         setMeasuredDimension(width, (int) (width * 9f / 16f));
     }
