@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerdevices">
+        <item>301</item>
+        <item>202</item>
+    </string-array>
+
+    <string-array name="spinnerlanguages">
+        <item>Chinese</item>
+        <item>English</item>
+        <item>日本</item>
+        <item>Português</item>
+        <item>Türk</item>
+    </string-array>
+
+    <string-array name="spinnercommunication">
+        <item>Network Communication</item>
+        <item>Serial communication</item>
+    </string-array>
+
+    <string-array name="spinnerdevicemode">
+        <item>Algorithm mode</item>
+        <item>Video mode</item>
+    </string-array>
+
+    <string-array name="spinnerchannelnum">
+        <item>Channel 1</item>
+        <item>Channel 2</item>
+        <item>Channel 3</item>
+        <item>Channel 4</item>
+    </string-array>
+
+    <string-array name="spinnerpicturequality">
+        <item>Standard</item>
+        <item>Image quality priority</item>
+        <item>Storage Priority</item>
+    </string-array>
+
+    <string-array name="spinnerserverjtver">
+        <item>      JT13</item>
+        <item>      JT19</item>
+    </string-array>
+
+    <string-array name="spinnerprototype">
+        <item>      Jiangsu standard</item>
+        <item>      Guangdong standard</item>
+    </string-array>
+
+    <string-array name="spinnervehiclecolor">
+        <item>0:No license plate</item>
+        <item>1:blue license plate</item>
+        <item>2:yellow license plate</item>
+        <item>3:black license plate</item>
+        <item>4:white license plate</item>
+        <item>5:green license plate</item>
+        <item>93:Yellow and Green license plate</item>
+        <item>94:gradient green</item>
+        <item>9:others</item>
+    </string-array>
+
+    <string-array name="spinnervehicletype">
+        <item>bus</item>
+        <item>large Bus</item>
+        <item>medium bus</item>
+        <item>minibus</item>
+        <item>passenger car</item>
+        <item>Large sleeper bus</item>
+        <item>Medium sleeper bus</item>
+        <item>truck</item>
+        <item>heavy truck</item>
+        <item>medium truck</item>
+        <item>pick-up</item>
+        <item>dedicated transport vehicle</item>
+        <item>container carrier</item>
+        <item>Bulky transport vehicle</item>
+        <item>Refrigerated truck</item>
+        <item>Refrigerated truck</item>
+        <item>Commodity transportation vehicle</item>
+        <item>water tanker</item>
+        <item>tractor trailer</item>
+        <item>trailer</item>
+        <item>flatbed truck</item>
+        <item>other special vehicle</item>
+        <item>dangerous goods transporter</item>
+        <item>agricultural vehicle</item>
+        <item>tractor</item>
+        <item>school bus</item>
+        <item>heavy storage truck</item>
+        <item>heavy duty dump truck</item>
+        <item>light truck</item>
+        <item>heavy storage truck</item>
+        <item>heavy truck</item>
+        <item>heavy van</item>
+        <item>heavy semi-trailer towing vehicle</item>
+        <item>heavy ordinary semi-trailer</item>
+        <item>heavy container semi-trailer</item>
+        <item>heavy flat semi-trailer</item>
+        <item>heavy storage semi-trailer</item>
+        <item>heavy special structure truck</item>
+        <item>other vehicles</item>
+    </string-array>
+
+    <string-array name="spinnerstatusinfo">
+        <item>Terminal info</item>
+        <item>Video info</item>
+        <item>Real-time status of equipment</item>
+        <item>Recording status</item>
+        <item>Version Information</item>
+    </string-array>
+
+    <string-array name="bsdcalibdirection">
+        <item>normal (front right)</item>
+        <item>right rear</item>
+    </string-array>
+</resources>

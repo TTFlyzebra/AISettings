@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_bar_height">55dp</dimen>
+    <dimen name="bar_choice_height">45dp</dimen>
+    <dimen name="adas_item_height">75dp</dimen>
+</resources>

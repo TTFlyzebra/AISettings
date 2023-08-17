@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_bar_height">55dp</dimen>
+    <dimen name="play_pause_size">55dp</dimen>
+    <dimen name="bar_choice_height">55dp</dimen>
+    <dimen name="button_size_width">46dp</dimen>
+    <dimen name="button_size_height">42dp</dimen>
+    <dimen name="radio_button_size_width">50dp</dimen>
+    <dimen name="radio_button_size_height">40dp</dimen>
+    <dimen name="configuration_param_context_height">20dp</dimen>
+    <dimen name="configuration_param_choise_height">48dp</dimen>
+    <dimen name="adas_item_marign_left">12dp</dimen>
+    <dimen name="adas_item_marign_right">12dp</dimen>
+    <dimen name="return_bar_width">18dp</dimen>
+    <dimen name="return_bar_height">18dp</dimen>
+    <dimen name="title_margin_left">40dp</dimen>
+    <dimen name="bar_choise_item_height">19dp</dimen>
+    <dimen name="bar_choise_item_width">19dp</dimen>
+    <dimen name="bar_choise_item_margin_top">10dp</dimen>
+    <dimen name="bar_choise_item_margin_bottom">7dp</dimen>
+    <dimen name="default_sens_choise_height">32dp</dimen>
+    <dimen name="default_sens_choise_margin">16dp</dimen>
+    <dimen name="bar_content_item_margin">3dp</dimen>
+    <dimen name="setting_content_item_margin">5dp</dimen>
+    <dimen name="setting_item_height">72dp</dimen>
+    <dimen name="setting_item_margin">16dp</dimen>
+    <dimen name="steering_wheel_item_height">25dp</dimen>
+    <dimen name="steering_wheel_item_width">24dp</dimen>
+
+    <dimen name="color_picker_margin_horizontal">16dp</dimen>
+    <dimen name="alert_dialog_height">186dp</dimen>
+
+    <dimen name="isp_item_marign_left">12dp</dimen>
+    <dimen name="isp_item_marign_right">12dp</dimen>
+
+    <dimen name="adas_item_height">95dp</dimen>
+</resources>

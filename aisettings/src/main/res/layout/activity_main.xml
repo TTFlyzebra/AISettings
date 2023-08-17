@@ -1,22 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.flyzebra.aisettings.AutoTextureView
-        android:id="@+id/rtmp_texture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
-
-    <LinearLayout
-        android:id="@+id/ac_ll01"
-        android:layout_below="@+id/rtmp_texture"
+    <FrameLayout
+        android:id="@+id/ac_fm01"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/choice_view_bottom" />
+
+    <LinearLayout
+        android:id="@+id/choice_view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
         android:layout_alignParentBottom="true"
-        android:background="#00F"
-        android:orientation="vertical" />
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/adas_view_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/adas_cali_im"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bar_choise_item_height"
+                android:layout_marginTop="@dimen/bar_choise_item_margin_top"
+                android:gravity="center"
+                android:src="@drawable/ic_tab_adas_normal" />
+
+            <TextView
+                android:id="@+id/adas_cali_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/bar_content_item_margin"
+                android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
+                android:gravity="center"
+                android:text="@string/dms_calibration"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adas_setting_view_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/adas_setting_im"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bar_choise_item_height"
+                android:layout_marginTop="@dimen/bar_choise_item_margin_top"
+                android:gravity="center"
+                android:src="@drawable/ic_shezhi_normal" />
+
+            <TextView
+                android:id="@+id/adas_setting_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/bar_content_item_margin"
+                android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

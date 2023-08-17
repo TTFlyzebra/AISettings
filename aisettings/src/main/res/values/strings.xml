@@ -1,3 +1,347 @@
 <resources>
-    <string name="app_name">AISettings</string>
+    <string name="app_name">ADASSET</string>
+    <string name="dms_calibration">Calibration</string>
+    <string name="dms_calibration2">Video feature settings</string>
+    <string name="start_calibration">Start Calibration</string>
+    <string name="start_dms_calibration">DMS Calibration</string>
+    <string name="bsd_calibration">BSD Calibration</string>
+    <string name="adas_configuration">ADAS Config</string>
+    <string name="dms_configuration">DMS Config</string>
+    <string name="configuration">Configuration</string>
+    <string name="settings2">Transportation Ministry standard function settings</string>
+    <string name="settings">Settings</string>
+    <string name="steering_wheel">steering wheel</string>
+    <string name="app_exit_toast">Press again to exit.</string>
+
+    <string name="virtual_speed">Real-time speed analog input</string>
+    <string name="real_speed">Real-time speed (km/h)</string>
+    <string name="virtual_speed_hint">Real–time speed analog input(0–255):</string>
+    <string name="login_name">UserName:</string>
+    <string name="login_password">Password:</string>
+    <string name="login_ok">Login</string>
+
+    <string name="horizontal_line">"Horizon :   ("</string>
+    <string name="engine_line">"Hood line:   ("</string>
+    <string name="car_central_line">"Vehicle center line:   ("</string>
+    <string name="camera_height">Camera height:</string>
+    <string name="camera_central">Camera center:</string>
+    <string name="camera_to_wheel">The distance from the camera to the front wheel: cm</string>
+    <string name="camera_to_axle">The distance from the camera to the back wheel: cm</string>
+    <string name="target_to_camera">Target distance from camera:cm</string>
+    <string name="target_to_ground">The distance from the bottom of the target to the ground:cm</string>
+    <string name="camera_to_wheel_hint">When the current wheel is behind the camera, the input value is negative </string>
+    <string name="car_width">Vehicle width: cm</string>
+    <string name="camera_to_carhead">Distance from camera to head of vehicle: cm</string>
+    <string name="param_reset">Reset</string>
+    <string name="camera_switch">Switch</string>
+    <string name="horizontal_line2">"horizon"</string>
+    <string name="engine_line2">"Hood line"</string>
+    <string name="car_central_line2">"Vehicle center line"</string>
+
+    <string name="adas_warning_enable">Automatically captured events</string>
+    <string name="lane_shifting_speed_enable">Lane deviation activation speed (km/h)</string>
+    <string name="front_car_collide_speed">Forward collision warning</string>
+    <string name="lane_shift_warning">Lane departure alarming</string>
+    <string name="car_too_close_warning">Close Distance alarming</string>
+    <string name="people_too_close">Pedestrian approaching alarming</string>
+    <string name="frequency_change_lane">Frequent Lane Changing alarming</string>
+    <string name="frequency_change_lane_sens">Detection period</string>
+    <string name="adas_auto_capture">Automatically capture events</string>
+    <string name="lane_left_shift_sens">Lane deviation left sensitivity (cm):</string>
+    <string name="lane_right_shift_sens">Lane deviation right sensitivity (cm):</string>
+    <string name="car_distance_keep_sens">Sensitivity to maintain distance (s):</string>
+    <string name="front_car_collide_sens">Forward vehicle collision sensitivity (s):</string>
+    <string name="gps_detecting_interval">GPS positioning time interval (s):</string>
+
+    <string name="sensitivity">Sensitivity (s)</string>
+    <string name="sensitivity_low">Low</string>
+    <string name="sensitivity_middle">Middle</string>
+    <string name="sensitivity_high">High</string>
+    <string name="presicion">Allowable interval error (ms)</string>
+    <string name="presicion2">Detection times (times)</string>
+    <string name="warnging_time">Alarm interval (s)</string>
+    <string name="time_counter">frequency</string>
+
+    <string name="eye_close_warn">Eyes closed alarm sensitivity (s)</string>
+    <string name="yawn_warn">Yawn alarm sensitivity (s)</string>
+    <string name="phone_call_warn">Phone-calling alarm sensitivity (s)</string>
+    <string name="smoking_warn">Smoking alarm sensitivity (s)</string>
+    <string name="look_around_warn">Look left and right Alarm sensitivity (s)</string>
+    <string name="low_head_warn">Head down alarm sensitivity (s)</string>
+    <string name="not_in_position_warn">Leaving driving position alarm sensitivity (s)</string>
+    <string name="occlusion_lens_warn">Block the lens Alarm sensitivity (s)</string>
+    <string name="dms_auto_capture">Auto capture alarm sensitivity (s)</string>
+    <string name="driver_changed_warn">Driver change detection interval (s)</string>
+    <string name="infrared_blocking_warn">Infrared blocking alarm sensitivity (s)</string>
+    <string name="hands_no_in_position_warn">Hands off the steering wheel Alarm sensitivity (s)</string>
+    <string name="no_belts_warn">Seat belt detection interval (s)</string>
+    <string name="driver_identify_warn">Driver recognition alarm sensitivity (s)</string>
+
+    <string name="dms_cali_success_toast">DMS calibration succeeded</string>
+    <string name="dms_cali_failure_toast">DMS calibration failed</string>
+
+    <string name="dms_cali_hint">The driver normally sits in the driving position, looking at the driving direction, adjust the camera position to ensure that the face is in the frame, and click the calibration button to start</string>
+    <string name="bsd_cali_hint">Please dragging the calibration line to calibrate, and click the save button in the upper right corner to save</string>
+    <string name="bsd_cali_hint2">Please click the start calibration button, then drag the calibration line to calibrate, and click the save button in the upper right corner to save</string>
+    <string name="bsd_cali_hint3">Please click the start calibration button, drag the upper left or lower right point of the calibration box to zoom the calibration box, and change the position by dragging the middle position of the calibration box, then click the save button in the upper right corner to save</string>
+    <string name="reboot_adas_hint">The device is restarting, please wait…</string>
+    <string name="reboot_adas_success_hint">Successful restart</string>
+    <string name="uvc_disconnect_hint">Device is not connected</string>
+    <string name="write_params_hint">save successfully</string>
+
+    <string name="dialog_save">save</string>
+    <string name="dialog_ok">confirm</string>
+    <string name="dialog_cancel">cancel</string>
+    <string name="reboot_hint">It takes about 40s to restart the device. Please confirm whether to restart?</string>
+
+    <string name="restore_default_hint">Restore default parameters</string>
+    <string name="restore_default_hint2">Please confirm whether to restore ADAS/DMS configuration parameters to default values?</string>
+    <string name="restore_default">Restore all configurations</string>
+
+    <string name="dms_rotate_set">DMS calibration to screen settings</string>
+    <string name="dms_rotate_set_hint">DMS calibration is successful, and it will take effect after restarting the AP</string>
+    <string name="virtual_speed_dispatch">Sending real-time simulate speed</string>
+    <string name="virtual_speed_dispatch_hint">Real-time  simulate speed sending takes effect</string>
+    <string name="virtual_speed_dispatch_hint2">Simulation speed real-time sending off</string>
+    <string name="steering_wheel_horizontal_size">Steering wheel (horizontal) size</string>
+    <string name="steering_wheel_vertical_size">Steering wheel (vertical) size</string>
+    <string name="steering_wheel_horizontal_position">Steering wheel position (horizontal movement)</string>
+    <string name="steering_wheel_vertical_position">Steering wheel position (vertical movement)</string>
+
+    <string name="no_num_format_hint">Illegal number</string>
+    <string name="not_valid_value">The input value is not in the allowable range, and the boundary value is used by default</string>
+
+    <string name="version_info">Version information query</string>
+    <string name="volume_adjust">Volume adjustment</string>
+    <string name="basic_setting_params">Basic function configuration</string>
+    <string name="speed_adjust">Speed threshold adjustment</string>
+    <string name="mode_adjust">Mode setting</string>
+    <string name="mode_adjust_1">Normal mode</string>
+    <string name="mode_adjust_2">Demo mode</string>
+    <string name="mode_adjust_3">Custom mode</string>
+    <string name="function_adjust">Function selection</string>
+    <string name="function_adjust_1">Play cell phone</string>
+    <string name="function_adjust_2">Front BSD</string>
+    <string name="function_adjust_3">Right BSD</string>
+
+    <string name="adas_mode_manual">Manual calibration</string>
+    <string name="adas_mode_semiautomatic">Semi-automatic</string>
+    <string name="adas_mode_automatic">Automatic calibration</string>
+    <string name="adas_mode_automatic_panel">Calibration plate</string>
+
+    <string name="dvr_reboot_settings">Restart DVR</string>
+    <string name="mcu_reboot_settings">Restart MCU</string>
+
+    <string name="ai_config_adjust">AI function configuration</string>
+    <string name="ai_config_adjust_enable">AI function enable switch</string>
+    <string name="dms_distract_adjust">DMS distraction range setting</string>
+    <string name="setting_dms_cali_params">DMS calibration value</string>
+    <string name="setting_rated_params">Parameter limits setting</string>
+    <string name="setting_rated_load">Load limit(t)</string>
+    <string name="setting_rated_height">Load height limit(m)</string>
+    <string name="setting_dms_cali_pitch">DMS Pitch:</string>
+    <string name="setting_dms_cali_yaw">DMS Yaw:</string>
+    <string name="setting_ip_config">IP configuration</string>
+    <string name="setting_save_configs">Export all parameters to a file</string>
+    <string name="setting_language">Language settings</string>
+    <string name="setting_ip_host">Host IP address</string>
+    <string name="setting_ip_device">Device IP address</string>
+    <string name="setting_ip_server">Server IP</string>
+    <string name="setting_ip_config_hint">Note: It will take effect after restarting. After confirming, please press the upper right restart button to restart the application</string>
+    <string name="setting_save_config_hint">Parameter file saved successfully</string>
+    <string name="setting_detect_show_hint">Display detection information</string>
+    <string name="setting_log_enable">Enable device log function</string>
+    <string name="setting_sdcard">SD card settings</string>
+    <string name="setting_device_info">Device parameters</string>
+    <string name="setting_driver_info">Driver card parameters</string>
+    <string name="setting_ic_info">IC card information</string>
+    <string name="setting_driver_name">Driver\'s name</string>
+    <string name="setting_driver_id">ID number</string>
+    <string name="setting_driver_licence">Driver\'s license (operating license)</string>
+    <string name="setting_driver_licence_authority">Issuing authority</string>
+    <string name="setting_sdcard_format">Format SD card</string>
+    <string name="setting_sdcard_format_hint2">The memory card data will be deleted. Are you sure whether to format it?</string>
+    <string name="sdcard_flag_exist">Whether the SD card has an identification bit</string>
+    <string name="sdcard_package_flag_exist">Whether there is a firmware upgrade package identification bit on the SD card</string>
+    <string name="sdcard_app_flag_exist">Whether there is an APP upgrade package identification bit on the SD card</string>
+    <string name="update_success_flag">Device upgrade status</string>
+    <string name="communi_method">Protocol library communication mode setting</string>
+    <string name="setting_device_mode">Device mode setting</string>
+    <string name="device_camera_mode">Video recording mode:</string>
+    <string name="device_camera_start">Start recording</string>
+    <string name="device_camera_stop">End recording</string>
+    <string name="setting_808_param">808 related parameters</string>
+    <string name="network_param_setting">Network parameter configuration</string>
+
+    <string name="setting_vehicle_param">Vehicle parameter configuration</string>
+    <string name="vehicle_num">License plate number</string>
+    <string name="province_id">Provincial ID</string>
+    <string name="city_id">City ID</string>
+    <string name="vin_id">VIN code</string>
+    <string name="vin_id_hint">Please enter the VIN code</string>
+    <string name="vehicle_color">License plate color</string>
+    <string name="vehicle_type">Vehicle Type</string>
+    <string name="apn">APN</string>
+    <string name="device_id">Local number</string>
+    <string name="second_device_id">Duplicate number</string>
+    <string name="third_device_id">Third server number</string>
+    <string name="forth_device_id">Fourth server number</string>
+    <string name="fifth_device_id">Fifth server number</string>
+    <string name="sixth_device_id">Sixth server number</string>
+    <string name="terminal_id">Terminal number</string>
+    <string name="apn_hint">Please enter the APN</string>
+    <string name="phone_number_hint">Please enter the 11-digit number</string>
+    <string name="terminal_id_hint">Please enter the 7-digit terminal number</string>
+    <string name="server_ip_hint">The length of the server address is out of range (>19)</string>
+    <string name="server_port_hint">The server port number value is out of range (0–65535)</string>
+    <string name="car_number_hint">License plate number (>16)</string>
+    <string name="driver_id_hint">Please enter the 18-digit ID number</string>
+    <string name="setting_status_info">State parameter query</string>
+
+    <string name="device_301">TD301</string>
+    <string name="device_202">VD202</string>
+
+    <string name="device_open">on</string>
+    <string name="device_close">off</string>
+    <string name="device_server_ip">Terminal IP</string>
+    <string name="device_server_port">The port number</string>
+    <string name="device_server_jtver">Main connection version</string>
+    <string name="second_setting_ip_server">Secondary server IP</string>
+    <string name="second_device_server_port">Secondary port number</string>
+    <string name="second_device_server_jtver">Minor connection version</string>
+    <string name="third_setting_ip_server">Third server IP</string>
+    <string name="third_device_server_port">Third server port number</string>
+    <string name="third_device_server_jtver">Third server connection version</string>
+    <string name="forth_setting_ip_server">Fourth server IP</string>
+    <string name="forth_device_server_port">Fourth server port number</string>
+    <string name="forth_device_server_jtver">Fourth server connection version</string>
+    <string name="fifth_setting_ip_server">Fifth server IP</string>
+    <string name="fifth_device_server_port">Fifth server port number</string>
+    <string name="fifth_device_server_jtver">Fifth server connection version</string>
+    <string name="sixth_setting_ip_server">Sixth server IP</string>
+    <string name="sixth_device_server_port">Sixth server port number</string>
+    <string name="sixth_device_server_jtver">Sixth server connection version</string>
+    <string name="device_server_prototype">Main server protocol type</string>
+    <string name="second_device_server_prototype">Secondary server protocol type</string>
+    <string name="third_device_server_prototype">Third server protocol type</string>
+    <string name="forth_device_server_prototype">Fourth server protocol type</string>
+    <string name="fifth_device_server_prototype">Fifth server protocol type</string>
+    <string name="sixth_device_server_prototype">Sixth server protocol type</string>
+
+    <string name="exist">Exist</string>
+    <string name="no_exist">does not exist</string>
+
+    <string name="adas_traffic_limit_sign_recog">Traffic restriction sign recognition</string>
+    <string name="adas_traffic_limit_sign_exceed">Traffic sign out-of-limit</string>
+
+    <string name="network_not_connect">The network is not connected, please check the url or network configuration</string>
+    <string name="optimist_hint">Switching too fast</string>
+
+    <string name="channel_name">Channel name </string>
+    <string name="channel_name_hint">(Please press the button in the upper right corner to save after modification)</string>
+    <string name="channel_name_1">Channel </string>
+    <string name="channel_switch">Video record switch</string>
+    <string name="channel_switch_hint">(Cannot record the channel after closing)</string>
+    <string name="channel_switch_hint2">Cannot record voice after closing recording video</string>
+    <string name="channel_switch_verical">Flip upside down</string>
+    <string name="channel_switch_horizontal">Flip left and right</string>
+    <string name="channel_mike">Recording switch</string>
+    <string name="channel_mike_hint">(The channel will not be recorded after it is closed)</string>
+    <string name="channel_preview_quality">Image quality</string>
+    <string name="bsd_calib_direction">Camera direction</string>
+
+    <string name="ai_config_dms">DMS function switch</string>
+    <string name="ai_config_hint">(Configurable only in mass production mode)</string>
+    <string name="ai_config_drowsy">Drowsiness</string>
+    <string name="ai_config_drowsy_type1">Drowsiness(eyes closed)</string>
+    <string name="ai_config_drowsy_type2">Drowsiness(blink)</string>
+    <string name="ai_config_drowsy_type3">Drowsiness(yawning)</string>
+    <string name="ai_config_distraction">Distracted</string>
+    <string name="ai_config_smoking">Smoking</string>
+    <string name="ai_config_calling">Calling</string>
+    <string name="ai_config_infrared_blocking">Infrared blocking sunglasses</string>
+    <string name="ai_config_driver_abnormal">Driver anomaly</string>
+    <string name="ai_config_lens_occlusion">Lens occlusion</string>
+    <string name="ai_config_adas">ADAS function switch</string>
+    <string name="ai_config_front_collision">Forward collision</string>
+    <string name="ai_config_car_too_close">Close Distance Warning</string>
+    <string name="ai_config_lane_shift">Lane departure warning</string>
+
+    <string name="ai_config_swms">SWMS function switch</string>
+    <string name="ai_config_phone_playing">Play cell phone</string>
+    <string name="ai_config_no_safebelt">Play cell phone</string>
+    <string name="ai_config_no_hands">Hands off the steering wheel</string>
+
+    <string name="login_error_1">Username error</string>
+    <string name="login_error_2">IP or port number is wrong, and please check the network connection</string>
+    <string name="login_error_3">Wrong password</string>
+    <string name="login_error_4">Username or password is incorrect</string>
+    <string name="request_error">The request command failed, please check the device version</string>
+    <string name="device_202_error">202 device is not connected, please check the connection between the devices</string>
+    <string name="invalid_ip">Illegal IP</string>
+    <string name="null_info_hint">There are empty values in the saving parameters, please confirm whether to continue saving?</string>
+
+    <string name="mode_adjust_2_hint">Currently in demo mode, related functions cannot be saved</string>
+    <string name="advance_setting">Advanced settings</string>
+
+    <string name="dsm_settings">DSM settings</string>
+    <string name="bsd_settings">BSD settings</string>
+    <string name="bsd1_settings">BSD1 settings</string>
+    <string name="bsd2_settings">BSD2 settings</string>
+    <string name="bsd3_settings">BSD3 settings</string>
+    <string name="feature_switch">Function selection</string>
+    <string name="dsm_trigger_speed_settings">Alarm trigger speed threshold (Km/h), range (0-120Km/h)</string>
+    <string name="save">save</string>
+
+    <string name="feature_bsd1_calibration">ISP1: blind spot pedestrian detection, ISP2: blind spot pedestrian detection</string>
+    <string name="feature_loading1_calibration">ISP1: no-load and full-load detection, ISP2: blind spot pedestrian detection</string>
+    <string name="feature_bsd2_calibration">ISP1: blind spot pedestrian detection, ISP2: no-load full-load detection</string>
+    <string name="feature_loading2_calibration">ISP1: No-load and full-load detection, ISP2: No-load and full-load detection</string>
+
+    <string name="resolution_ratio_switch">Resolution selection</string>
+    <string name="resolution_ratio_1080">1920x1080</string>
+    <string name="resolution_ratio_720">1280x720</string>
+
+    <string name="connect_confirm_msg">Please confirm whether to connect the device!</string>
+    <string name="yes">Confirm</string>
+    <string name="no">Cancel</string>
+    <string name="Success">Success!</string>
+    <string name="Error">Fail!</string>
+    <string name="retry">Retry</string>
+    <string name="finish">Finished</string>
+    <string name="close">Close</string>
+    <string name="wifi_disconnected_hint">The socket connection is disconnected, please exit and restart the application!</string>
+
+    <string name="dsm_trigger_speed_settings_error">Alarm trigger speed threshold is out of range (0–120Km/h)</string>
+    <string name="dsm_trigger_time_settings_error">Alarm trigger time threshold is out of range (0–600s)</string>
+    <string name="connect_failed_hint">Network Anomaly</string>
+    <string name="connect_setting">Go to settings</string>
+    <string name="preview_hint">The calibration data is only saved when the video stream is turned on</string>
+
+    <string name="write_params_hint2">The save is successful, it will take about 30s to restart the device, please wait…</string>
+    <string name="channel_quality_hint">Image quality data is abnormal</string>
+
+    <string name="volume">Volume</string>
+    <string name="company_name">Company name (video screen overlay information)</string>
+    <string name="sd_card_number">Number of SD cards</string>
+
+    <string name="ic_state">Card status:</string>
+    <string name="ic_card_insert">Card inserted</string>
+    <string name="no_ic_card">No IC card</string>
+    <string name="ic_card_hint">Please re-insert the IC card to verify</string>
+
+    <string name="dms_speed_threshold">DMS Speed Threshold</string>
+    <string name="recommended_20_80">(Recommended 20–80)</string>
+    <string name="adas_speed_threshold">ADAS Speed Threshold</string>
+    <string name="recommended_40_100">(Recommended 40–100)</string>
+
+    <string name="swms">SWMS</string>
+    <string name="left_rear_bsd">Left rear BSD</string>
+    <string name="right_rear_bsd">Right rear BSD</string>
+    <string name="front_bsd">Front BSD</string>
+    <string name="left_front_bsd">Left front BSD</string>
+    <string name="right_front_bsd">Right front BSD</string>
+
+    <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
+    <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
 </resources>
