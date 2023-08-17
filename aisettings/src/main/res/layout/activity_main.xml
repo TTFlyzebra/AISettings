@@ -5,10 +5,10 @@
 
     <FrameLayout
         android:id="@+id/ac_fm01"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/choice_view_bottom" />
+        android:layout_above="@+id/choice_view_bottom"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/choice_view_bottom"
@@ -31,7 +31,7 @@
                 android:layout_height="@dimen/bar_choise_item_height"
                 android:layout_marginTop="@dimen/bar_choise_item_margin_top"
                 android:gravity="center"
-                android:src="@drawable/ic_tab_adas_normal" />
+                android:src="@drawable/ic_tab_adas_press" />
 
             <TextView
                 android:id="@+id/adas_cali_tv"
@@ -41,6 +41,7 @@
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
                 android:text="@string/dms_calibration"
+                android:textColor="@color/menu_text_on"
                 android:textSize="10sp" />
         </LinearLayout>
 

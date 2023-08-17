@@ -574,4 +574,6 @@
     <color name="status_text">@color/WHITE</color>
     <color name="viewfinder_laser">#ffcc0000</color>
     <color name="viewfinder_mask">#60000000</color>
+    <color name="menu_text_on">#BFFF0000</color>
+    <color name="menu_text_off">#7F000000</color>
 </resources>
