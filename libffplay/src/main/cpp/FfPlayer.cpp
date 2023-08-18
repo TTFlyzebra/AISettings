@@ -161,7 +161,7 @@ void FfPlayer::playThread() {
             while (ret >= 0) {
                 ret = avcodec_receive_frame(v_codec, frame);
                 if (ret >= 0) {
-                    int32_t width = frame->width;
+                    int32_t width = frame->linesize[0];
                     int32_t height = frame->height;
                     int32_t size = width * height * 3 / 2;
                     if (!yuv_buf) yuv_buf = (uint8_t *) malloc((size) * sizeof(uint8_t));
