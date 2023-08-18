@@ -1,15 +1,29 @@
 //
-// Created by FlyZebra on 2020/9/12 0012.
+// Created by flyzebra on 2018/11/9.
 //
 
-#ifndef FLYZEBRAPLAYER_FLYPLAYER_H
-#define FLYZEBRAPLAYER_FLYPLAYER_H
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef FLYPLAYER_FLYFFMPEG_H
+#define FLYPLAYER_FLYFFMPEG_H
 
-#ifdef __cplusplus
-}
-#endif
+#include <thread>
+#include "FlyLog.h"
+#include "CallBack.h"
 
-#endif //FLYZEBRAPLAYER_FLYPLAYER_H
+class FfPlayer {
+
+public:
+    FfPlayer(JavaVM* jvm, JNIEnv *env, jobject thiz);
+    ~FfPlayer();
+    void play(const char* url);
+    void playThread();
+    void stop();
+    static int interrupt_cb(void *ctx);
+
+private:
+    volatile bool is_stop = false;
+    CallBack *callBack = nullptr;
+    char playUrl[255] = {0};
+    std::thread* play_t = nullptr;
+};
+
+#endif //FLYPLAYER_FLYFFMPEG_H

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.flyzebra.ffplay.GlVideoView;
+import com.flyzebra.ffplay.view.GlVideoView;
 import com.flyzebra.mdrvset.Config;
 import com.flyzebra.mdrvset.view.AdasSetView;
 import com.flyzebra.mdvrset.R;
@@ -100,7 +100,7 @@ public class AdasSetFragment1 extends Fragment {
 
         adas_save_btn = view.findViewById(R.id.adas_save_btn);
 
-        adas_spinner.setSelection(1);
+        adas_spinner.setSelection(0);
         adas_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

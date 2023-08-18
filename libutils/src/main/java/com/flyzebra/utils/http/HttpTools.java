@@ -1,4 +1,4 @@
-package com.flyzebra.http;
+package com.flyzebra.utils.http;
 
 
 import com.flyzebra.utils.FlyLog;

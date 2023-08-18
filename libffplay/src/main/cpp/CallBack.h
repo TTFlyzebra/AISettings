@@ -11,12 +11,8 @@ class CallBack {
 public:
     CallBack(JavaVM* jvm, JNIEnv *env, jobject thiz);
     ~CallBack();
-    void javaOnVideoEncode(uint8_t *videoBytes, int width, int height, int size, long dts, long pts);
-    void javaOnVideoDecode(uint8_t *videoBytes, int width, int height, int size);
-    void javaOnAudioEncode(const uint8_t *audioBytes, int size);
-    void javaOnAudioDecode(const uint8_t *audioBytes, int size);
-    void javaOnVideoStart(int format, int width, int height,int fps, const uint8_t *sps, int len1, const uint8_t *pps, int len2);
-    void javaOnAudioStart(int sampleRateInHz, int channelConfig, int audioFormat);
+    void javaOnVideoDecode(uint8_t *videoBytes, int size, int width, int height);
+    void javaOnAudioDecode(const uint8_t *audioBytes, int size, int sampleRateInHz, int channelConfig, int audioFormat);
     void javaOnError(int error);
     void javaOnComplete();
 

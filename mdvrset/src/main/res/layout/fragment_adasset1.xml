@@ -27,7 +27,7 @@
             android:src="@drawable/ic_save" />
     </RelativeLayout>
 
-    <com.flyzebra.ffplay.GlVideoView
+    <com.flyzebra.ffplay.view.GlVideoView
         android:id="@+id/gl_ffplay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
