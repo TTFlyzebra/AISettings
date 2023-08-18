@@ -31,7 +31,8 @@
     <string name="target_to_ground">The distance from the bottom of the target to the ground:cm</string>
     <string name="camera_to_wheel_hint">When the current wheel is behind the camera, the input value is negative </string>
     <string name="car_width">Vehicle width: cm</string>
-    <string name="camera_to_carhead">Distance from camera to head of vehicle: cm</string>
+    <string name="camera_to_bumper">Distance from camera to head of vehicle: cm</string>
+    <string name="camera_to_left_wheel">The distance from the camera to the left wheel: cm</string>
     <string name="param_reset">Reset</string>
     <string name="camera_switch">Switch</string>
     <string name="horizontal_line2">"horizon"</string>

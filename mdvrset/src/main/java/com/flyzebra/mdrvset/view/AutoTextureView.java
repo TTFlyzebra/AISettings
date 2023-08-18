@@ -13,19 +13,15 @@ import android.view.TextureView;
 
 public class AutoTextureView extends TextureView {
     public AutoTextureView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public AutoTextureView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public AutoTextureView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public AutoTextureView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

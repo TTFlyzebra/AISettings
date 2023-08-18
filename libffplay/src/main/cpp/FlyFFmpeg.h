@@ -49,7 +49,6 @@ private:
     uint16_t out_audioChannel;
     uint16_t out_audioFormat;
     char playUrl[255] = {0};
-    int64_t start_pos = 0;
 };
 
 #endif //FLYPLAYER_FLYFFMPEG_H

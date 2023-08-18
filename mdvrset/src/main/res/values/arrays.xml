@@ -112,11 +112,4 @@
         <item>normal (front right)</item>
         <item>right rear</item>
     </string-array>
-
-    <string-array name="camere_channels">
-        <item>通道1</item>
-        <item>通道2</item>
-        <item>通道3</item>
-        <item>通道4</item>
-    </string-array>
 </resources>

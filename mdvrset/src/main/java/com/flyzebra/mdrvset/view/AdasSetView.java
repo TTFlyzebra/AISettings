@@ -11,20 +11,24 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.flyzebra.mdrvset.Config;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
-public class AdasSetView extends RelativeLayout implements View.OnTouchListener {
-    private LinearLayout selected_v;
-    private LinearLayout selected_h;
-    private float down_x;
-    private float down_y;
-    private float move_x;
-    private float move_y;
+public class AdasSetView extends RelativeLayout{
+    private RelativeLayout horizonView;
+    private RelativeLayout carMiddleView;
+    private RelativeLayout carMiddleView_child;
+    private int width;
+    private int height;
+
+    private float horizon_down;
+    private float horizon_y;
+
+    private float carMiddle_down;
+    private float carMiddle_x;
 
     public AdasSetView(Context context) {
         this(context, null);
@@ -39,86 +43,102 @@ public class AdasSetView extends RelativeLayout implements View.OnTouchListener 
         init(context);
     }
 
-    public AdasSetView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
-        setFocusable(true);
-        setOnClickListener(v -> {
-        });
-        setOnTouchListener(this);
 
-        selected_v = new LinearLayout(context);
-        LinearLayout.LayoutParams params_v = new LinearLayout.LayoutParams(-1, 100);
-        addView(selected_v, params_v);
-        selected_v.setBackgroundResource(R.drawable.rectangle);
-        selected_v.setOnClickListener(v -> {
+        horizonView = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params_h = new RelativeLayout.LayoutParams(-1, 100);
+        addView(horizonView, params_h);
+        horizonView.setBackgroundResource(R.drawable.horizon_rectangle);
+        horizonView.setOnClickListener(v -> {
         });
-        selected_v.setOnTouchListener((v, event) -> {
-            FlyLog.e("selected_v onTouch" + event);
+        horizonView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    horizon_y = event.getRawY();
+                    horizon_down = Config.adasCalibInfo.horizon;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Config.adasCalibInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAMERA_H / height);
+                    updateHorizonView();
+                    if(moveLisenter!=null) moveLisenter.notifyHorizon(Config.adasCalibInfo.horizon);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
             return false;
         });
 
-        selected_h = new LinearLayout(context);
-        LinearLayout child = new LinearLayout(context);
-        LinearLayout.LayoutParams params_child = new LinearLayout.LayoutParams(3, -1);
-        child.setBackgroundResource(R.color.YELLOW);
-        selected_h.addView(child, params_child);
-        LinearLayout.LayoutParams params_h = new LinearLayout.LayoutParams(20, -1);
-        addView(selected_h, params_h);
-        selected_h.setOnClickListener(v -> {
+        carMiddleView = new RelativeLayout(context);
+        carMiddleView_child = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params_c = new RelativeLayout.LayoutParams(4, -1);
+        carMiddleView.addView(carMiddleView_child, params_c);
+        carMiddleView_child.setBackgroundResource(R.color.YELLOW);
+        RelativeLayout.LayoutParams params_m = new RelativeLayout.LayoutParams(100, -1);
+        addView(carMiddleView, params_m);
+        carMiddleView.setOnClickListener(v -> {
         });
-        selected_h.setOnTouchListener((v, event) -> {
-            FlyLog.e("selected_v onTouch" + event);
+        carMiddleView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    carMiddle_x = event.getRawX();
+                    carMiddle_down = Config.adasCalibInfo.carMiddle;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Config.adasCalibInfo.carMiddle = (int) (carMiddle_down + (event.getRawX() - carMiddle_x) * Config.CAMERA_W / width);
+                    updateCarMiddleView();
+                    if(moveLisenter!=null) moveLisenter.notiryCarMiddle(Config.adasCalibInfo.carMiddle);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
             return false;
         });
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(width, (int) (width * 9f / 16f));
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                down_x = ev.getX();
-                down_y = ev.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                move_x = ev.getX() - down_x;
-                move_y = ev.getY() - down_y;
-                if (mOnMoveListener != null) {
-                    mOnMoveListener.onMoving(move_x, move_y);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (mOnMoveListener != null) {
-                    mOnMoveListener.onMoveEnd(move_x, move_y);
-                }
-                if (move_x > 4 || move_y > 4) {
-                    return true;
-                }
-                break;
+        width = MeasureSpec.getSize(widthMeasureSpec);
+        height = (int) (width * 9f / 16f);
+        try {
+            RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) horizonView.getLayoutParams();
+            if (params1 != null) {
+                params1.height = height / 5;
+                params1.topMargin = Config.adasCalibInfo.horizon * height / Config.CAMERA_H - height / 5;
+            }
+            RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) carMiddleView_child.getLayoutParams();
+            if (params2 != null) {
+                params2.leftMargin = height / 10 - 2;
+            }
+            RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) carMiddleView.getLayoutParams();
+            if (params3 != null) {
+                params3.width = height / 5;
+                params3.leftMargin = (Config.adasCalibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
+            }
+        } catch (Exception e) {
+            FlyLog.e(e.toString());
         }
-        return false;
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
-    public interface OnMoveListener {
-        void onMoving(float x, float y);
-
-        void onMoveEnd(float x, float y);
+    public void updateHorizonView() {
+        int top = Config.adasCalibInfo.horizon * height / Config.CAMERA_H - height / 5;
+        horizonView.layout(0, top, horizonView.getWidth(), top + horizonView.getHeight());
     }
 
-    private OnMoveListener mOnMoveListener;
+    public void updateCarMiddleView() {
+        int left = (Config.adasCalibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
+        carMiddleView.layout(left, 0, left + carMiddleView.getWidth(), carMiddleView.getHeight());
+    }
 
-    public void setOnMoveListener(OnMoveListener onMoveListener) {
-        mOnMoveListener = onMoveListener;
+    public interface MoveLisenter{
+        void notifyHorizon(int vaule);
+        void notiryCarMiddle(int value);
+    }
+
+    private MoveLisenter moveLisenter;
+
+    public void setMoveLisenter(MoveLisenter moveLisenter){
+        this.moveLisenter = moveLisenter;
     }
 }

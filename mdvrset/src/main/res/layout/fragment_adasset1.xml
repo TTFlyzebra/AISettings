@@ -3,19 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="start|center"
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/selectcode"
+            android:id="@+id/adas_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/camere_channels" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:entries="@array/spinnerchannelnum"
+            android:minWidth="120dp" />
+
+        <ImageView
+            android:id="@+id/adas_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/setting_item_margin"
+            android:layout_marginRight="@dimen/setting_item_margin"
+            android:src="@drawable/ic_save" />
+    </RelativeLayout>
 
     <com.flyzebra.ffplay.GlVideoView
         android:id="@+id/gl_ffplay"
@@ -38,6 +48,4 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:visibility="invisible" />
-
-
 </RelativeLayout>

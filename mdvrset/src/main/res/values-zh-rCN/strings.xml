@@ -30,7 +30,8 @@
     <string name="target_to_ground">标靶底部距离地面距离:cm</string>
     <string name="camera_to_wheel_hint">当前车轮在相机后方时，输入值为负值</string>
     <string name="car_width">车身宽度:cm</string>
-    <string name="camera_to_carhead">摄像头到车头距离:cm</string>
+    <string name="camera_to_bumper">摄像头到车头距离:cm</string>
+    <string name="camera_to_left_wheel">摄像头到左前轮距离:cm</string>
     <string name="param_reset">重置</string>
     <string name="camera_switch">切换</string>
 

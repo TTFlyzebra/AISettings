@@ -42,7 +42,6 @@ int FlyFFmpeg::interrupt_cb(void *ctx) {
 int FlyFFmpeg::open(const char *url, int64_t pos) {
     FLOGI("%s()", __func__);
     isStop = false;
-    start_pos = pos;
     sprintf(playUrl, "%s", url);
     int ret = pthread_create(&open_tid, nullptr, _topen, (void *) this);
     if (ret != 0) {
@@ -50,7 +49,6 @@ int FlyFFmpeg::open(const char *url, int64_t pos) {
     } else {
         return 0;
     }
-
 }
 
 void *FlyFFmpeg::_topen(void *arg) {
@@ -69,7 +67,6 @@ int FlyFFmpeg::_runopen(void *arg) {
     int videoStream = -1;
     int audioStream = -1;
     int frame_rate = 30000;
-    int totalSec = 0;
 
     FLOGI("play url %s", p->playUrl);
     isRun = true;
@@ -297,15 +294,6 @@ int FlyFFmpeg::_runopen(void *arg) {
         isRun = false;
         callBack->javaOnError(-1);
         goto EXITPLAY;
-    }
-
-    //首次随机取帧播放
-    totalSec = static_cast<int>(pFormatCtx->duration / AV_TIME_BASE);
-    FLOGD("play time [%d][%dmin%dsec].", pFormatCtx->duration, totalSec / 60, totalSec % 60);
-    if (start_pos > 0 && totalSec > 0) {
-        int64_t playRandTime = totalSec * start_pos / 100;
-        FLOGD("first play will rand seek to %ds.", playRandTime);
-        av_seek_frame(pFormatCtx, -1, playRandTime * AV_TIME_BASE, AVSEEK_FLAG_BACKWARD);
     }
 
     frame = av_frame_alloc();
