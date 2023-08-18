@@ -21,7 +21,8 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     private GlRenderI420 glRender;
     private FfPlayer ffplayer;
     private AudioPlayer audioPlayer;
-    private String playUrl;
+    private String videoUrl;
+    private boolean loop = true;
 
     public GlVideoView(Context context) {
         this(context, null);
@@ -49,10 +50,7 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         super.surfaceCreated(surfaceHolder);
-        ffplayer = new FfPlayer();
-        if (!TextUtils.isEmpty(playUrl)) {
-            ffplayer.play(this, playUrl);
-        }
+        play(videoUrl);
     }
 
     @Override
@@ -63,14 +61,7 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         super.surfaceDestroyed(surfaceHolder);
-        if (ffplayer != null) {
-            ffplayer.stop();
-            ffplayer = null;
-        }
-        if (audioPlayer != null) {
-            audioPlayer.stop();
-            audioPlayer = null;
-        }
+        stop();
     }
 
     @Override
@@ -78,7 +69,6 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
         glRender.upFrame(videoBytes, size, widht, height);
         requestRender();
     }
-
 
     @Override
     public void onAudioDecode(byte[] audioBytes, int size, int sampleRateInHz, int channelConfig, int audioFormat) {
@@ -93,28 +83,29 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     }
 
     @Override
-    public void onError(int error) {
-
-    }
-
-    @Override
     public void onComplete() {
-        if (!TextUtils.isEmpty(playUrl)) {
-            playUrl(playUrl);
+        stop();
+        if (loop && !TextUtils.isEmpty(videoUrl)) {
+            play(videoUrl);
         }
     }
 
-    public void playUrl(String url) {
-        playUrl = url;
-        if (ffplayer != null) {
-            ffplayer.stop();
+    public void play(String url) {
+        videoUrl = url;
+        if (!TextUtils.isEmpty(videoUrl)) {
+            ffplayer = new FfPlayer();
+            ffplayer.open(this, videoUrl);
         }
+    }
+
+    private void stop() {
         if (audioPlayer != null) {
             audioPlayer.stop();
             audioPlayer = null;
         }
         if (ffplayer != null) {
-            ffplayer.play(this, playUrl);
+            ffplayer.stop();
+            ffplayer = null;
         }
     }
 }

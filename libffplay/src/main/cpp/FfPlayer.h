@@ -12,9 +12,9 @@
 class FfPlayer {
 
 public:
-    FfPlayer(JavaVM* jvm, JNIEnv *env, jobject thiz);
+    FfPlayer(JavaVM* jvm, JNIEnv *env, jobject thiz, const char* url);
     ~FfPlayer();
-    void play(const char* url);
+    void play();
     void playThread();
     void stop();
     static int interrupt_cb(void *ctx);
@@ -22,7 +22,7 @@ public:
 private:
     volatile bool is_stop = false;
     CallBack *callBack = nullptr;
-    char playUrl[255] = {0};
+    char play_url[255] = {0};
     std::thread* play_t = nullptr;
 };
 

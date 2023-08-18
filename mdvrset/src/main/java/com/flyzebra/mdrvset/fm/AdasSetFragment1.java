@@ -104,7 +104,7 @@ public class AdasSetFragment1 extends Fragment {
         adas_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                glVideoView.playUrl("rtsp://192.168.137.126:8554/camera" + (position + 1));
+                glVideoView.play("rtsp://192.168.137.126:8554/camera" + (position + 1));
             }
 
             @Override

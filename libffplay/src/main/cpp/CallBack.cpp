@@ -18,8 +18,7 @@ CallBack::CallBack(JavaVM *jvm, JNIEnv *env, jobject thiz) {
     }
     onVideoDecode = jniEnv->GetMethodID(cls, "onVideoDecode", "([BIII)V");
     onAudioDecode = jniEnv->GetMethodID(cls, "onAudioDecode", "([BIIII)V");
-    onError = jniEnv->GetMethodID(cls, "onError", "(I)V");
-    onComplete = jniEnv->GetMethodID(cls, "onComplete", "()V");
+    onComplete = jniEnv->GetMethodID(cls, "onComplete", "(I)V");
     jniEnv->DeleteLocalRef(cls);
 }
 
@@ -39,7 +38,6 @@ CallBack::~CallBack() {
     if (isAttacked) {
         (javeVM)->DetachCurrentThread();
     }
-
 }
 
 void CallBack::javaOnVideoDecode(uint8_t *videoBytes, int size, int width, int height) {
@@ -84,7 +82,7 @@ void CallBack::javaOnAudioDecode(const uint8_t *audioBytes, int size, int sample
     }
 }
 
-void CallBack::javaOnError(int error) {
+void CallBack::javaOnComplete(int errCode) {
     int status = javeVM->GetEnv((void **) &jniEnv, JNI_VERSION_1_4);
     bool isAttacked = false;
     if (status < 0) {
@@ -95,24 +93,7 @@ void CallBack::javaOnError(int error) {
         }
         isAttacked = true;
     }
-    jniEnv->CallVoidMethod(jObject, onError, error);
-    if (isAttacked) {
-        (javeVM)->DetachCurrentThread();
-    }
-}
-
-void CallBack::javaOnComplete() {
-    int status = javeVM->GetEnv((void **) &jniEnv, JNI_VERSION_1_4);
-    bool isAttacked = false;
-    if (status < 0) {
-        status = javeVM->AttachCurrentThread(&jniEnv, nullptr);
-        if (status < 0) {
-            FLOGE("onStop: failed to attach current thread");
-            return;
-        }
-        isAttacked = true;
-    }
-    jniEnv->CallVoidMethod(jObject, onComplete);
+    jniEnv->CallVoidMethod(jObject, onComplete, errCode);
     if (isAttacked) {
         (javeVM)->DetachCurrentThread();
     }

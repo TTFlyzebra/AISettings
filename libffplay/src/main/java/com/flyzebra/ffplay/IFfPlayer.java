@@ -11,7 +11,5 @@ public interface IFfPlayer {
 
     void onAudioDecode(byte[] audioBytes, int size, int sampleRateInHz, int channelConfig, int audioFormat);
 
-    void onError(int error);
-
     void onComplete();
 }

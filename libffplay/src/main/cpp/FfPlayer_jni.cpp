@@ -21,20 +21,30 @@ extern "C" jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_flyzebra_ffplay_FfPlayer__1play(JNIEnv *env, jobject thiz, jstring jurl) {
-    FLOGD("JNI ffmpeg play");
-    auto *ffmpeg = new FfPlayer(javaVM, env, thiz);
+Java_com_flyzebra_ffplay_FfPlayer__1open(JNIEnv *env, jobject thiz, jstring jurl) {
     const char *surl = env->GetStringUTFChars(jurl, 0);
-    ffmpeg->play(surl);
+    auto *ffplayer = new FfPlayer(javaVM, env, thiz, surl);
     env->ReleaseStringUTFChars(jurl, surl);
-    return reinterpret_cast<jlong>(ffmpeg);
+    return reinterpret_cast<jlong>(ffplayer);
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_flyzebra_ffplay_FfPlayer__1stop(JNIEnv *env, jobject thiz, jlong ffmpegPointer) {
-    FLOGD("JNI ffmpeg close");
-    auto *ffmpeg = reinterpret_cast<FfPlayer *>(ffmpegPointer);
-    ffmpeg->stop();
-    delete ffmpeg;
+Java_com_flyzebra_ffplay_FfPlayer__1play(JNIEnv *env, jobject thiz, jlong objPtr) {
+    auto *ffplayer = reinterpret_cast<FfPlayer *>(objPtr);
+    ffplayer->play();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_ffplay_FfPlayer__1stop(JNIEnv *env, jobject thiz, jlong objPtr) {
+    auto *ffplayer = reinterpret_cast<FfPlayer *>(objPtr);
+    ffplayer->stop();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_ffplay_FfPlayer__1close(JNIEnv *env, jobject thiz, jlong objPtr) {
+    auto *ffplayer = reinterpret_cast<FfPlayer *>(objPtr);
+    delete ffplayer;
 }
