@@ -18,11 +18,11 @@ static def getGitCommitCount() {
 }
 
 android {
-    namespace 'com.flyzebra.aisettings'
+    namespace 'com.flyzebra.mdvrset'
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        applicationId "com.flyzebra.aisettings"
+        applicationId "com.flyzebra.mdvrset"
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode gitCommitCount.toInteger()

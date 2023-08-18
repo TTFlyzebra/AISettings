@@ -5,7 +5,7 @@
  * Date: 2022/7/18 15:24
  * Description:
  */
-package com.flyzebra.aisettings.view;
+package com.flyzebra.mdrvset.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

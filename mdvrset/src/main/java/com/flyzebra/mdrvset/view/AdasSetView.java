@@ -5,7 +5,7 @@
  * Date: 2022/7/25 8:12
  * Description:
  */
-package com.flyzebra.aisettings.view;
+package com.flyzebra.mdrvset.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,10 +15,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.flyzebra.aisettings.R;
+import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
-public class TouchEventView extends RelativeLayout implements View.OnTouchListener {
+public class AdasSetView extends RelativeLayout implements View.OnTouchListener {
     private LinearLayout selected_v;
     private LinearLayout selected_h;
     private float down_x;
@@ -26,20 +26,20 @@ public class TouchEventView extends RelativeLayout implements View.OnTouchListen
     private float move_x;
     private float move_y;
 
-    public TouchEventView(Context context) {
+    public AdasSetView(Context context) {
         this(context, null);
     }
 
-    public TouchEventView(Context context, AttributeSet attrs) {
+    public AdasSetView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TouchEventView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AdasSetView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
-    public TouchEventView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AdasSetView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }

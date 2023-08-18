@@ -5,7 +5,7 @@
     android:layout_alignParentBottom="true"
     android:orientation="vertical">
 
-    <com.flyzebra.aisettings.view.TouchEventView
+    <com.flyzebra.mdrvset.view.AdasSetView
         android:id="@+id/touch_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +31,7 @@
 <!--                android:background="@color/YELLOW" />-->
 <!--        </LinearLayout>-->
 
-    </com.flyzebra.aisettings.view.TouchEventView>
+    </com.flyzebra.mdrvset.view.AdasSetView>
 
     <ScrollView
         android:layout_width="match_parent"

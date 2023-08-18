@@ -12,8 +12,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "AISettings"
-include ':aisettings'
+rootProject.name = "MdvrSet"
+include ':mdvrset'
 include ':libijkplayer'
 include ':libutils'
 include ':libffplay'

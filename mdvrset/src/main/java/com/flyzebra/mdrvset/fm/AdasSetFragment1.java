@@ -1,4 +1,4 @@
-package com.flyzebra.aisettings.fm;
+package com.flyzebra.mdrvset.fm;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,17 +9,17 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.flyzebra.aisettings.R;
 import com.flyzebra.ffplay.GlVideoView;
+import com.flyzebra.mdvrset.R;
 
-public class AdasFragment extends Fragment{
+public class AdasSetFragment1 extends Fragment{
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
     private RelativeLayout line_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_aisettings, container, false);
+        return inflater.inflate(R.layout.fragment_adasset1, container, false);
     }
 
     @Override
@@ -39,15 +39,5 @@ public class AdasFragment extends Fragment{
             start_layout.setVisibility(View.INVISIBLE);
             line_layout.setVisibility(View.VISIBLE);
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 }

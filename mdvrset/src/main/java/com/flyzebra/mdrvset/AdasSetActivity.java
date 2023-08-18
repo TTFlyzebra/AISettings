@@ -1,4 +1,4 @@
-package com.flyzebra.aisettings;
+package com.flyzebra.mdrvset;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 import com.flyzebra.utils.ResUtil;
 
@@ -23,13 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AdasActivity extends AppCompatActivity implements View.OnClickListener {
+public class AdasSetActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    public String[] fragmentName = {"AdasFragment", "AdasFragment"};
+    public String[] fragmentName = {"AdasSetFragment1", "AdasSetFragment2"};
     private int cerrent_fragment = 0;
 
     private final int[] imageViewResID = {R.id.adas_cali_im, R.id.adas_setting_im};
@@ -47,7 +48,7 @@ public class AdasActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_adasset);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             for (String s : PERMISSIONS_STORAGE) {
@@ -96,10 +97,10 @@ public class AdasActivity extends AppCompatActivity implements View.OnClickListe
     public void replaceFragment(String classname, int resId) {
         try {
             FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-            Class<?> c1 = Class.forName(Objects.requireNonNull(AdasActivity.class.getPackage()).getName() + ".fm." + classname);
+            Class<?> c1 = Class.forName(Objects.requireNonNull(AdasSetActivity.class.getPackage()).getName() + ".fm." + classname);
             Fragment fragmentRe = (Fragment) c1.newInstance();
             if (fragmentName[cerrent_fragment].equals(classname)) {
-                Class<?> c2 = Class.forName(Objects.requireNonNull(AdasActivity.class.getPackage()).getName() + ".fm." + fragmentName[cerrent_fragment]);
+                Class<?> c2 = Class.forName(Objects.requireNonNull(AdasSetActivity.class.getPackage()).getName() + ".fm." + fragmentName[cerrent_fragment]);
                 Fragment fragmentRm = (Fragment) c2.newInstance();
                 transaction1.remove(fragmentRm);
             }

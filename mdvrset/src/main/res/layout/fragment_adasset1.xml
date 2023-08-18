@@ -25,7 +25,7 @@
 
     <include
         android:id="@+id/fm_aiset_start_layout"
-        layout="@layout/fragment_aisettings_start"
+        layout="@layout/fragment_adasset1_go"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/gl_ffplay"
@@ -33,10 +33,11 @@
 
     <include
         android:id="@+id/fm_aiset_line_layout"
-        layout="@layout/fragment_aisettings_line"
+        layout="@layout/fragment_adasset1_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:visibility="invisible" />
+
 
 </RelativeLayout>
