@@ -18,10 +18,10 @@ import com.flyzebra.utils.FlyLog;
  * Discription: This is GlVideoView
  */
 public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback, IFfPlayer {
-    private GlRenderI420 glRender;
-    private FfPlayer ffplayer;
-    private AudioPlayer audioPlayer;
-    private String videoUrl;
+    private GlRenderI420 glRender = null;
+    private FfPlayer ffplayer = null;
+    private AudioPlayer audioPlayer = null;
+    private String videoUrl = null;
     private boolean loop = true;
 
     public GlVideoView(Context context) {
@@ -93,6 +93,7 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     public void play(String url) {
         videoUrl = url;
         if (!TextUtils.isEmpty(videoUrl)) {
+            if(ffplayer!=null) ffplayer.stop();
             ffplayer = new FfPlayer();
             ffplayer.open(this, videoUrl);
         }

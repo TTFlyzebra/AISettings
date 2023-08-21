@@ -27,7 +27,7 @@ public class FfPlayer {
     public void open(IFfPlayer iFfPlayer, String url) {
         this.iFfPlayer = iFfPlayer;
         if (objPtr != -1) {
-            _stop(objPtr);
+            stop();
         }
         objPtr = _open(url);
         play();
