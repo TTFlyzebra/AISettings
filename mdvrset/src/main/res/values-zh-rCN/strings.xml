@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MDVR</string>
+    <string name="app_name">标定</string>
     <string name="dms_calibration">标定</string>
     <string name="dms_calibration2">视频功能设置</string>
     <string name="start_calibration">开始标定</string>
@@ -84,7 +84,7 @@
 
     <string name="dms_cali_hint">驾驶员正常坐在驾驶位，目视驾驶方向，调整摄像头位置，确保人脸位置位于人脸框，点击标定按钮开始标定</string>
     <string name="bsd_cali_hint">还请通过拖动标定线进行标定，并通过右上角保存按钮进行保存</string>
-    <string name="bsd_cali_hint2">还请点击开始标定按钮后，通过拖动标定线进行标定，并通过右上角保存按钮进行保存</string>
+    <string name="bsd_cali_hint2">1、用手机连接MDVR的WIFI热点，确保已经连上MDVR设备的WIFI热点；\n2、点击开始标定按钮后，通过拖动标定线进行标定，并通过右上角保存按钮进行保存。</string>
     <string name="bsd_cali_hint3">还请点击开始标定按钮后，通过拖动标定框左上或者右下点进行标定框缩放，并通过拖动标定框中间位置进行位置变换，并通过右上角保存按钮进行保存</string>
     <string name="reboot_adas_hint">设备正在重启，请等待…</string>
     <string name="reboot_adas_success_hint">重启成功.</string>
@@ -349,4 +349,9 @@
 
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
+
+    <string name="adas_set_ok">参数设置成功!</string>
+    <string name="adas_set_json_error">参数设置失败，参数错误！</string>
+    <string name="adas_set_error_network">参数设置失败，网络错误！</string>
+    <string name="adas_note_wifi_connected">请先连接至MDVR设备WIFI热点再进行标定!</string>
 </resources>

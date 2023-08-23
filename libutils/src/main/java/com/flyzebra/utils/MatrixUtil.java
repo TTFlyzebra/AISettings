@@ -12,7 +12,7 @@ import android.opengl.Matrix;
 /**
  * Description:
  */
-public enum MatrixUtils {
+public enum MatrixUtil {
     ;
     public static final int TYPE_FITXY = 0;
     public static final int TYPE_CENTERCROP = 1;
@@ -20,7 +20,7 @@ public enum MatrixUtils {
     public static final int TYPE_FITSTART = 3;
     public static final int TYPE_FITEND = 4;
 
-    MatrixUtils() {
+    MatrixUtil() {
 
     }
 

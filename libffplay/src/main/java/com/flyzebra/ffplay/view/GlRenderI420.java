@@ -53,8 +53,8 @@ public class GlRenderI420 implements GLSurfaceView.Renderer {
     private int sampler_u;
     private int sampler_v;
     private final int[] textureIds = new int[3];
-    private int width = 0;
-    private int height = 0;
+    public int width = 0;
+    public int height = 0;
     private ByteBuffer y;
     private ByteBuffer u;
     private ByteBuffer v;

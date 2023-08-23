@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MDVR</string>
+    <string name="app_name">Calib</string>
     <string name="dms_calibration">Calibration</string>
     <string name="dms_calibration2">Video feature settings</string>
     <string name="start_calibration">Start Calibration</string>
@@ -83,7 +83,7 @@
 
     <string name="dms_cali_hint">The driver normally sits in the driving position, looking at the driving direction, adjust the camera position to ensure that the face is in the frame, and click the calibration button to start</string>
     <string name="bsd_cali_hint">Please dragging the calibration line to calibrate, and click the save button in the upper right corner to save</string>
-    <string name="bsd_cali_hint2">Please click the start calibration button, then drag the calibration line to calibrate, and click the save button in the upper right corner to save</string>
+    <string name="bsd_cali_hint2">1. Please connect to the WIFI hotspot of MDVR using your phone, ensuring that you have already connected to the WIFI hotspot of the MDVR; \n2.  Please click the start calibration button, then drag the calibration line to calibrate, and click the save button in the upper right corner to save</string>
     <string name="bsd_cali_hint3">Please click the start calibration button, drag the upper left or lower right point of the calibration box to zoom the calibration box, and change the position by dragging the middle position of the calibration box, then click the save button in the upper right corner to save</string>
     <string name="reboot_adas_hint">The device is restarting, please wait…</string>
     <string name="reboot_adas_success_hint">Successful restart</string>
@@ -345,4 +345,9 @@
 
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
+
+    <string name="adas_set_ok">Parameter setting successful!</string>
+    <string name="adas_set_json_error">Parameter setting failed, parameter error!</string>
+    <string name="adas_set_error_network">Parameter setting failed, network error!</string>
+    <string name="adas_note_wifi_connected">Please connect to the WIFI hotspot of the MDVR before calibrating!</string>
 </resources>

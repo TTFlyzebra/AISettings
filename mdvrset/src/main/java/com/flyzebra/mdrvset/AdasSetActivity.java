@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +46,9 @@ public class AdasSetActivity extends AppCompatActivity implements View.OnClickLi
     private ColorStateList textColer_Off;
     private int textColor_On;
 
+    private TextView message;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +78,9 @@ public class AdasSetActivity extends AppCompatActivity implements View.OnClickLi
             layout.setOnClickListener(this);
         }
 
+        message = findViewById(R.id.message);
+
         replaceFragment(fragmentName[cerrent_fragment], R.id.ac_fm01);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
 
@@ -122,5 +123,20 @@ public class AdasSetActivity extends AppCompatActivity implements View.OnClickLi
                 tv_list.get(i).setTextColor(textColer_Off);
             }
         }
+    }
+
+    public void showMessage(int resId) {
+        message.setText(resId);
+        message.setVisibility(View.VISIBLE);
+        mHandler.postDelayed(() -> {
+            message.setText("");
+            message.setVisibility(View.INVISIBLE);
+        }, 2000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 }

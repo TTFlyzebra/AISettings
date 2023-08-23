@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.flyzebra.mdvrset.R;
 
-public class AdasSetFragment2 extends Fragment{
+public class AdasSetFragment2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

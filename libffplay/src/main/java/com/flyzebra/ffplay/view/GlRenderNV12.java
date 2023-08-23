@@ -52,8 +52,8 @@ public class GlRenderNV12 implements GLSurfaceView.Renderer {
     private int sampler_y;
     private int sampler_uv;
     private final int[] textureIds = new int[2];
-    private int width = 0;
-    private int height = 0;
+    public int width = 0;
+    public int height = 0;
     private ByteBuffer y;
     private ByteBuffer uv;
 

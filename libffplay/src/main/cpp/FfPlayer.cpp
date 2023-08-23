@@ -24,14 +24,14 @@ extern "C" {
 }
 
 FfPlayer::FfPlayer(JavaVM *jvm, JNIEnv *env, jobject thiz, const char *url) {
-    FLOGI("%s()", __func__);
+    //FLOGI("%s()", __func__);
     sprintf(play_url, "%s", url);
     this->callBack = new CallBack(jvm, env, thiz);
 }
 
 FfPlayer::~FfPlayer() {
     delete this->callBack;
-    FLOGI("%s()", __func__);
+    //FLOGI("%s()", __func__);
 }
 
 int FfPlayer::interrupt_cb(void *ctx) {

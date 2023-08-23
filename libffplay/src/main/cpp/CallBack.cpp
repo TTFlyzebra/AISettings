@@ -7,7 +7,7 @@
 
 
 CallBack::CallBack(JavaVM *jvm, JNIEnv *env, jobject thiz) {
-    FLOGI("%s()", __func__);
+    //FLOGI("%s()", __func__);
     javeVM = jvm;
     jniEnv = env;
     jObject = jniEnv->NewGlobalRef(thiz);
@@ -23,7 +23,7 @@ CallBack::CallBack(JavaVM *jvm, JNIEnv *env, jobject thiz) {
 }
 
 CallBack::~CallBack() {
-    FLOGI("%s()", __func__);
+    //FLOGI("%s()", __func__);
     int status = javeVM->GetEnv((void **) &jniEnv, JNI_VERSION_1_4);
     bool isAttacked = false;
     if (status < 0) {

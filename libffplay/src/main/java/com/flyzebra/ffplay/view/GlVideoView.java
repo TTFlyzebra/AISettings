@@ -11,6 +11,8 @@ import com.flyzebra.ffplay.FfPlayer;
 import com.flyzebra.ffplay.IFfPlayer;
 import com.flyzebra.utils.FlyLog;
 
+import java.util.Arrays;
+
 
 /**
  * Author: FlyZebra
@@ -66,7 +68,7 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void onVideoDecode(byte[] videoBytes, int size, int widht, int height) {
-        glRender.upFrame(videoBytes, size, widht, height);
+        if (ffplayer != null) glRender.upFrame(videoBytes, size, widht, height);
         requestRender();
     }
 
@@ -93,13 +95,14 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
     public void play(String url) {
         videoUrl = url;
         if (!TextUtils.isEmpty(videoUrl)) {
-            if(ffplayer!=null) ffplayer.stop();
+            if (ffplayer != null) ffplayer.stop();
+            displayBlackGround();
             ffplayer = new FfPlayer();
             ffplayer.open(this, videoUrl);
         }
     }
 
-    private void stop() {
+    public void stop() {
         if (audioPlayer != null) {
             audioPlayer.stop();
             audioPlayer = null;
@@ -108,5 +111,15 @@ public class GlVideoView extends GLSurfaceView implements SurfaceHolder.Callback
             ffplayer.stop();
             ffplayer = null;
         }
+        displayBlackGround();
+    }
+
+    private void displayBlackGround() {
+        if (glRender.width <= 0 || glRender.height <= 0) return;
+        int size = glRender.width * glRender.height * 3 / 2;
+        byte[] data = new byte[size];
+        Arrays.fill(data, glRender.width * glRender.height, size, (byte) 128);
+        glRender.upFrame(data, size, glRender.width, glRender.height);
+        requestRender();
     }
 }

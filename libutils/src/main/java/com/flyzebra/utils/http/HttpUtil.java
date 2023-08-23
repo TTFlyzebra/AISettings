@@ -17,21 +17,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @hide
- * ClassName: HttpTools
+ * @hide ClassName: HttpTools
  * Description:
  * Author: FlyZebra
  * Email:flycnzebra@gmail.com
  * Date: 20-1-8 下午2:27
  */
-public class HttpTools {
+public class HttpUtil {
     public static int CONNECT_TIME_OUT = 5000;
     public static int READ_TIME_OUT = 5000;
+
     /**
      * 向指定URL发送GET方法的请求
      *
-     * @param httpurl
-     *            请求参数用?拼接在url后边，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param httpurl 请求参数用?拼接在url后边，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return result 所代表远程资源的响应结果
      */
     public static HttpResult doGet(String httpurl) {
@@ -65,9 +64,7 @@ public class HttpTools {
                 }
                 result.data = sbf.toString();
             }
-        } catch (MalformedURLException e) {
-            FlyLog.e(e.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             FlyLog.e(e.toString());
         } finally {
             // 关闭资源
@@ -85,7 +82,7 @@ public class HttpTools {
                     FlyLog.e(e.toString());
                 }
             }
-            if(connection!=null){
+            if (connection != null) {
                 connection.disconnect();// 关闭远程连接
             }
         }
@@ -95,15 +92,11 @@ public class HttpTools {
     /**
      * 向指定 URL 发送POST方法的请求
      *
-     * @param httpUrl
-     *            发送请求的 URL
-     * @param param
-     *            请求参数应该是{"key":"==g43sEvsUcbcunFv3mHkIzlHO4iiUIT R7WwXuSVKTK0yugJnZSlr6qNbxsL8OqCUAFyCDCoRKQ882m6cTTi0q9uCJsq JJvxS+8mZVRP/7lWfEVt8/N9mKplUA68SWJEPSXyz4MDeFam766KEyvqZ99d"}的形式。
+     * @param httpUrl 发送请求的 URL
+     * @param param   请求参数应该是{"key":"==g43sEvsUcbcunFv3mHkIzlHO4iiUIT R7WwXuSVKTK0yugJnZSlr6qNbxsL8OqCUAFyCDCoRKQ882m6cTTi0q9uCJsq JJvxS+8mZVRP/7lWfEVt8/N9mKplUA68SWJEPSXyz4MDeFam766KEyvqZ99d"}的形式。
      * @return 所代表远程资源的响应结果
      */
     public static HttpResult doPostJson(String httpUrl, String param) {
-        FlyLog.d("post url=%s",httpUrl);
-        FlyLog.d("post param=%s",param);
         HttpURLConnection connection = null;
         InputStream is = null;
         OutputStream os = null;
@@ -173,7 +166,7 @@ public class HttpTools {
                 }
             }
             // 断开与远程地址url的连接
-            if(connection!=null){
+            if (connection != null) {
                 connection.disconnect();
             }
         }
@@ -181,9 +174,8 @@ public class HttpTools {
     }
 
     /**
-     *
-     * @param httpUrl  请求的url
-     * @param param  form表单的参数（key,value形式）
+     * @param httpUrl 请求的url
+     * @param param   form表单的参数（key,value形式）
      * @return
      */
     public static HttpResult doPostForm(String httpUrl, Map param) {
@@ -256,14 +248,16 @@ public class HttpTools {
                 }
             }
             // 断开与远程地址url的连接
-            if(connection!=null){
+            if (connection != null) {
                 connection.disconnect();
             }
         }
         return result;
     }
+
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+     *
      * @param params 需要排序并参与字符拼接的参数组
      * @return 拼接后字符串
      */
