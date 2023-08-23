@@ -26,7 +26,7 @@ android {
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode gitCommitCount.toInteger()
-        versionName "v1.10." + gitSHA + "." + createTime
+        versionName "v1.0." + gitSHA + "." + createTime
     }
 
     signingConfigs {
@@ -66,6 +66,18 @@ android {
         cmake {
             path file('src/main/cpp/CMakeLists.txt')
             version '3.22.1'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            if (variant.buildType.name.equals('release')) {
+                fileName = "${applicationId}_release_${versionName}_${gitCommitCount}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "${applicationId}_debug_${versionName}_${gitCommitCount}.apk"
+            }
+            outputFileName = fileName;
         }
     }
 }
