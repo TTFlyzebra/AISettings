@@ -76,7 +76,7 @@ public class AdasSetFragment1 extends Fragment {
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
-                activity.showMessage(R.string.adas_note_wifi_connected);
+                mHandler.post(() -> activity.showMessage(R.string.adas_note_wifi_connected));
                 return;
             }
             String json = "{\"CMD\":\"LIVE_PREVIEW_RTMP\",\"DO\":[{\"Channel\":" + mLiveChannel + ",\"CMD\":\"PLAY\",\"STREAM_TYPE\":1},";
