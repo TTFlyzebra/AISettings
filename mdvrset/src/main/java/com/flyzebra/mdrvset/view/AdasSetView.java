@@ -21,6 +21,7 @@ import com.flyzebra.utils.FlyLog;
 public class AdasSetView extends RelativeLayout {
     private CalibInfo calibInfo = new CalibInfo();
     private RelativeLayout horizonView;
+    private RelativeLayout horizonView_child;
     private RelativeLayout carMiddleView;
     private RelativeLayout carMiddleView_child;
     private int width;
@@ -48,6 +49,10 @@ public class AdasSetView extends RelativeLayout {
     @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
         horizonView = new RelativeLayout(context);
+        horizonView_child = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params_hc = new RelativeLayout.LayoutParams(-1, 4);
+        horizonView.addView(horizonView_child, params_hc);
+        horizonView_child.setBackgroundResource(R.color.GREEN);
         RelativeLayout.LayoutParams params_h = new RelativeLayout.LayoutParams(-1, 100);
         addView(horizonView, params_h);
         horizonView.setBackgroundResource(R.drawable.horizon_rectangle);
@@ -74,8 +79,8 @@ public class AdasSetView extends RelativeLayout {
 
         carMiddleView = new RelativeLayout(context);
         carMiddleView_child = new RelativeLayout(context);
-        RelativeLayout.LayoutParams params_c = new RelativeLayout.LayoutParams(4, -1);
-        carMiddleView.addView(carMiddleView_child, params_c);
+        RelativeLayout.LayoutParams params_mc = new RelativeLayout.LayoutParams(4, -1);
+        carMiddleView.addView(carMiddleView_child, params_mc);
         carMiddleView_child.setBackgroundResource(R.color.YELLOW);
         RelativeLayout.LayoutParams params_m = new RelativeLayout.LayoutParams(100, -1);
         addView(carMiddleView, params_m);
@@ -107,16 +112,20 @@ public class AdasSetView extends RelativeLayout {
             RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) horizonView.getLayoutParams();
             if (params1 != null) {
                 params1.height = height / 5;
-                params1.topMargin = calibInfo.horizon * height / Config.CAMERA_H - height / 5;
+                params1.topMargin = calibInfo.horizon * height / Config.CAMERA_H - height / 10;
             }
-            RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) carMiddleView_child.getLayoutParams();
+            RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) horizonView_child.getLayoutParams();
             if (params2 != null) {
-                params2.leftMargin = height / 10 - 2;
+                params2.topMargin = height / 10 - 2;
             }
-            RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) carMiddleView.getLayoutParams();
+            RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) carMiddleView_child.getLayoutParams();
             if (params3 != null) {
-                params3.width = height / 5;
-                params3.leftMargin = (calibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
+                params3.leftMargin = height / 10 - 2;
+            }
+            RelativeLayout.LayoutParams params4 = (RelativeLayout.LayoutParams) carMiddleView.getLayoutParams();
+            if (params4 != null) {
+                params4.width = height / 5;
+                params4.leftMargin = (calibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
             }
         } catch (Exception e) {
             FlyLog.e(e.toString());
@@ -131,7 +140,7 @@ public class AdasSetView extends RelativeLayout {
     }
 
     public void updateHorizonView() {
-        int top = calibInfo.horizon * height / Config.CAMERA_H - height / 5;
+        int top = calibInfo.horizon * height / Config.CAMERA_H - height / 10;
         horizonView.layout(0, top, horizonView.getWidth(), top + horizonView.getHeight());
     }
 
