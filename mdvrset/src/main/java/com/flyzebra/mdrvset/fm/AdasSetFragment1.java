@@ -21,8 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
-import com.flyzebra.mdrvset.AdasSetActivity;
 import com.flyzebra.mdrvset.Config;
+import com.flyzebra.mdrvset.activity.AdasSetActivity;
 import com.flyzebra.mdrvset.bean.CalibInfo;
 import com.flyzebra.mdrvset.bean.RtmpChannel;
 import com.flyzebra.mdrvset.view.AdasSetView;

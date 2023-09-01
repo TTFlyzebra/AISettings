@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset;
+package com.flyzebra.mdrvset.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -27,6 +27,7 @@ import java.util.Objects;
 
 public class AdasSetActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
@@ -47,7 +48,7 @@ public class AdasSetActivity extends AppCompatActivity implements View.OnClickLi
     private int textColor_On;
 
     private TextView message;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private static final Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
