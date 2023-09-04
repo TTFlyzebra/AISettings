@@ -33,38 +33,16 @@ add_library(
 )
 
 add_library(
-        c++
-        SHARED
+        yuv
+        STATIC
         IMPORTED)
 
 set_target_properties(
-        c++
+        yuv
         PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libC++.so)
-
-add_library(
-        jpeg
-        SHARED
-        IMPORTED)
-
-set_target_properties(
-        jpeg
-        PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libjpeg.so)
-
-add_library(
-        yuvz
-        SHARED
-        IMPORTED)
-
-set_target_properties(
-        yuvz
-        PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libyuvz.so)
+        ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libyuv.a)
 
 target_link_libraries(
         zebra
-        c++
-        jpeg
-        yuvz
+        yuv
         log)
