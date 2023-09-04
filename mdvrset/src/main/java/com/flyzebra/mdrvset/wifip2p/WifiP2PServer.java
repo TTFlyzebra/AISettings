@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class WifiP2PServer {
+public class WifiP2PServer implements WifiP2pManager.ConnectionInfoListener {
     private final Context mContext;
     private WifiP2pManager wifiP2pManager;
     private Channel wifChannel;
@@ -67,6 +68,7 @@ public class WifiP2PServer {
             public void onFailure(int i) {
             }
         });
+        wifiP2pManager.requestConnectionInfo(wifChannel, this);
     }
 
     public void stop() {
@@ -76,6 +78,38 @@ public class WifiP2PServer {
             session.stop();
         }
         sessionList.clear();
+    }
+
+    @Override
+    public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
+        if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
+            new Thread(() -> {
+                try {
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress(wifiP2pInfo.groupOwnerAddress, 9088), 5000);
+                    // 向服务端发送数据
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write("Hello, World!");
+                    writer.newLine();
+                    writer.flush();
+                    FlyLog.e("send -> Hello, World!");
+
+                    for(int i=0; i< 10; i++){
+                        writer.write("Hello, World!" + i);
+                        writer.newLine();
+                        writer.flush();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    socket.close();
+                } catch (IOException e) {
+                    FlyLog.e(e.toString());
+                }
+            }).start();
+        }
     }
 
     private class MyRecevier extends BroadcastReceiver {
@@ -113,34 +147,29 @@ public class WifiP2PServer {
                                 WifiP2pConfig config = new WifiP2pConfig();
                                 config.deviceAddress = device.deviceAddress;
                                 config.wps.setup = WpsInfo.PBC;
-                                FlyLog.d("Connect to %s", device.deviceName);
-                                wifiP2pManager.connect(wifChannel, config, null);
-                                FlyLog.d("added new device: %s-%s", device.deviceName, device.deviceAddress);
-                                WifiNetSession session = new WifiNetSession(mContext, wifiP2pManager, wifChannel, device);
-                                sessionList.add(session);
+                                wifiP2pManager.connect(wifChannel, config, new WifiP2pManager.ActionListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        FlyLog.d("Connect to %s success", device.deviceName);
+                                        WifiNetSession session = new WifiNetSession(mContext, wifiP2pManager, wifChannel, device);
+                                        sessionList.add(session);
+                                        FlyLog.d("added new device: %s-%s", device.deviceName, device.deviceAddress);
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i) {
+                                        FlyLog.d("Connect to %s failed %d", device.deviceName, i);
+                                    }
+                                });
                             }
                         }
                     }
                 });
             } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                FlyLog.e("wifiP2pManager WIFI_P2P_CONNECTION_CHANGED_ACTION");
                 if (networkInfo.isConnected()) {
-                    wifiP2pManager.requestConnectionInfo(wifChannel, wifiP2pInfo -> {
-                        if (wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner) {
-                            Socket socket = new Socket();
-                            try {
-                                socket.connect(new InetSocketAddress(wifiP2pInfo.groupOwnerAddress, 8888), 5000);
-                                // 向服务端发送数据
-                                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                                writer.write("Hello, World!");
-                                writer.newLine();
-                                writer.flush();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                        FlyLog.e("wifiP2pManager onConnectionInfoAvailable " + wifiP2pInfo);
-                    });
+                    wifiP2pManager.requestConnectionInfo(wifChannel, WifiP2PServer.this);
                 }
             } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             }
