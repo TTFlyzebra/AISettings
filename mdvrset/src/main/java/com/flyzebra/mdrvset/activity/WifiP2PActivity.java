@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.flyzebra.core.Fzebra;
+import com.flyzebra.core.notify.INotify;
+import com.flyzebra.core.notify.Notify;
 import com.flyzebra.mdrvset.wifip2p.WifiP2PServer;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
-public class WifiP2PActivity extends AppCompatActivity {
+public class WifiP2PActivity extends AppCompatActivity implements INotify {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -33,6 +36,11 @@ public class WifiP2PActivity extends AppCompatActivity {
             }
         }
 
+        Notify.get().registerListener(this);
+
+        Fzebra.get().init();
+
+
         wifiP2PServer = new WifiP2PServer(this);
         wifiP2PServer.start();
     }
@@ -48,6 +56,19 @@ public class WifiP2PActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Notify.get().unregisterListener(this);
+
+        Fzebra.get().release();
         wifiP2PServer.stop();
+    }
+
+    @Override
+    public void notify(byte[] data, int size) {
+
+    }
+
+    @Override
+    public void handle(int type, byte[] data, int size, byte[] params) {
+
     }
 }

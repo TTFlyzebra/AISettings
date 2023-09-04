@@ -18,13 +18,9 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 
 import androidx.core.app.ActivityCompat;
 
+import com.flyzebra.core.Fzebra;
 import com.flyzebra.utils.FlyLog;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -83,32 +79,7 @@ public class WifiP2PServer implements WifiP2pManager.ConnectionInfoListener {
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
         if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
-            new Thread(() -> {
-                try {
-                    Socket socket = new Socket();
-                    socket.connect(new InetSocketAddress(wifiP2pInfo.groupOwnerAddress, 9088), 5000);
-                    // 向服务端发送数据
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                    writer.write("Hello, World!");
-                    writer.newLine();
-                    writer.flush();
-                    FlyLog.e("send -> Hello, World!");
-
-                    for(int i=0; i< 10; i++){
-                        writer.write("Hello, World!" + i);
-                        writer.newLine();
-                        writer.flush();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    socket.close();
-                } catch (IOException e) {
-                    FlyLog.e(e.toString());
-                }
-            }).start();
+            Fzebra.get().startUserlSession(0x8, wifiP2pInfo.groupOwnerAddress.toString());
         }
     }
 
