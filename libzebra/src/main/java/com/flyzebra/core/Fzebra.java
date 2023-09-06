@@ -34,6 +34,18 @@ public class Fzebra implements INotify {
         _release(pointer);
     }
 
+    @Override
+    public void notify(byte[] data, int size) {
+        if (_ptr_obj < 0) return;
+        _notify(_ptr_obj, data, size);
+    }
+
+    @Override
+    public void handle(int type, byte[] data, int size, byte[] params) {
+        if (_ptr_obj < 0) return;
+        _handle(_ptr_obj, type, data, size, params);
+    }
+
     public void startUserServer(){
         if (_ptr_obj < 0) return;
         _startUserServer(_ptr_obj);
@@ -45,10 +57,12 @@ public class Fzebra implements INotify {
     }
 
     public void startUserlSession(long uid, String sip) {
+        if (_ptr_obj < 0) return;
         _startUserSession(_ptr_obj, uid, sip);
     }
 
     public void stopUserSession() {
+        if (_ptr_obj < 0) return;
         _stopUserSession(_ptr_obj);
     }
 
@@ -62,20 +76,28 @@ public class Fzebra implements INotify {
         _stopRtspServer(_ptr_obj);
     }
 
-    @Override
-    public void notify(byte[] data, int size) {
+    public void startScreenServer(long tid) {
         if (_ptr_obj < 0) return;
-        _notify(_ptr_obj, data, size);
+        _startScreenServer(_ptr_obj, tid);
     }
 
-    @Override
-    public void handle(int type, byte[] data, int size, byte[] params) {
+    public void stopScreenServer(long tid) {
         if (_ptr_obj < 0) return;
-        _handle(_ptr_obj, type, data, size, params);
+        _stopScreenServer(_ptr_obj, tid);
+    }
+
+    public void startSndoutServer(long tid) {
+        if (_ptr_obj < 0) return;
+        _startSndoutServer(_ptr_obj, tid);
+    }
+
+    public void stopSndoutServer(long tid) {
+        if (_ptr_obj < 0) return;
+        _stopSndoutServer(_ptr_obj, tid);
     }
 
     private void javaNotifydata(byte[] data, int size) {
-        //Notify.get().notifydata(data, size);
+        Notify.get().notifydata(data, size);
     }
 
     private void javaHandleData(int type, byte[] data, int size, byte[] params) {
@@ -101,5 +123,13 @@ public class Fzebra implements INotify {
     private native void _startRtspServer(long p_obj);
 
     private native void _stopRtspServer(long p_obj);
+
+    private native void _startScreenServer(long p_obj, long tid);
+
+    private native void _stopScreenServer(long p_obj, long tid);
+
+    private native void _startSndoutServer(long p_obj, long tid);
+
+    private native void _stopSndoutServer(long p_obj, long tid);
 
 }

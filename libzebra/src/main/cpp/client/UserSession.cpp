@@ -26,6 +26,11 @@ UserSession::UserSession(Notify* notify, int64_t uid, const char* sip)
 {
     FLOGD("%s()", __func__);
     sprintf(mSvIP, "%s", sip);
+    {
+        N->registerListener(this);
+        std::lock_guard<std::mutex> lock_stop(mlock_stop);
+        is_stop = false;
+    }
     recv_t = new std::thread(&UserSession::connThread, this);
     send_t = new std::thread(&UserSession::sendThread, this);
     hand_t = new std::thread(&UserSession::handleData, this);
@@ -35,6 +40,7 @@ UserSession::UserSession(Notify* notify, int64_t uid, const char* sip)
 UserSession::~UserSession()
 {
     {
+        N->unregisterListener(this);
         std::lock_guard<std::mutex> lock_stop(mlock_stop);
         is_stop = true;
     }

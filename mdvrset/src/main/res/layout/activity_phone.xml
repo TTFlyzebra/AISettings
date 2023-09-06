@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customs="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.flyzebra.mdrvset.view.phoneview.PhoneGLFullView
+            android:id="@+id/ac_phoneview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ac_phone_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="12sp"
+        android:gravity="start|center"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/fm_phone_sysreboot"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/system_reboot"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_screendpi"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/screen_dpi"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_powerkey"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/power_key"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_voladd"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/volumn_add"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_voldel"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/volumn_del"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_backkey"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/back_key"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_homekey"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/home_key"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/fm_phone_exitfull"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/def_button"
+            android:gravity="center"
+            android:text="@string/exit_full"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.flyzebra.mdrvset.view.CircleImageView
+            android:id="@+id/ac_phone_fbutton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="invisible"
+            customs:borderColor="@color/white"
+            customs:borderWidth="2dp" />
+    </RelativeLayout>
+</RelativeLayout>

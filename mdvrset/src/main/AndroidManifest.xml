@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+        android:name="com.flyzebra.mdrvset.MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,8 +30,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.flyzebra.mdrvset.activity.WifiP2PActivity"
-            android:exported="true">
+            android:name="com.flyzebra.mdrvset.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AISettings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +41,11 @@
         </activity>
 
         <activity
+            android:name="com.flyzebra.mdrvset.activity.PhoneActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
+        <activity
             android:name="com.flyzebra.mdrvset.activity.AdasSetActivity"
-            android:exported="true" />
+            android:theme="@style/Theme.AISettings" />
     </application>
 </manifest>

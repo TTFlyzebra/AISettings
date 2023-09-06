@@ -6,9 +6,12 @@
 #include "Fzebra.h"
 #include "buffer/BufferManager.h"
 #include "rfc/Protocol.h"
+#include "utils/FlyLog.h"
 #include "server/UserServer.h"
 #include "client/UserSession.h"
 #include "rtsp/RtspServer.h"
+#include "service/SndOutService.h"
+#include "service/ScreenService.h"
 
 Fzebra::Fzebra(JavaVM *jvm, JNIEnv *env, jobject thiz) {
     cb = new FzebraCB(jvm, env, thiz);
@@ -56,8 +59,8 @@ void Fzebra::stopUserServer() {
     delete mUserServer;
 }
 
-void Fzebra::startUserSession(long uid, const char* sip) {
-    stopUserSession();
+void Fzebra::startUserSession(int64_t uid, const char *sip) {
+    FLOGE("startUserSession %lld->%s", uid,  sip);
     mUserSession = new UserSession(N, uid, sip);
 }
 
@@ -75,3 +78,36 @@ void Fzebra::startRtspServer() {
 void Fzebra::stopRtspServer() {
     delete mRtspServer;
 }
+
+void Fzebra::startScreenServer(int64_t tid) {
+    auto it = mScreens.find(tid);
+    if (it == mScreens.end()) {
+        auto* screenService = new ScreenService(N, tid);
+        mScreens.emplace(tid, screenService);
+    }
+}
+
+void Fzebra::stopScreenServer(int64_t tid) {
+    auto it = mScreens.find(tid);
+    if (it != mScreens.end()) {
+        delete it->second;
+    }
+    mScreens.erase(tid);
+}
+
+void Fzebra::startSndoutServer(int64_t tid) {
+    auto it = mSndOuts.find(tid);
+    if (it == mSndOuts.end()) {
+        auto* sndOutService = new SndOutService(N, tid);
+        mSndOuts.emplace(tid, sndOutService);
+    }
+}
+
+void Fzebra::stopSndoutServer(int64_t tid) {
+    auto it = mSndOuts.find(tid);
+    if (it != mSndOuts.end()) {
+        delete it->second;
+    }
+    mSndOuts.erase(tid);
+}
+

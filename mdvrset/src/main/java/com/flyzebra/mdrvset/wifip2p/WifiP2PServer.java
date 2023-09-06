@@ -79,7 +79,7 @@ public class WifiP2PServer implements WifiP2pManager.ConnectionInfoListener {
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
         if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
-            Fzebra.get().startUserlSession(0x8, wifiP2pInfo.groupOwnerAddress.toString());
+            Fzebra.get().startUserlSession(0x8, wifiP2pInfo.groupOwnerAddress.getHostAddress());
         }
     }
 
@@ -88,7 +88,6 @@ public class WifiP2PServer implements WifiP2pManager.ConnectionInfoListener {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
-                // Wi-Fi Direct 状态发生变化
                 int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
                 if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
                     FlyLog.d("Wi-Fi Direct 已启用");

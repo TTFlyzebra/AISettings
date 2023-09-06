@@ -96,3 +96,35 @@ Java_com_flyzebra_core_Fzebra__1stopRtspServer(JNIEnv *env, jobject thiz, jlong 
     auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
     fzebra->stopRtspServer();
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_core_Fzebra__1startScreenServer(JNIEnv *env, jobject thiz, jlong p_obj,
+                                                  jlong tid) {
+    auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
+    fzebra->startScreenServer(tid);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_core_Fzebra__1stopScreenServer(JNIEnv *env, jobject thiz, jlong p_obj,
+                                                 jlong tid) {
+    auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
+    fzebra->stopScreenServer(tid);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_core_Fzebra__1startSndoutServer(JNIEnv *env, jobject thiz, jlong p_obj,
+                                                  jlong tid) {
+    auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
+    fzebra->startSndoutServer(tid);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_flyzebra_core_Fzebra__1stopSndoutServer(JNIEnv *env, jobject thiz, jlong p_obj,
+                                                 jlong tid) {
+    auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
+    fzebra->stopSndoutServer(tid);
+}

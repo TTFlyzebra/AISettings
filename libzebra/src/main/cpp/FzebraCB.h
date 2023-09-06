@@ -6,6 +6,7 @@
 #define FZEBRA_CALLBACK_H
 
 #include <jni.h>
+#include <mutex>
 
 class FzebraCB {
 public:
@@ -13,7 +14,7 @@ public:
     ~FzebraCB();
 
     void javaNotifydata(const char* data, int32_t size);
-    void javaHandledata(int32_t type, const char* data, int32_t size, const char* parmas);
+    void javaHandledata(int32_t type, const char* data, int32_t size, const char* parmas, int32_t parmasLen);
 
 private:
     JavaVM* mjvm ;
@@ -22,6 +23,8 @@ private:
 
     jmethodID notifydata;
     jmethodID handledata;
+
+    std::mutex mlock_call;
 };
 
 
