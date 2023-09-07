@@ -80,7 +80,7 @@ void UserSession::notify(const char* data, int32_t size)
 {
     std::lock_guard<std::mutex> lock_stop(mlock_stop);
     if(is_stop) return;
-    NotifyData* notifyData = (NotifyData*)data;
+    auto * notifyData = (NotifyData*)data;
     switch (notifyData->type) {
     case TYPE_UT_HEARTBEAT:
     case TYPE_U_LOGIN:
@@ -120,7 +120,7 @@ void UserSession::connThread()
     while (!is_stop) {
         if (!is_connect) {
             mSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-            struct sockaddr_in servaddr;
+            struct sockaddr_in servaddr{};
             memset(&servaddr, 0, sizeof(servaddr));
             servaddr.sin_family = AF_INET;
             servaddr.sin_port = htons(REMOTEPC_SERVER_TCP_PORT);
@@ -154,7 +154,7 @@ void UserSession::connThread()
             //tv.tv_sec = 2;
             //tv.tv_usec = 0;
             //int32_t ret = select(mSocket + 1, &set, nullptr, nullptr, &tv);
-            //if (ret == 0) {               
+            //if (ret == 0) {
             //    FLOGD("UserSession::recvThread select read timeout, ret=[%d].", ret);
             //    continue;
             //}
@@ -203,26 +203,32 @@ void UserSession::sendThread()
             }
         }
         while (!is_stop && sendData.size() > 0) {
-            tv.tv_sec = 5;
-            tv.tv_usec = 0;
-            int32_t ret = select(mSocket + 1, nullptr, &set, nullptr, &tv);
-            if (ret == 0) {
-                FLOGD("UserSession::sendThread select write timeout, ret=[%d].", ret);
+            //FD_ZERO(&set);
+            //FD_SET(mSocket, &set);
+            //tv.tv_sec = 5;
+            //tv.tv_usec = 0;
+            //int32_t ret = select(mSocket + 1, nullptr, &set, nullptr, &tv);
+            //if (ret <= 0) {
+            //    FLOGE("UserClient sendThread select write timeout, ret=[%d].", ret);
+            //    FD_CLR(mSocket, &set);
+            //    disconnected();
+            //    break;
+            //}
+            //if (FD_ISSET(mSocket, &set)) {
+            int32_t sendLen = send(mSocket, &sendData[0], sendData.size(), 0);
+            if (sendLen <= 0) {
+                if (sendLen < 0 && (errno == EINTR || errno == EWOULDBLOCK || errno == EAGAIN)) {
+                    //FD_CLR(mSocket, &set);
+                    continue;
+                }
+                FLOGE("UserClient disconnect, socket[%d]sendLen[%d][%s(%d)].", mSocket, sendLen, strerror(errno), errno);
+                //FD_CLR(mSocket, &set);
                 disconnected();
                 break;
             }
-            if (FD_ISSET(mSocket, &set)) {
-                int32_t ret = send(mSocket, &sendData[0], sendData.size(), 0);
-                if (ret <= 0) {
-                    if (ret == 0 || (!(errno == 11 || errno == 0))) {
-                        disconnected();
-                        break;
-                    }
-                }
-                else {
-                    sendData.erase(sendData.begin(), sendData.begin() + ret);
-                }
-            }
+            sendData.erase(sendData.begin(), sendData.begin() + sendLen);
+            //}
+            //FD_CLR(mSocket, &set);
         }
     }
 }

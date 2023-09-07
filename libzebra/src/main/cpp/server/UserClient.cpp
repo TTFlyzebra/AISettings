@@ -14,6 +14,7 @@
 #include "utils/ByteUtil.h"
 #include "utils/TimeUtil.h"
 #include "rfc/Protocol.h"
+#include "Fzebra.h"
 
 #include "nlohmann/json.hpp"
 using nlohmann::json;
@@ -76,7 +77,7 @@ UserClient::~UserClient()
         delete fixed_t;
     }
 
-    char suid[10] = { 0x00 };
+    char suid[16] = { 0x00 };
     ByteUtil::int64ToSysId(suid, U.uid);
     FLOGD("[%s]%s()", suid, __func__);
 }
@@ -142,7 +143,48 @@ void UserClient::notify(const char* data, int32_t size)
 
 void UserClient::handle(NofifyType type, const char* data, int32_t size, const char* params)
 {
-
+    switch (type) {
+        case NOTI_SCREEN_SPS: {
+            {
+                std::lock_guard<std::mutex> lock_screen(mlock_screen);
+                if (screen_set.find(T->tid) == screen_set.end()) return;
+            }
+            char screen_avc[sizeof(SCREEN_AVC)];
+            memcpy(screen_avc, SCREEN_AVC, sizeof(SCREEN_AVC));
+            int32_t dLen = size + sizeof(SCREEN_AVC) - 8;
+            ByteUtil::int32ToData(screen_avc + 4, dLen);
+            memcpy(screen_avc + 8, &T->tid, 8);
+            std::lock_guard<std::mutex> lock(mlock_send);
+            if (sendBuf.size() > MAX_SOCKET_BUFFER) {
+                FLOGE("UserClient send buffer too max, wile clean %zu size", sendBuf.size());
+                sendBuf.clear();
+            }
+            sendBuf.insert(sendBuf.end(), screen_avc, screen_avc+sizeof(SCREEN_AVC));
+            sendBuf.insert(sendBuf.end(), data, data + size);
+            mcond_send.notify_one();
+            break;
+        }
+        case NOTI_SCREEN_AVC: {
+            {
+                std::lock_guard<std::mutex> lock_screen(mlock_screen);
+                if (screen_set.find(T->tid) == screen_set.end()) return;
+            }
+            char screen_avc[sizeof(SCREEN_AVC)];
+            memcpy(screen_avc, SCREEN_AVC, sizeof(SCREEN_AVC));
+            int32_t dLen = size + sizeof(SCREEN_AVC) - 8;
+            ByteUtil::int32ToData(screen_avc + 4, dLen);
+            memcpy(screen_avc + 8, &T->tid, 8);
+            std::lock_guard<std::mutex> lock(mlock_send);
+            if (sendBuf.size() > MAX_SOCKET_BUFFER) {
+                FLOGE("UserClient send buffer too max, wile clean %zu size", sendBuf.size());
+                sendBuf.clear();
+            }
+            sendBuf.insert(sendBuf.end(), screen_avc, screen_avc+sizeof(SCREEN_AVC));
+            sendBuf.insert(sendBuf.end(), data, data + size);
+            mcond_send.notify_one();
+            break;
+        }
+    }
 }
 
 int64_t UserClient::getUid()
@@ -182,14 +224,12 @@ void UserClient::sendThread()
 {
     std::vector<char> sendData;
     while (!is_stop) {
-        int32_t sendSize = 0;
         {
             std::unique_lock<std::mutex> lock_send(mlock_send);
             while (!is_stop && sendBuf.empty()) {
                 mcond_send.wait(lock_send);
             }
             if (is_stop) break;
-            sendSize = sendBuf.size();
             if (sendBuf.size() > 0) {
                 sendData.insert(sendData.end(), sendBuf.begin(), sendBuf.begin() + sendBuf.size());
                 sendBuf.clear();
@@ -262,6 +302,13 @@ void UserClient::handleData()
             memcpy(su_heartbeat + 8, data + 8, 8);
             sendData(su_heartbeat, sizeof(SU_HEARTBEAT));
             continue;
+        }
+        if(notifyData->type == TYPE_UT_HEARTBEAT){
+            lastHeartBeat = TimeUtil::uptimeUsec();
+            char ut_heartbeat[sizeof(TU_HEARTBEAT)];
+            memcpy(ut_heartbeat, TU_HEARTBEAT, 8);
+            memcpy(ut_heartbeat + 8, data + 8, 24);
+            sendData(ut_heartbeat, sizeof(TU_HEARTBEAT));
         }
         switch (notifyData->type) {
         case TYPE_SCREEN_U_START:
@@ -382,9 +429,11 @@ bool UserClient::connected()
     sprintf(U.peeraddr, "%s", inet_ntoa(peerAddr.sin_addr));
     U.peerport = ntohs(peerAddr.sin_port);
 
-    char sn[10] = { 0 };
+    char sn[16] = { 0 };
     ByteUtil::int64ToSysId(sn, U.uid);
     FLOGD("[%s][U]%s:%d-->%s:%d", sn, U.peeraddr, U.peerport, U.sockaddr, U.sockport);
+    N->miniNotify((const char*)T_CONNECTED, sizeof(T_CONNECTED), T->tid);
+    N->miniNotify((const char*)U_CONNECTED, sizeof(U_CONNECTED), T->tid, U.uid);
     return true;
 }
 
@@ -396,11 +445,12 @@ void UserClient::disconnected()
         is_stop = true;
     }
     mServer->disconnectClient(this);
+    N->miniNotify((const char*)T_DISCONNECTED, sizeof(T_DISCONNECTED), T->tid);
+    N->miniNotify((const char*)U_DISCONNECTED, sizeof(U_DISCONNECTED), T->tid, U.uid);
 }
 
 void UserClient::selfFixedThread()
 {
-    int32_t heart_count = 0;
     while (!is_stop) {
         for (int i = 0; i < 10; i++) {
 #if defined(WIN32)
@@ -410,6 +460,12 @@ void UserClient::selfFixedThread()
 #endif
             if (is_stop) return;
         }
+
+        int64_t currentTime = TimeUtil::uptimeUsec();
+        char ts_heartbeat[sizeof(TS_HEARTBEAT)];
+        memcpy(ts_heartbeat, TS_HEARTBEAT, 8);
+        memcpy(ts_heartbeat + 8, &currentTime, 8);
+        sendData(ts_heartbeat, sizeof(TS_HEARTBEAT));
 
         //check heartbeat.
         int64_t wait_time = TimeUtil::uptimeUsec() - lastHeartBeat;

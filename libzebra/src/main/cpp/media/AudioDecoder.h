@@ -23,7 +23,7 @@ private:
     void outPcmData();
 
 private:
-    const char* mTag;
+    char mTag[64];
     const struct AVCodec* a_codec;
     struct AVCodecContext* a_ctx;
     struct AVPacket* a_packet;

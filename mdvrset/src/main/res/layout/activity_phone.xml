@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <com.flyzebra.mdrvset.view.phoneview.PhoneGLFullView
+        <com.flyzebra.mdrvset.view.mdvrview.MdvrFullView
             android:id="@+id/ac_phoneview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

@@ -5,7 +5,7 @@
  * Date: 2022/12/2 19:08
  * Description:
  */
-package com.flyzebra.mdrvset.view.phoneview;
+package com.flyzebra.mdrvset.view.mdvrview;
 
 import android.content.Context;
 import android.opengl.GLES30;
@@ -26,8 +26,8 @@ import javax.microedition.khronos.opengles.GL10;
 public class GLRender implements GLSurfaceView.Renderer {
     private Context mContext;
     private int[] textureid_yuv = new int[3];
-    private int width = 1080;
-    private int height = 1920;
+    private int width = 1280;
+    private int height = 720;
     private int yuv_w = 0;
     private int yuv_h = 0;
     private byte[] yByte = new byte[width * height];

@@ -23,7 +23,7 @@ private:
     void outYuvData();
 
 private:
-    const char* mTag;
+    char mTag[64];
     const struct AVCodec* v_codec;
     struct AVCodecContext* v_ctx;
     struct AVPacket* v_packet;

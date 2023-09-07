@@ -6,7 +6,10 @@
 #define F_ZEBRA_GLOBAL_H
 
 #include "Terminal.h"
+#include "User.h"
 
-extern char gWeburl[1024];
+extern User* U;
+
+extern Terminal* T;
 
 #endif //F_ZEBRA_GLOBAL_H

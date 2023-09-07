@@ -6,6 +6,7 @@
 #include "utils/ByteUtil.h"
 #include "utils/SysUtil.h"
 #include "media/VideoDecoder.h"
+#include "base/Global.h"
 
 ScreenService::ScreenService(Notify* notify, int64_t tid)
     : BaseNotify(notify)
@@ -14,7 +15,14 @@ ScreenService::ScreenService(Notify* notify, int64_t tid)
     , avc_t(nullptr)
     , is_screen(false)
 {
-    FLOGD("%s()", __func__);
+    char sn[16] = { 0 };
+    ByteUtil::int64ToSysId(sn, mTid);
+    FLOGD("[%s]%s()", sn, __func__);
+    {
+        N->registerListener(this);
+        std::lock_guard<std::mutex> lock_stop(mlock_stop);
+        is_stop = false;        
+    }
     cmd_t = new std::thread(&ScreenService::handleCmdThread, this);
     SysUtil::setThreadName(cmd_t, "ScreenService_cmd");
 }
@@ -22,24 +30,27 @@ ScreenService::ScreenService(Notify* notify, int64_t tid)
 ScreenService::~ScreenService()
 {
     {
-        std::lock_guard<std::mutex> lock(mlock_stop);
-        is_stop = true;
+        N->unregisterListener(this);
+        std::lock_guard<std::mutex> lock_stop(mlock_stop);
+        is_stop = true;        
     }
     screenStop();
     {
-        std::lock_guard<std::mutex> lock(mlock_cmd);
+        std::lock_guard<std::mutex> lock_cmd(mlock_cmd);
         mcond_cmd.notify_all();
     }
     cmd_t->join();
     delete cmd_t;
-    FLOGD("%s()", __func__);
+    char sn[16] = { 0 };
+    ByteUtil::int64ToSysId(sn, mTid);
+    FLOGD("[%s]%s()", sn, __func__);
 }
 
 void ScreenService::notify(const char* data, int32_t size)
 {
-    std::lock_guard<std::mutex> lock(mlock_stop);
+    std::lock_guard<std::mutex> lock_stop(mlock_stop);
     if (is_stop) return;
-    NotifyData* notifyData = (NotifyData*)data;
+    auto* notifyData = (NotifyData*)data;
     if (mTid != notifyData->tid ) return;
     switch (notifyData->type) {
     case TYPE_SCREEN_T_START:
@@ -49,8 +60,8 @@ void ScreenService::notify(const char* data, int32_t size)
         addCmdData(data, size);
         break;
     case TYPE_SCREEN_AVC:
-        std::lock_guard<std::mutex> lock(mlock_avc);
-        if (avcBuf.size() > TERMINAL_MAX_BUFFER) {
+        std::lock_guard<std::mutex> lock_avc(mlock_avc);
+        if (avcBuf.size() > MAX_SOCKET_BUFFER) {
             FLOGD("NOTE::ScreenService avcBuf too max, will clean %zu size", avcBuf.size());
         }
         else {
@@ -75,8 +86,8 @@ void ScreenService::notifyYuvData(const char* data, int32_t size, int32_t width,
 
 void ScreenService::addCmdData(const char* data, int32_t size)
 {
-    std::lock_guard<std::mutex> lock(mlock_cmd);
-    if (cmdBuf.size() > TERMINAL_MAX_BUFFER) {
+    std::lock_guard<std::mutex> lock_cmd(mlock_cmd);
+    if (cmdBuf.size() > MAX_CMD_BUFFER) {
         FLOGD("NOTE::ScreenService cmdBuf too max, will clean %zu size", cmdBuf.size());
     }
     else {
@@ -90,9 +101,9 @@ void ScreenService::handleCmdThread()
     while (!is_stop) {
         char* data = nullptr;
         {
-            std::unique_lock<std::mutex> lock(mlock_cmd);
+            std::unique_lock<std::mutex> lock_cmd(mlock_cmd);
             while (!is_stop && cmdBuf.empty()) {
-                mcond_cmd.wait(lock);
+                mcond_cmd.wait(lock_cmd);
             }
             if (is_stop) break;
             int32_t dLen = ByteUtil::getInt32(&cmdBuf[0] + 4);
@@ -107,7 +118,7 @@ void ScreenService::handleCmdThread()
             memcpy(data, &cmdBuf[0], aLen);
             cmdBuf.erase(cmdBuf.begin(), cmdBuf.begin() + aLen);
         }
-        NotifyData* notifyData = (NotifyData*)data;
+        auto* notifyData = (NotifyData*)data;
         switch (notifyData->type) {
         case TYPE_SCREEN_T_START:
         {
@@ -135,17 +146,23 @@ void ScreenService::screenStart(uint16_t width, uint16_t height, uint16_t format
         return;
     }
     is_screen = true;
-    mVideoDecoder = new VideoDecoder(this, "[SCREEN]");
+    char sn[16] = { 0 };
+    ByteUtil::int64ToSysId(sn, mTid);
+    mVideoDecoder = new VideoDecoder(this, sn);
     mVideoDecoder->initCodec(format==1?"hevc":"h264", width, height);
     avc_t = new std::thread(&ScreenService::handleAvcThread, this);
     SysUtil::setThreadName(avc_t, "ScreenService_avc");
     N->unlock();
-    N->miniNotify((const char*)SCREEN_U_START, sizeof(SCREEN_U_START), mTid, 0x12345678);
+    N->miniNotify(
+        (const char*)SCREEN_U_START, 
+        sizeof(SCREEN_U_START), 
+        mTid,
+        U->uid
+    );
 }
 
 void ScreenService::screenStop()
 {
-
     N->lock();
     if (!is_screen) {
         N->unlock();
@@ -153,12 +170,11 @@ void ScreenService::screenStop()
     }
     is_screen = false;
     if (mVideoDecoder) {
-        mVideoDecoder->releaseCodec();
         delete mVideoDecoder;
         mVideoDecoder = nullptr;
     }
     {
-        std::lock_guard<std::mutex> lock(mlock_avc);
+        std::lock_guard<std::mutex> lock_avc(mlock_avc);
         mcond_avc.notify_all();
     }
     if (avc_t) {
@@ -173,9 +189,9 @@ void ScreenService::screenStop()
 void ScreenService::handleAvcThread()
 {
     while (is_screen) {
-        std::unique_lock<std::mutex> lock(mlock_avc);
+        std::unique_lock<std::mutex> lock_avc(mlock_avc);
         while (is_screen && avcBuf.empty()) {
-            mcond_avc.wait(lock);
+            mcond_avc.wait(lock_avc);
         }
         if (!is_screen) break;
         int32_t dLen = (avcBuf[4] & 0xFF) << 24 | (avcBuf[5] & 0xFF) << 16 | (avcBuf[6] & 0xFF) << 8 | (avcBuf[7] & 0xFF);

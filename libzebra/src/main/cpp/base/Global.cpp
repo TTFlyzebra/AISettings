@@ -4,4 +4,6 @@
 
 #include "Global.h"
 
-char gWeburl[1024]{0};
+Terminal *T;
+
+User *U;

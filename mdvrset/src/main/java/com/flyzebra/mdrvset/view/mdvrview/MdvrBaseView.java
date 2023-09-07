@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.view.phoneview;
+package com.flyzebra.mdrvset.view.mdvrview;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.NotifyType;
-import com.flyzebra.mdrvset.bean.Mdvr201;
+import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.utils.ByteUtil;
 import com.flyzebra.utils.FlyLog;
 
@@ -16,20 +16,19 @@ import com.flyzebra.utils.FlyLog;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlVideoView
  */
-public class PhoneGLBaseView extends GLSurfaceView implements INotify {
+public class MdvrBaseView extends GLSurfaceView implements INotify {
     protected GLRender glRender;
-    protected Mdvr201 mPhone;
-    protected long mTid;
+    protected MdvrBean mdvrBean;
     protected int mWidth;
     protected int mHeight;
     protected int sWidth = 720;
     protected int sHeight = 1280;
 
-    public PhoneGLBaseView(Context context) {
+    public MdvrBaseView(Context context) {
         this(context, null);
     }
 
-    public PhoneGLBaseView(Context context, AttributeSet attrs) {
+    public MdvrBaseView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -41,11 +40,10 @@ public class PhoneGLBaseView extends GLSurfaceView implements INotify {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    public void setPhone(Mdvr201 phone) {
-        mPhone = phone;
-        mTid = ByteUtil.sysIdToInt64(phone.stid);
-        sWidth = phone.width;
-        sHeight = phone.height;
+    public void setMdvrBean(MdvrBean mdvrBean) {
+        this.mdvrBean = mdvrBean;
+        sWidth = mdvrBean.width;
+        sHeight = mdvrBean.height;
     }
 
     @Override
@@ -92,10 +90,10 @@ public class PhoneGLBaseView extends GLSurfaceView implements INotify {
     public void handle(int type, byte[] data, int size, byte[] params) {
         try {
             long tid = ByteUtil.bytes2Long(params, 0, true);
-            int width = ByteUtil.bytes2Int(params, 8, true);
-            int height = ByteUtil.bytes2Int(params, 12, true);
-            if (tid != mTid) return;
+            if (tid != mdvrBean.getTid()) return;
             if (type == NotifyType.NOTI_SCREEN_YUV) {
+                int width = ByteUtil.bytes2Int(params, 8, true);
+                int height = ByteUtil.bytes2Int(params, 12, true);
                 glRender.upYuvData(data, 0, width, height, size);
                 requestRender();
             }

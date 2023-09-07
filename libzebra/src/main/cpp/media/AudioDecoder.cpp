@@ -13,8 +13,7 @@ extern "C" {
 }
 
 AudioDecoder::AudioDecoder(AudioDecoderCB* callback, const char* tag)
-    : mTag(tag)
-    , a_ctx(nullptr)
+    : a_ctx(nullptr)
     , a_packet(nullptr)
     , a_frame(nullptr)
     , swr_ctx(nullptr)
@@ -23,6 +22,7 @@ AudioDecoder::AudioDecoder(AudioDecoderCB* callback, const char* tag)
     , out_t(nullptr)
     , out_pcm(nullptr)
 {
+    sprintf(mTag, "[%s]", tag);
     FLOGD("%s->%s()", mTag, __func__);
 }
 
@@ -89,7 +89,7 @@ void AudioDecoder::inAacData(const char* data, int32_t size, uint32_t pts)
     a_packet->size = size;
     int32_t ret = avcodec_send_packet(a_ctx, a_packet);
     if (ret < 0) {
-        FLOGE("%s->avcodec_send_packet error! ret[%d]", mTag, ret);
+        FLOGE("%s->audio avcodec_send_packet error! ret[%d]", mTag, ret);
         char log[256] = { 0 };
         int32_t num = size < 48 ? size : 48;
         for (int32_t i = 0; i < num; i++) {
@@ -100,7 +100,14 @@ void AudioDecoder::inAacData(const char* data, int32_t size, uint32_t pts)
     }
     while (ret >= 0) {
         ret = avcodec_receive_frame(a_ctx, a_frame);
-        if (ret < 0) break;
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            break;
+        }
+        else if (ret < 0) {
+            FLOGE("%s->audio avcodec_receive_frame error! ret[%d]", mTag, ret);
+            size = 0;
+            break;
+        }
         if (!swr_ctx) {
             swr_ctx = swr_alloc();
             av_opt_set_int(swr_ctx, "in_channel_layout", a_frame->channel_layout, 0);

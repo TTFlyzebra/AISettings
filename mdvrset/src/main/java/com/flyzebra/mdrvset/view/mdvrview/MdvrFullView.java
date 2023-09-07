@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.view.phoneview;
+package com.flyzebra.mdrvset.view.mdvrview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,13 +16,13 @@ import com.flyzebra.utils.ByteUtil;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlVideoView
  */
-public class PhoneGLFullView extends PhoneGLBaseView implements View.OnTouchListener {
+public class MdvrFullView extends MdvrBaseView implements View.OnTouchListener {
 
-    public PhoneGLFullView(Context context) {
+    public MdvrFullView(Context context) {
         this(context, null);
     }
 
-    public PhoneGLFullView(Context context, AttributeSet attrs) {
+    public MdvrFullView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
     }
@@ -30,13 +30,13 @@ public class PhoneGLFullView extends PhoneGLBaseView implements View.OnTouchList
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Fzebra.get().startScreenServer(mTid);
-        Config.itemSetList.put(mTid, Config.MAX_SCREEN);
+        Fzebra.get().startScreenServer(mdvrBean.getTid());
+        Config.itemSetList.put(mdvrBean.getTid(), Config.MAX_SCREEN);
         Notify.get().miniNotify(
                 Protocol.SCREEN_U_READY,
                 Protocol.SCREEN_U_READY.length,
-                mTid,
-                Config.userId,
+                mdvrBean.getTid(),
+                Fzebra.get().getUid(),
                 Config.MAX_SCREEN
         );
     }
@@ -44,13 +44,13 @@ public class PhoneGLFullView extends PhoneGLBaseView implements View.OnTouchList
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Fzebra.get().stopScreenServer(mTid);
-        Config.itemSetList.put(mTid, Config.MIN_SCREEN);
+        Fzebra.get().stopScreenServer(mdvrBean.getTid());
+        Config.itemSetList.put(mdvrBean.getTid(), Config.MIN_SCREEN);
         Notify.get().miniNotify(
                 Protocol.SCREEN_U_READY,
                 Protocol.SCREEN_U_READY.length,
-                mTid,
-                Config.userId,
+                mdvrBean.getTid(),
+                Fzebra.get().getUid(),
                 Config.MIN_SCREEN
         );
     }
@@ -89,7 +89,7 @@ public class PhoneGLFullView extends PhoneGLBaseView implements View.OnTouchList
                 Notify.get().miniNotify(
                         Protocol.INPUT_TOUCH_SINGLE,
                         Protocol.INPUT_TOUCH_SINGLE.length,
-                        mTid,
+                        mdvrBean.getTid(),
                         0,
                         data
                 );

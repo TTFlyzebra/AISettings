@@ -8,7 +8,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fzebra.get().init();
+        Fzebra.get().init(getApplicationContext());
     }
 
     @Override

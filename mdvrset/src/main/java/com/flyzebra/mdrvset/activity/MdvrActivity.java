@@ -23,12 +23,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.bean.Mdvr201;
-import com.flyzebra.mdrvset.view.phoneview.PhoneGLFullView;
+import com.flyzebra.mdrvset.view.mdvrview.MdvrFullView;
+import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
 import com.flyzebra.utils.DisplayUtil;
@@ -36,8 +37,8 @@ import com.flyzebra.utils.SPUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PhoneActivity extends Activity implements View.OnClickListener, INotify {
-    private PhoneGLFullView phoneView;
+public class MdvrActivity extends Activity implements View.OnClickListener, INotify {
+    private MdvrFullView mdvrView;
     private ImageView fButton;
     private LinearLayout fMenu;
     private Button sysreboot;
@@ -62,7 +63,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
     }
 
     private final Handler mCmdHandler = new Handler(mCmdThread.getLooper());
-    private long mTid;
+    private MdvrBean mdvrBean = null;
     private AtomicBoolean isConnect = new AtomicBoolean(true);
     private AtomicBoolean isStop = new AtomicBoolean(true);
     private long lastConnectTime = 0;
@@ -76,12 +77,11 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
         screen_w = DisplayUtil.getMetrices(this).widthPixels;
         screen_h = DisplayUtil.getMetrices(this).heightPixels;
 
-        phoneView = findViewById(R.id.ac_phoneview);
+        mdvrView = findViewById(R.id.ac_phoneview);
         Intent intent = getIntent();
 
-        Mdvr201 phone = intent.getParcelableExtra("PHONE");
-        mTid = ByteUtil.sysIdToInt64(phone.stid);
-        phoneView.setPhone(phone);
+        mdvrBean = intent.getParcelableExtra("MDVR");
+        mdvrView.setMdvrBean(mdvrBean);
 
         fButton = findViewById(R.id.ac_phone_fbutton);
         fMenu = findViewById(R.id.ac_phone_menu);
@@ -138,8 +138,8 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
                         int top = fButton.getTop();
                         int abs = (bWidth) / 2;
                         if (Math.abs(left - bLeft) > abs || Math.abs(top - bTop) > abs) {
-                            SPUtil.set(PhoneActivity.this, "bfLeft", left);
-                            SPUtil.set(PhoneActivity.this, "bfTop", top);
+                            SPUtil.set(MdvrActivity.this, "bfLeft", left);
+                            SPUtil.set(MdvrActivity.this, "bfTop", top);
                             return true;
                         } else {
                             layoutFloatButton(bLeft, bTop, bLeft + bWidth, bTop + bHeight);
@@ -151,8 +151,8 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
             }
         });
 
-        int left = (int) SPUtil.get(PhoneActivity.this, "bfLeft", 0);
-        int top = (int) SPUtil.get(PhoneActivity.this, "bfTop", screen_h / 2);
+        int left = (int) SPUtil.get(MdvrActivity.this, "bfLeft", 0);
+        int top = (int) SPUtil.get(MdvrActivity.this, "bfTop", screen_h / 2);
         if (left != 0 || top != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fButton.getLayoutParams();
             params.leftMargin = left;
@@ -178,7 +178,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
                 if (SystemClock.uptimeMillis() - lastConnectTime > 5000) {
                     isConnect.set(false);
                     runOnUiThread(() -> fMenu.setVisibility(View.VISIBLE));
-                    phoneView.showDisconnect();
+                    mdvrView.showDisconnect();
                 }
                 try {
                     for (int i = 0; i < 10; i++) {
@@ -270,15 +270,15 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
             Notify.get().miniNotify(
                     Protocol.SCREEN_U_READY,
                     Protocol.SCREEN_U_READY.length,
-                    mTid,
-                    Config.userId,
+                    mdvrBean.getTid(),
+                    Fzebra.get().getUid(),
                     data
             );
         } else if (resId == R.id.fm_phone_sysreboot) {
             Notify.get().miniNotify(
                     Protocol.SYSTEM_REBOOT,
                     Protocol.SYSTEM_REBOOT.length,
-                    mTid,
+                    mdvrBean.getTid(),
                     0,
                     null
             );
@@ -303,7 +303,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
         Notify.get().miniNotify(
                 Protocol.INPUT_KEY_SINGLE,
                 Protocol.INPUT_KEY_SINGLE.length,
-                mTid,
+                mdvrBean.getTid(),
                 0,
                 data
         );
@@ -312,7 +312,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
     @Override
     public void notify(byte[] data, int size) {
         long tid = ByteUtil.bytes2Long(data, 8, true);
-        if (tid != mTid) return;
+        if (tid != mdvrBean.getTid()) return;
         short type = ByteUtil.bytes2Short(data, 2, true);
         switch (type) {
             case Protocol.TYPE_TU_HEARTBEAT:
@@ -356,12 +356,12 @@ public class PhoneActivity extends Activity implements View.OnClickListener, INo
 
     public void resetctl(boolean resetAll) {
         if (resetAll) {
-            byte[] set_screen = Config.itemSetList.get(mTid);
+            byte[] set_screen = Config.itemSetList.get(mdvrBean.getTid());
             Notify.get().miniNotify(
                     Protocol.SCREEN_U_READY,
                     Protocol.SCREEN_U_READY.length,
-                    mTid,
-                    Config.userId,
+                    mdvrBean.getTid(),
+                    Fzebra.get().getUid(),
                     set_screen
             );
         }

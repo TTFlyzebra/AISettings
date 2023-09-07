@@ -11,8 +11,7 @@ extern "C" {
 #include <libyuv.h>
 
 VideoDecoder::VideoDecoder(VideoDecoderCB* callback,  const char* tag)
-        : mTag(tag)
-        , v_ctx(nullptr)
+        : v_ctx(nullptr)
         , v_packet(nullptr)
         , v_frame(nullptr)
         , mCallback(callback)
@@ -22,6 +21,7 @@ VideoDecoder::VideoDecoder(VideoDecoderCB* callback,  const char* tag)
         , out_height(0)
         , out_size(0)
 {
+    sprintf(mTag, "[%s]", tag);
     FLOGD("%s->%s()", mTag, __func__);
 }
 
@@ -79,7 +79,7 @@ void VideoDecoder::inAvcData(const char* data, int32_t size)
     v_packet->size = size;
     int32_t ret = avcodec_send_packet(v_ctx, v_packet);
     if (ret < 0) {
-        FLOGD("%s->avcodec_send_packet error! ret[%d]", mTag, ret);
+        FLOGD("%s->video avcodec_send_packet error! ret[%d]", mTag, ret);
         char log[256] = { 0 };
         int32_t num = size < 48 ? size : 48;
         for (int32_t i = 0; i < num; i++) {
@@ -94,7 +94,7 @@ void VideoDecoder::inAvcData(const char* data, int32_t size)
             break;
         }
         else if (ret < 0) {
-            FLOGE("%s->avcodec_receive_frame error! ret[%d]", mTag, ret);
+            FLOGE("%s->video avcodec_receive_frame error! ret[%d]", mTag, ret);
             size = 0;
             break;
         }
