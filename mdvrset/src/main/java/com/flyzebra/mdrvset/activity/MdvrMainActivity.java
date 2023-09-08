@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -58,14 +60,6 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
         adapter = new MdvrAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
         listView.setAdapter(adapter);
 
-        Button button = findViewById(R.id.refresh);
-        button.setOnClickListener(v -> {
-            wifiP2PServer.wifiP2PList.clear();
-            adapter.notifyDataSetChanged();
-            wifiP2PServer.stop();
-            wifiP2PServer.start();
-        });
-
         message = findViewById(R.id.message);
 
         Notify.get().registerListener(this);
@@ -77,6 +71,24 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION_CODE) {
             FlyLog.d("onRequestPermissionsResult");
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_action, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.action_reset){
+            wifiP2PServer.stop();
+            wifiP2PServer.start();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
         }
     }
 

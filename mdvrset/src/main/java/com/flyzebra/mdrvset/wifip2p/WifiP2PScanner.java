@@ -106,19 +106,19 @@ public class WifiP2PScanner {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
-                int wifi_p2p_state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
-                if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                    FlyLog.d("wiifp2p is enabled!");
-                } else if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_DISABLED) {
-                    FlyLog.e("wiifp2p is disabled!");
-                }
+                //int wifi_p2p_state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
+                //if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
+                //    FlyLog.d("wiifp2p is enabled!");
+                //} else if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_DISABLED) {
+                //    FlyLog.e("wiifp2p is disabled!");
+                //}
             } else if (WifiP2pManager.WIFI_P2P_DISCOVERY_CHANGED_ACTION.equals(action)) {
-                int discoveryState = intent.getIntExtra(WifiP2pManager.EXTRA_DISCOVERY_STATE, -1);
-                if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STARTED) {
-                    FlyLog.d("wifip2p discovery started!");
-                } else if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STOPPED) {
-                    FlyLog.d("wifip2p discovery stopped!");
-                }
+                //int discoveryState = intent.getIntExtra(WifiP2pManager.EXTRA_DISCOVERY_STATE, -1);
+                //if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STARTED) {
+                //    FlyLog.d("wifip2p discovery started!");
+                //} else if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STOPPED) {
+                //    FlyLog.d("wifip2p discovery stopped!");
+                //}
             } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
                 WifiP2pDeviceList wifiP2pDeviceList = intent.getParcelableExtra(WifiP2pManager.EXTRA_P2P_DEVICE_LIST);
                 for (WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()) {
