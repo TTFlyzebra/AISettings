@@ -16,20 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.flyzebra.mdvrset.R;
 
-
 public class WelcomeActivity extends AppCompatActivity {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private boolean isEnd = false;
-    private boolean isNetwork = false;
-    private boolean isLogin = false;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcom);
-        isEnd = false;
         mHandler.postDelayed(() -> {
-            isEnd = true;
             startActivity(new Intent(WelcomeActivity.this, MdvrMainActivity.class));
             finish();
         }, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

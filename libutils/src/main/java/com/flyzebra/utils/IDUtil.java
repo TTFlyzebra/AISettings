@@ -23,7 +23,6 @@ import android.text.TextUtils;
 public class IDUtil {
     /**
      * 获取手机型号,兼容云手机
-     *
      * @param context
      * @return
      */
@@ -33,7 +32,6 @@ public class IDUtil {
 
     /**
      * 获取版本号，兼容云手机
-     *
      * @param context
      * @return
      */
@@ -52,7 +50,6 @@ public class IDUtil {
 
     /**
      * 获取手机IMEI
-     *
      * @param context
      * @return
      */
@@ -65,12 +62,7 @@ public class IDUtil {
                 try {
                     imei = tm.getImei(0);
                 } catch (Exception e) {
-                    FlyLog.e(e.toString());
-                }
-                try {
-                    if (TextUtils.isEmpty(imei)) imei = tm.getImei(1);
-                } catch (Exception e) {
-                    FlyLog.e(e.toString());
+                    //e.printStackTrace();
                 }
             } else {
                 imei = tm.getDeviceId();
@@ -78,8 +70,7 @@ public class IDUtil {
         } catch (Exception e) {
             FlyLog.e(e.toString());
         }
-        if (TextUtils.isEmpty(imei))
-            imei = "1234567890";
+        if (TextUtils.isEmpty(imei)) imei = "";
         return imei.toUpperCase();
     }
 
