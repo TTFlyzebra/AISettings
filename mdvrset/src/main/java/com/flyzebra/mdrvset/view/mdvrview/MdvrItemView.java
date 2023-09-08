@@ -14,11 +14,10 @@ import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.MdvrActivity;
+import com.flyzebra.mdrvset.activity.MdvrFullActivity;
 import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
-import com.flyzebra.utils.FlyLog;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -64,11 +63,9 @@ public class MdvrItemView extends MdvrBaseView {
     }
 
     @Override
-    public void setMdvrBean(MdvrBean mdvrBean) {
-        super.setMdvrBean(mdvrBean);
-        if (!TextUtils.isEmpty(mdvrBean.deviceIP)) {
-            start();
-        }
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        setMeasuredDimension(width, (int) (width * 720f / 1280f));
     }
 
     @Override
@@ -84,10 +81,18 @@ public class MdvrItemView extends MdvrBaseView {
         stop();
     }
 
+    @Override
+    public void setMdvrBean(MdvrBean mdvrBean) {
+        super.setMdvrBean(mdvrBean);
+        if (!TextUtils.isEmpty(mdvrBean.deviceIp)) {
+            start();
+        }
+    }
+
     private void start() {
-        if (TextUtils.isEmpty(mdvrBean.deviceIP) || !isStop.get()) return;
-        isStop.set(true);
-        Fzebra.get().startUserlSession(Fzebra.get().getUid(), mdvrBean.deviceIP);
+        if (TextUtils.isEmpty(mdvrBean.deviceIp) || !isStop.get()) return;
+        isStop.set(false);
+        Fzebra.get().startUserlSession(Fzebra.get().getUid(), mdvrBean.getTid(), mdvrBean.deviceIp);
         mHander.postDelayed(selfFixedThread, 0);
         Fzebra.get().startScreenServer(mdvrBean.getTid());
         Config.itemSetList.put(mdvrBean.getTid(), Config.MIN_SCREEN);
@@ -127,10 +132,9 @@ public class MdvrItemView extends MdvrBaseView {
                 null
         );
         Config.itemSetList.remove(mdvrBean.getTid());
-        if (!TextUtils.isEmpty(mdvrBean.deviceIP)) {
-            Fzebra.get().stopUserSession(mdvrBean.deviceIP);
+        if (!TextUtils.isEmpty(mdvrBean.deviceIp)) {
+            Fzebra.get().stopUserSession(mdvrBean.deviceIp);
         }
-        FlyLog.d("MdvrItemView stop");
     }
 
     public void gotoFullView() {
@@ -141,7 +145,7 @@ public class MdvrItemView extends MdvrBaseView {
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(getContext(), MdvrActivity.class);
+                    Intent intent = new Intent(getContext(), MdvrFullActivity.class);
                     intent.putExtra("PHONE", mdvrBean);
                     getContext().startActivity(intent);
                     dialog.cancel();

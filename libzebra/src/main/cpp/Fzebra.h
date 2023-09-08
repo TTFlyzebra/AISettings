@@ -38,17 +38,17 @@ public:
 
     static void setUid(int64_t uid);
 
+    void startRtspServer();
+
+    void stopRtspServer();
+
     void startUserServer();
 
     void stopUserServer();
 
-    void startUserSession(int64_t uid, const char *sip);
+    void startUserSession(int64_t uid, int64_t tid, const char *sip);
 
     void stopUserSession(const char *sip);
-
-    void startRtspServer();
-
-    void stopRtspServer();
 
     void startScreenServer(int64_t tid);
 
@@ -63,8 +63,11 @@ private:
     FzebraCB *cb;
     UserServer *mUserServer;
     RtspServer *mRtspServer;
+    std::atomic<int32_t> mUserSessions_count;
     std::map<uint32_t, UserSession *> mUserSessions;
+    std::atomic<int32_t> mSndOuts_count;
     std::map<int64_t, SndOutService *> mSndOuts;
+    std::atomic<int32_t> mScreens_count;
     std::map<int64_t, ScreenService *> mScreens;
 };
 

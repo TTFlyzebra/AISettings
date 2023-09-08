@@ -86,10 +86,10 @@ Java_com_flyzebra_core_Fzebra__1stopUserServer(JNIEnv *env, jobject thiz, jlong 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_flyzebra_core_Fzebra__1startUserSession(JNIEnv *env, jobject thiz, jlong p_obj, jlong uid,
-                                                 jstring jsip) {
+                                                 jlong tid, jstring jsip) {
     auto *fzebra = reinterpret_cast<Fzebra *>(p_obj);
     const char *sip = env->GetStringUTFChars(jsip, 0);
-    fzebra->startUserSession(uid, sip);
+    fzebra->startUserSession(uid, tid, sip);
     env->ReleaseStringUTFChars(jsip, sip);
 }
 

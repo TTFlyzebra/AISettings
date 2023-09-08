@@ -37,7 +37,7 @@ import com.flyzebra.utils.SPUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MdvrActivity extends Activity implements View.OnClickListener, INotify {
+public class MdvrFullActivity extends Activity implements View.OnClickListener, INotify {
     private MdvrFullView mdvrView;
     private ImageView fButton;
     private LinearLayout fMenu;
@@ -72,7 +72,7 @@ public class MdvrActivity extends Activity implements View.OnClickListener, INot
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone);
+        setContentView(R.layout.activity_mdvr);
 
         screen_w = DisplayUtil.getMetrices(this).widthPixels;
         screen_h = DisplayUtil.getMetrices(this).heightPixels;
@@ -80,7 +80,7 @@ public class MdvrActivity extends Activity implements View.OnClickListener, INot
         mdvrView = findViewById(R.id.ac_phoneview);
         Intent intent = getIntent();
 
-        mdvrBean = intent.getParcelableExtra("MDVR");
+        mdvrBean = intent.getParcelableExtra("mdvrBean");
         mdvrView.setMdvrBean(mdvrBean);
 
         fButton = findViewById(R.id.ac_phone_fbutton);
@@ -138,8 +138,8 @@ public class MdvrActivity extends Activity implements View.OnClickListener, INot
                         int top = fButton.getTop();
                         int abs = (bWidth) / 2;
                         if (Math.abs(left - bLeft) > abs || Math.abs(top - bTop) > abs) {
-                            SPUtil.set(MdvrActivity.this, "bfLeft", left);
-                            SPUtil.set(MdvrActivity.this, "bfTop", top);
+                            SPUtil.set(MdvrFullActivity.this, "bfLeft", left);
+                            SPUtil.set(MdvrFullActivity.this, "bfTop", top);
                             return true;
                         } else {
                             layoutFloatButton(bLeft, bTop, bLeft + bWidth, bTop + bHeight);
@@ -151,8 +151,8 @@ public class MdvrActivity extends Activity implements View.OnClickListener, INot
             }
         });
 
-        int left = (int) SPUtil.get(MdvrActivity.this, "bfLeft", 0);
-        int top = (int) SPUtil.get(MdvrActivity.this, "bfTop", screen_h / 2);
+        int left = (int) SPUtil.get(MdvrFullActivity.this, "bfLeft", 0);
+        int top = (int) SPUtil.get(MdvrFullActivity.this, "bfTop", screen_h / 2);
         if (left != 0 || top != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fButton.getLayoutParams();
             params.leftMargin = left;
@@ -264,8 +264,8 @@ public class MdvrActivity extends Activity implements View.OnClickListener, INot
             showFloatButton(mHideTime);
         } else if (resId == R.id.fm_phone_screendpi) {
             final byte[] data = {
-                    (byte) 0x02, (byte) 0xD0, (byte) 0x00, (byte) 0x16,
-                    (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x00
+                    (byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x16,
+                    (byte) 0x18, (byte) 0x00, (byte) 0x00, (byte) 0x00
             };
             Notify.get().miniNotify(
                     Protocol.SCREEN_U_READY,

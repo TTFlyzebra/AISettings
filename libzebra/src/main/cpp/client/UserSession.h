@@ -5,7 +5,7 @@
 
 class UserSession : public BaseNotify {
 public:
-    UserSession(Notify* notify, int64_t uid, const char* sip);
+    UserSession(Notify* notify, int64_t uid, int64_t tid, const char* sip);
     ~UserSession();
     void notify(const char* data, int32_t size) override;
 
@@ -20,6 +20,7 @@ private:
 
 private:
     int64_t mUid;
+    int64_t mTid;
     char mSvIP[20];
     int32_t mSocket;
     std::mutex mlock_conn;

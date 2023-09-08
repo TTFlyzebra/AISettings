@@ -64,7 +64,7 @@ public class MdvrFullView extends MdvrBaseView implements View.OnTouchListener {
             case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_POINTER_UP: {
                 int pcount = event.getPointerCount();
-                byte[] data = new byte[40];
+                byte[] data = new byte[48];
                 data[0] = (byte) (event.getAction() >> 8 & 0xFF);
                 data[1] = (byte) (event.getAction() & 0xFF);
                 data[2] = (byte) pcount;

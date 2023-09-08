@@ -16,7 +16,8 @@
 #include "base/Global.h"
 
 Fzebra::Fzebra(JavaVM *jvm, JNIEnv *env, jobject thiz)
-        : mUserServer(nullptr), mRtspServer(nullptr) {
+        : mUserServer(nullptr), mRtspServer(nullptr), mUserSessions_count(0), mSndOuts_count(0),
+          mScreens_count(0) {
     cb = new FzebraCB(jvm, env, thiz);
     BufferManager::get()->init();
     T = new Terminal();
@@ -27,7 +28,7 @@ Fzebra::Fzebra(JavaVM *jvm, JNIEnv *env, jobject thiz)
 
 Fzebra::~Fzebra() {
     stopUserServer();
-    startRtspServer();
+    stopRtspServer();
     for (auto item: mUserSessions) {
         char sn[16] = {0};
         delete item.second;
@@ -47,7 +48,7 @@ Fzebra::~Fzebra() {
     N->unregisterListener(this);
     delete cb;
     delete T;
-	delete U;
+    delete U;
     delete N;
     //Notify使用了BufferMangaer,所以要在Notify后面释放
     BufferManager::get()->release();
@@ -107,36 +108,6 @@ void Fzebra::setUid(int64_t uid) {
     U->uid = uid;
 }
 
-void Fzebra::startUserServer() {
-    mUserServer = new UserServer(N);
-}
-
-void Fzebra::stopUserServer() {
-    if (mUserServer) {
-        delete mUserServer;
-        mUserServer = nullptr;
-    }
-}
-
-void Fzebra::startUserSession(int64_t uid, const char *sip) {
-    uint32_t id = inet_addr(sip);
-    auto it = mUserSessions.find(id);
-    if (it == mUserSessions.end()) {
-        auto *userSession = new UserSession(N, uid, sip);
-        FLOGI("UserlSession connect ip %s", sip);
-        mUserSessions.emplace(id, userSession);
-    }
-}
-
-void Fzebra::stopUserSession(const char *sip) {
-    uint32_t id = inet_addr(sip);
-    auto it = mUserSessions.find(id);
-    if (it != mUserSessions.end()) {
-        delete it->second;
-    }
-    mScreens.erase(id);
-}
-
 void Fzebra::startRtspServer() {
     mRtspServer = new RtspServer(N);
 }
@@ -148,7 +119,42 @@ void Fzebra::stopRtspServer() {
     }
 }
 
+void Fzebra::startUserServer() {
+    mUserServer = new UserServer(N);
+}
+
+void Fzebra::stopUserServer() {
+    if (mUserServer) {
+        delete mUserServer;
+        mUserServer = nullptr;
+    }
+}
+
+void Fzebra::startUserSession(int64_t uid, int64_t tid, const char *sip) {
+    mUserSessions_count++;
+    uint32_t id = inet_addr(sip);
+    auto it = mUserSessions.find(id);
+    if (it == mUserSessions.end()) {
+        auto *userSession = new UserSession(N, uid, tid, sip);
+        FLOGI("UserlSession connect ip %s", sip);
+        mUserSessions.emplace(id, userSession);
+    }
+}
+
+void Fzebra::stopUserSession(const char *sip) {
+    mUserSessions_count--;
+    if (mUserSessions_count <= 0) {
+        uint32_t id = inet_addr(sip);
+        auto it = mUserSessions.find(id);
+        if (it != mUserSessions.end()) {
+            delete it->second;
+        }
+        mUserSessions.erase(id);
+    }
+}
+
 void Fzebra::startScreenServer(int64_t tid) {
+    mScreens_count++;
     auto it = mScreens.find(tid);
     if (it == mScreens.end()) {
         auto *screenService = new ScreenService(N, tid);
@@ -157,14 +163,18 @@ void Fzebra::startScreenServer(int64_t tid) {
 }
 
 void Fzebra::stopScreenServer(int64_t tid) {
-    auto it = mScreens.find(tid);
-    if (it != mScreens.end()) {
-        delete it->second;
+    mScreens_count--;
+    if (mScreens_count <= 0) {
+        auto it = mScreens.find(tid);
+        if (it != mScreens.end()) {
+            delete it->second;
+        }
+        mScreens.erase(tid);
     }
-    mScreens.erase(tid);
 }
 
 void Fzebra::startSndoutServer(int64_t tid) {
+    mSndOuts_count++;
     auto it = mSndOuts.find(tid);
     if (it == mSndOuts.end()) {
         auto *sndOutService = new SndOutService(N, tid);
@@ -173,10 +183,13 @@ void Fzebra::startSndoutServer(int64_t tid) {
 }
 
 void Fzebra::stopSndoutServer(int64_t tid) {
-    auto it = mSndOuts.find(tid);
-    if (it != mSndOuts.end()) {
-        delete it->second;
+    mSndOuts_count--;
+    if (mSndOuts_count <= 0) {
+        auto it = mSndOuts.find(tid);
+        if (it != mSndOuts.end()) {
+            delete it->second;
+        }
+        mSndOuts.erase(tid);
     }
-    mSndOuts.erase(tid);
 }
 

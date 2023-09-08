@@ -81,7 +81,7 @@ public class MdvrAdapter extends BaseAdapter implements OnClickListener {
         holder.tv01.setText(mdvrBean.deviceName);
         holder.tv02.setText(String.valueOf(mdvrBean.getTid()));
         holder.tv03.setText(mdvrBean.deviceAddress);
-        holder.tv04.setText(mdvrBean.deviceIP);
+        holder.tv04.setText(mdvrBean.deviceIp);
 
         holder.mdvr.setTag(position);
         holder.mdvr.setOnClickListener(this);

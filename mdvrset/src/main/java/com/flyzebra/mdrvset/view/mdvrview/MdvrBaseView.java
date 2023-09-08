@@ -9,7 +9,6 @@ import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.NotifyType;
 import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.utils.ByteUtil;
-import com.flyzebra.utils.FlyLog;
 
 /**
  * Author: FlyZebra
@@ -84,21 +83,18 @@ public class MdvrBaseView extends GLSurfaceView implements INotify {
 
     @Override
     public void notify(byte[] data, int size) {
+
     }
 
     @Override
     public void handle(int type, byte[] data, int size, byte[] params) {
-        try {
-            long tid = ByteUtil.bytes2Long(params, 0, true);
-            if (tid != mdvrBean.getTid()) return;
-            if (type == NotifyType.NOTI_SCREEN_YUV) {
-                int width = ByteUtil.bytes2Int(params, 8, true);
-                int height = ByteUtil.bytes2Int(params, 12, true);
-                glRender.upYuvData(data, 0, width, height, size);
-                requestRender();
-            }
-        } catch (Exception e) {
-            FlyLog.e(e.toString());
+        long tid = ByteUtil.bytes2Long(params, 0, true);
+        if (tid != mdvrBean.getTid()) return;
+        if (type == NotifyType.NOTI_SCREEN_YUV) {
+            int width = ByteUtil.bytes2Int(params, 8, true);
+            int height = ByteUtil.bytes2Int(params, 12, true);
+            glRender.upYuvData(data, 0, width, height, size);
+            requestRender();
         }
     }
 }

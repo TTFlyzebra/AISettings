@@ -113,9 +113,9 @@ public class Fzebra implements INotify {
         _stopUserServer(_ptr_obj);
     }
 
-    public void startUserlSession(long uid, String sip) {
+    public void startUserlSession(long uid, long tid, String sip) {
         if (_ptr_obj < 0) return;
-        _startUserSession(_ptr_obj, uid, sip);
+        _startUserSession(_ptr_obj, uid, tid, sip);
     }
 
     public void stopUserSession(String sip) {
@@ -177,7 +177,7 @@ public class Fzebra implements INotify {
 
     private native void _stopUserServer(long p_obj);
 
-    private native void _startUserSession(long p_obj, long uid, String sip);
+    private native void _startUserSession(long p_obj, long uid, long tid, String sip);
 
     private native void _stopUserSession(long p_obj, String sip);
 

@@ -2,13 +2,10 @@ package com.flyzebra.mdrvset;
 
 import android.app.Application;
 
-import com.flyzebra.core.Fzebra;
-
 public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fzebra.get().init(getApplicationContext());
     }
 
     @Override

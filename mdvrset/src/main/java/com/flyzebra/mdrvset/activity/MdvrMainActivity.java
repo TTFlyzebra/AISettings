@@ -1,12 +1,16 @@
-package com.flyzebra.mdrvset;
+package com.flyzebra.mdrvset.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +19,6 @@ import androidx.core.app.ActivityCompat;
 import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
-import com.flyzebra.mdrvset.activity.MdvrActivity;
 import com.flyzebra.mdrvset.adapder.MdvrAdapter;
 import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.mdrvset.wifip2p.WifiP2PScanner;
@@ -24,26 +27,24 @@ import com.flyzebra.utils.FlyLog;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, MdvrAdapter.OnItemClick {
+public class MdvrMainActivity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, MdvrAdapter.OnItemClick {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    private ListView listView;
     private MdvrAdapter adapter;
-
-    private WifiP2PScanner wifiP2PServer = new WifiP2PScanner(this);
+    private TextView message;
+    private static final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final WifiP2PScanner wifiP2PServer = new WifiP2PScanner(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.ac_main_listview);
-        adapter = new MdvrAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
-        listView.setAdapter(adapter);
+        Fzebra.get().init(getApplicationContext());
 
         for (String s : PERMISSIONS_STORAGE) {
             if (ActivityCompat.checkSelfPermission(this, s) != PackageManager.PERMISSION_GRANTED) {
@@ -51,8 +52,14 @@ public class MainActivity extends AppCompatActivity implements INotify, WifiP2PS
                 break;
             }
         }
-        Notify.get().registerListener(this);
 
+        ListView listView = findViewById(R.id.ac_main_listview);
+        adapter = new MdvrAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
+        listView.setAdapter(adapter);
+
+        message = findViewById(R.id.message);
+
+        Notify.get().registerListener(this);
         wifiP2PServer.addWifiP2PListener(this);
     }
 
@@ -99,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements INotify, WifiP2PS
 
     @Override
     public void onItemClick(View v, MdvrBean mdvrBean) {
+        if (TextUtils.isEmpty(mdvrBean.deviceIp)) {
+            showMessage(R.string.wait_p2p_network);
+            return;
+        }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.fullctl)
                 .setMessage(R.string.fullmsg)
@@ -106,11 +117,20 @@ public class MainActivity extends AppCompatActivity implements INotify, WifiP2PS
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(this, MdvrActivity.class);
-                    intent.putExtra("MDVR", mdvrBean);
+                    Intent intent = new Intent(this, MdvrFullActivity.class);
+                    intent.putExtra("mdvrBean", mdvrBean);
                     startActivity(intent);
                     dialog.cancel();
                 })
                 .show();
+    }
+
+    public void showMessage(int resId) {
+        message.setText(resId);
+        message.setVisibility(View.VISIBLE);
+        mHandler.postDelayed(() -> {
+            message.setText("");
+            message.setVisibility(View.INVISIBLE);
+        }, 2000);
     }
 }

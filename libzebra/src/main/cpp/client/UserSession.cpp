@@ -18,12 +18,8 @@
 #include "utils/FlyLog.h"
 #include "utils/TimeUtil.h"
 
-UserSession::UserSession(Notify* notify, int64_t uid, const char* sip)
-    : BaseNotify(notify)
-    , mUid(uid)
-    , mSocket(-1)
-    , is_connect(false)
-{
+UserSession::UserSession(Notify *notify, int64_t uid, int64_t tid, const char *sip)
+        : BaseNotify(notify), mUid(uid), mTid(tid), mSocket(-1), is_connect(false) {
     FLOGD("%s()", __func__);
     sprintf(mSvIP, "%s", sip);
     {
@@ -37,8 +33,7 @@ UserSession::UserSession(Notify* notify, int64_t uid, const char* sip)
     time_t = new std::thread(&UserSession::selfFixedThread, this);
 }
 
-UserSession::~UserSession()
-{
+UserSession::~UserSession() {
     {
         N->unregisterListener(this);
         std::lock_guard<std::mutex> lock_stop(mlock_stop);
@@ -76,46 +71,45 @@ UserSession::~UserSession()
     FLOGD("%s()", __func__);
 }
 
-void UserSession::notify(const char* data, int32_t size)
-{
+void UserSession::notify(const char *data, int32_t size) {
     std::lock_guard<std::mutex> lock_stop(mlock_stop);
-    if(is_stop) return;
-    auto * notifyData = (NotifyData*)data;
+    if (is_stop) return;
+    auto *notifyData = (NotifyData *) data;
+    if (mTid != notifyData->tid) return;
     switch (notifyData->type) {
-    case TYPE_UT_HEARTBEAT:
-    case TYPE_U_LOGIN:
-    case TYPE_USER_TID_ADD:
-    case TYPE_USER_TID_REMOVE:
-    case TYPE_SCREEN_U_READY:
-    case TYPE_SCREEN_U_START:
-    case TYPE_SCREEN_U_STOP:
-    case TYPE_SNDOUT_U_READY:
-    case TYPE_SNDOUT_U_START:
-    case TYPE_SNDOUT_U_STOP:
-    case TYPE_CAMOUT_U_READY:
-    case TYPE_CAMOUT_U_START:
-    case TYPE_CAMOUT_U_STOP:
-    case TYPE_MICOUT_U_READY:
-    case TYPE_MICOUT_U_START:
-    case TYPE_MICOUT_U_STOP:
-    case TYPE_CAMFIX_U_READY:
-    case TYPE_CAMFIX_U_START:
-    case TYPE_CAMFIX_U_STOP:
-    case TYPE_MICFIX_U_READY:
-    case TYPE_MICFIX_U_START:
-    case TYPE_MICFIX_U_STOP:
-    case TYPE_INPUT_TOUCH_SINGLE:
-    case TYPE_INPUT_KEY_SINGLE:
-    case TYPE_INPUT_TEXT_SINGLE:
-    case TYPE_MCTL_REBOOT:
-    case TYPE_SYSTEM_REBOOT:
-        sendData(data, size);
-        break;
+        case TYPE_UT_HEARTBEAT:
+        case TYPE_U_LOGIN:
+        case TYPE_USER_TID_ADD:
+        case TYPE_USER_TID_REMOVE:
+        case TYPE_SCREEN_U_READY:
+        case TYPE_SCREEN_U_START:
+        case TYPE_SCREEN_U_STOP:
+        case TYPE_SNDOUT_U_READY:
+        case TYPE_SNDOUT_U_START:
+        case TYPE_SNDOUT_U_STOP:
+        case TYPE_CAMOUT_U_READY:
+        case TYPE_CAMOUT_U_START:
+        case TYPE_CAMOUT_U_STOP:
+        case TYPE_MICOUT_U_READY:
+        case TYPE_MICOUT_U_START:
+        case TYPE_MICOUT_U_STOP:
+        case TYPE_CAMFIX_U_READY:
+        case TYPE_CAMFIX_U_START:
+        case TYPE_CAMFIX_U_STOP:
+        case TYPE_MICFIX_U_READY:
+        case TYPE_MICFIX_U_START:
+        case TYPE_MICFIX_U_STOP:
+        case TYPE_INPUT_TOUCH_SINGLE:
+        case TYPE_INPUT_KEY_SINGLE:
+        case TYPE_INPUT_TEXT_SINGLE:
+        case TYPE_MCTL_REBOOT:
+        case TYPE_SYSTEM_REBOOT:
+            sendData(data, size);
+            break;
     }
 }
 
-void UserSession::connThread()
-{
+void UserSession::connThread() {
     char tempBuf[4096];
     while (!is_stop) {
         if (!is_connect) {
@@ -145,12 +139,11 @@ void UserSession::connThread()
             connected();
 
             //send U_LOGIN
-            char data[sizeof(U_LOGIN)] = { 0 };
+            char data[sizeof(U_LOGIN)] = {0};
             memcpy(data, U_LOGIN, sizeof(U_LOGIN));
-            memcpy(data+8, &mUid, 8);
+            memcpy(data + 8, &mUid, 8);
             sendData(data, sizeof(U_LOGIN));
-        }
-        else {
+        } else {
             //tv.tv_sec = 2;
             //tv.tv_usec = 0;
             //int32_t ret = select(mSocket + 1, &set, nullptr, nullptr, &tv);
@@ -165,23 +158,21 @@ void UserSession::connThread()
                 std::lock_guard<std::mutex> lock_recv(mlock_recv);
                 recvBuf.insert(recvBuf.end(), tempBuf, tempBuf + recvLen);
                 mcond_recv.notify_one();
-            }
-            else {
+            } else {
                 //TODO::disconnect 
                 if (recvLen < 0 && (errno == EINTR || errno == EWOULDBLOCK || errno == EAGAIN)) {
                     continue;
-                }    
+                }
                 FLOGD("UserSession->recv len[%d], errno[%d]", recvLen, errno);
                 disconnected();
-                continue;                
+                continue;
             }
             //}
         }
     }
 }
 
-void UserSession::sendThread()
-{
+void UserSession::sendThread() {
     std::vector<char> sendData;
     while (!is_stop) {
         {
@@ -189,7 +180,7 @@ void UserSession::sendThread()
             while (!is_stop && !is_connect) {
                 mcond_conn.wait(lock_conn);
             }
-            if (is_stop) break;            
+            if (is_stop) break;
         }
         {
             std::unique_lock<std::mutex> lock_send(mlock_send);
@@ -221,7 +212,8 @@ void UserSession::sendThread()
                     //FD_CLR(mSocket, &set);
                     continue;
                 }
-                FLOGE("UserClient disconnect, socket[%d]sendLen[%d][%s(%d)].", mSocket, sendLen, strerror(errno), errno);
+                FLOGE("UserClient disconnect, socket[%d]sendLen[%d][%s(%d)].", mSocket, sendLen,
+                      strerror(errno), errno);
                 //FD_CLR(mSocket, &set);
                 disconnected();
                 break;
@@ -233,8 +225,7 @@ void UserSession::sendThread()
     }
 }
 
-void UserSession::handleData()
-{
+void UserSession::handleData() {
     std::vector<char> handBuf;
     while (!is_stop) {
         {
@@ -244,11 +235,13 @@ void UserSession::handleData()
             }
             if (is_stop) break;
             if (((recvBuf[0] & 0xFF) != 0xEE) || ((recvBuf[1] & 0xFF) != 0xAA)) {
-                FLOGE("UserSession handleData bad header[%02x:%02x][%zu]", recvBuf[0] & 0xFF, recvBuf[1] & 0xFF, recvBuf.size());
+                FLOGE("UserSession handleData bad header[%02x:%02x][%zu]", recvBuf[0] & 0xFF,
+                      recvBuf[1] & 0xFF, recvBuf.size());
                 recvBuf.clear();
                 continue;
             }
-            int32_t dLen = (recvBuf[4] & 0xFF) << 24 | (recvBuf[5] & 0xFF) << 16 | (recvBuf[6] & 0xFF) << 8 | (recvBuf[7] & 0xFF);
+            int32_t dLen = (recvBuf[4] & 0xFF) << 24 | (recvBuf[5] & 0xFF) << 16 |
+                           (recvBuf[6] & 0xFF) << 8 | (recvBuf[7] & 0xFF);
             int32_t aLen = dLen + 8;
             while (!is_stop && (aLen > recvBuf.size())) {
                 mcond_recv.wait(lock_recv);
@@ -262,8 +255,7 @@ void UserSession::handleData()
     }
 }
 
-void UserSession::sendData(const char* data, int32_t size)
-{
+void UserSession::sendData(const char *data, int32_t size) {
     if (!is_connect) return;
     std::lock_guard<std::mutex> lock_send(mlock_send);
     if (sendBuf.size() > TERMINAL_MAX_BUFFER) {
@@ -274,8 +266,7 @@ void UserSession::sendData(const char* data, int32_t size)
     mcond_send.notify_one();
 }
 
-void UserSession::connected()
-{
+void UserSession::connected() {
     {
         std::lock_guard<std::mutex> lock_send(mlock_send);
         sendBuf.clear();
@@ -291,11 +282,10 @@ void UserSession::connected()
         mcond_conn.notify_one();
     }
     FLOGD("UserSession connected.");
-    N->miniNotify((const char*)U_CONNECTED, sizeof(U_CONNECTED), 0);
+    N->miniNotify((const char *) U_CONNECTED, sizeof(U_CONNECTED), 0);
 }
 
-void UserSession::disconnected()
-{
+void UserSession::disconnected() {
     {
         std::lock_guard<std::mutex> lock_conn(mlock_conn);
         if (!is_connect) return;
@@ -310,16 +300,15 @@ void UserSession::disconnected()
         recvBuf.clear();
     }
 
-   if (mSocket > 0) {
+    if (mSocket > 0) {
         shutdown(mSocket, SHUT_RDWR);
         close(mSocket);
     }
     FLOGD("UserSession disconnected.");
-    N->miniNotify((const char*)U_DISCONNECTED, sizeof(U_DISCONNECTED), 0);    
+    N->miniNotify((const char *) U_DISCONNECTED, sizeof(U_DISCONNECTED), 0);
 }
 
-void UserSession::selfFixedThread()
-{
+void UserSession::selfFixedThread() {
     while (!is_stop) {
         for (int i = 0; i < 10; i++) {
             usleep(100000);

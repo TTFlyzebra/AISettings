@@ -13,7 +13,7 @@ public class MdvrBean implements Parcelable {
     public int height = 720;
     public String deviceAddress = "";
     public String deviceName = "";
-    public String deviceIP = "";
+    public String deviceIp = "";
     private long tid = 0;
 
     public MdvrBean() {
@@ -33,7 +33,7 @@ public class MdvrBean implements Parcelable {
     protected MdvrBean(Parcel in) {
         deviceAddress = in.readString();
         deviceName = in.readString();
-        deviceIP = in.readString();
+        deviceIp = in.readString();
         tid = in.readLong();
         model = in.readString();
         width = in.readInt();
@@ -61,7 +61,7 @@ public class MdvrBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(deviceAddress);
         dest.writeString(deviceName);
-        dest.writeString(deviceIP);
+        dest.writeString(deviceIp);
         dest.writeLong(tid);
         dest.writeString(model);
         dest.writeInt(width);
@@ -74,6 +74,6 @@ public class MdvrBean implements Parcelable {
     public String toString() {
         return "{" + "deviceAddress=" + deviceAddress +
                 ", deviceName='" + deviceName + '\'' +
-                ", deviceIP='" + deviceIP + '\'' + '}';
+                ", deviceIP='" + deviceIp + '\'' + '}';
     }
 }

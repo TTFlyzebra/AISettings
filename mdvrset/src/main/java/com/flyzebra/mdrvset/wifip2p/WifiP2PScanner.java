@@ -152,7 +152,7 @@ public class WifiP2PScanner {
                         WifiP2pDevice device = p2pGroupInfo.getOwner();
                         for (MdvrBean wifiP2PBean : wifiP2PList) {
                             if (wifiP2PBean.deviceName.equals(device.deviceName) && wifiP2PBean.deviceAddress.equals(device.deviceAddress)) {
-                                wifiP2PBean.deviceIP = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+                                wifiP2PBean.deviceIp = wifiP2pInfo.groupOwnerAddress.getHostAddress();
                             }
                         }
                         for (IWifiP2PListener listener : listeners) {
