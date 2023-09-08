@@ -139,7 +139,6 @@ public class WifiP2PScanner {
                             for (IWifiP2PListener listener : listeners) {
                                 listener.notityWifiP2P(wifiP2PList);
                             }
-                            connect(wifiP2PBean);
                         }
                     }
                 }

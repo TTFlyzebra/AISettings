@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +57,14 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
         ListView listView = findViewById(R.id.ac_main_listview);
         adapter = new MdvrAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
         listView.setAdapter(adapter);
+
+        Button button = findViewById(R.id.refresh);
+        button.setOnClickListener(v -> {
+            wifiP2PServer.wifiP2PList.clear();
+            adapter.notifyDataSetChanged();
+            wifiP2PServer.stop();
+            wifiP2PServer.start();
+        });
 
         message = findViewById(R.id.message);
 
@@ -108,6 +117,7 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
     public void onItemClick(View v, MdvrBean mdvrBean) {
         if (TextUtils.isEmpty(mdvrBean.deviceIp)) {
             showMessage(R.string.wait_p2p_network);
+            wifiP2PServer.connect(mdvrBean);
             return;
         }
         new AlertDialog.Builder(this)

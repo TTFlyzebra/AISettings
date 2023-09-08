@@ -5,10 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
-import com.flyzebra.mdrvset.Config;
 import com.flyzebra.utils.ByteUtil;
 
 /**
@@ -30,29 +28,29 @@ public class MdvrFullView extends MdvrBaseView implements View.OnTouchListener {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Fzebra.get().startScreenServer(mdvrBean.getTid());
-        Config.itemSetList.put(mdvrBean.getTid(), Config.MAX_SCREEN);
-        Notify.get().miniNotify(
-                Protocol.SCREEN_U_READY,
-                Protocol.SCREEN_U_READY.length,
-                mdvrBean.getTid(),
-                Fzebra.get().getUid(),
-                Config.MAX_SCREEN
-        );
+        //Fzebra.get().startScreenServer(mdvrBean.getTid());
+        //Config.itemSetList.put(mdvrBean.getTid(), Config.MAX_SCREEN);
+        //Notify.get().miniNotify(
+        //        Protocol.SCREEN_U_READY,
+        //        Protocol.SCREEN_U_READY.length,
+        //        mdvrBean.getTid(),
+        //        Fzebra.get().getUid(),
+        //        Config.MAX_SCREEN
+        //);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Fzebra.get().stopScreenServer(mdvrBean.getTid());
-        Config.itemSetList.put(mdvrBean.getTid(), Config.MIN_SCREEN);
-        Notify.get().miniNotify(
-                Protocol.SCREEN_U_READY,
-                Protocol.SCREEN_U_READY.length,
-                mdvrBean.getTid(),
-                Fzebra.get().getUid(),
-                Config.MIN_SCREEN
-        );
+        //Fzebra.get().stopScreenServer(mdvrBean.getTid());
+        //Config.itemSetList.put(mdvrBean.getTid(), Config.MIN_SCREEN);
+        //Notify.get().miniNotify(
+        //        Protocol.SCREEN_U_READY,
+        //        Protocol.SCREEN_U_READY.length,
+        //        mdvrBean.getTid(),
+        //        Fzebra.get().getUid(),
+        //        Config.MIN_SCREEN
+        //);
     }
 
     @Override

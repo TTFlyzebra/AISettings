@@ -20,8 +20,8 @@ public class MdvrBaseView extends GLSurfaceView implements INotify {
     protected MdvrBean mdvrBean;
     protected int mWidth;
     protected int mHeight;
-    protected int sWidth = 720;
-    protected int sHeight = 1280;
+    protected int sWidth = 1280;
+    protected int sHeight = 720;
 
     public MdvrBaseView(Context context) {
         this(context, null);

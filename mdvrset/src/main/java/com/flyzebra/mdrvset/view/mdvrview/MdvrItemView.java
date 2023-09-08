@@ -95,13 +95,13 @@ public class MdvrItemView extends MdvrBaseView {
         Fzebra.get().startUserlSession(Fzebra.get().getUid(), mdvrBean.getTid(), mdvrBean.deviceIp);
         mHander.postDelayed(selfFixedThread, 0);
         Fzebra.get().startScreenServer(mdvrBean.getTid());
-        Config.itemSetList.put(mdvrBean.getTid(), Config.MIN_SCREEN);
+        Config.itemSetList.put(mdvrBean.getTid(), Config.MAX_SCREEN);
         Notify.get().miniNotify(
                 Protocol.SCREEN_U_READY,
                 Protocol.SCREEN_U_READY.length,
                 mdvrBean.getTid(),
                 Fzebra.get().getUid(),
-                Config.MIN_SCREEN
+                Config.MAX_SCREEN
         );
 
         new Thread(() -> {
