@@ -63,12 +63,6 @@ public class MdvrItemView extends MdvrBaseView {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(width, (int) (width * 720f / 1280f));
-    }
-
-    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         start();

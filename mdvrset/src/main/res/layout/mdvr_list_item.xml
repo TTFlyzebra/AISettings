@@ -4,10 +4,10 @@
     android:id="@+id/item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_margin="1dp"
+    android:background="@color/black"
     android:gravity="center"
     android:orientation="horizontal"
-    android:layout_margin="1dp"
     android:weightSum="3">
 
     <com.flyzebra.mdrvset.view.mdvrview.MdvrItemView
@@ -17,36 +17,43 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:background="#3F00FF00"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:paddingStart="5dp"
         tools:ignore="RtlSymmetry">
 
         <TextView
             android:id="@+id/mdvr_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#3F00FF00"
+            android:paddingStart="5dp"
             android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/mdvr_imei"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#3F00FF00"
+            android:paddingStart="5dp"
             android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/mdvr_mac"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#3F00FF00"
+            android:paddingStart="5dp"
             android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/mdvr_ip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#3F00FF00"
+            android:paddingStart="5dp"
             android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>

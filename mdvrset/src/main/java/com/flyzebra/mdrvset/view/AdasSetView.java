@@ -48,6 +48,7 @@ public class AdasSetView extends RelativeLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
+        setSoundEffectsEnabled(false);
         horizonView = new RelativeLayout(context);
         horizonView_child = new RelativeLayout(context);
         RelativeLayout.LayoutParams params_hc = new RelativeLayout.LayoutParams(-1, 4);
@@ -76,6 +77,7 @@ public class AdasSetView extends RelativeLayout {
             }
             return false;
         });
+        horizonView.setSoundEffectsEnabled(false);
 
         carMiddleView = new RelativeLayout(context);
         carMiddleView_child = new RelativeLayout(context);
@@ -102,6 +104,7 @@ public class AdasSetView extends RelativeLayout {
             }
             return false;
         });
+        carMiddleView.setSoundEffectsEnabled(false);
     }
 
     @Override
