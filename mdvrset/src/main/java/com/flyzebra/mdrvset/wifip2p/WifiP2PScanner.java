@@ -18,12 +18,14 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 
 import com.flyzebra.utils.FlyLog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -73,7 +75,6 @@ public class WifiP2PScanner {
     }
 
     public void stop() {
-        mContext.unregisterReceiver(myRecevier);
         wifiP2pManager.stopPeerDiscovery(wifChannel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
@@ -99,6 +100,7 @@ public class WifiP2PScanner {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             wifChannel.close();
         }
+        mContext.unregisterReceiver(myRecevier);
     }
 
     private class MyRecevier extends BroadcastReceiver {
@@ -135,6 +137,22 @@ public class WifiP2PScanner {
                             wifiP2PBean.deviceName = device.deviceName;
                             wifiP2PBean.deviceAddress = device.deviceAddress;
                             wifiP2PList.add(wifiP2PBean);
+                            Collections.sort(wifiP2PList, (p1, p2) -> {
+                                try {
+                                    String s1 = (String) p1.deviceName;
+                                    String s2 = (String) p2.deviceName;
+                                    if (TextUtils.isEmpty(s1)) {
+                                        return 1;
+                                    } else if (TextUtils.isEmpty(s2)) {
+                                        return -1;
+                                    } else {
+                                        return s1.compareToIgnoreCase(s2);
+                                    }
+                                } catch (Exception e) {
+                                    FlyLog.e(e.toString());
+                                }
+                                return 0;
+                            });
                             FlyLog.d("added new device: %s-%s", device.deviceName, device.deviceAddress);
                             for (IWifiP2PListener listener : listeners) {
                                 listener.notityWifiP2P(wifiP2PList);
@@ -154,6 +172,22 @@ public class WifiP2PScanner {
                                 wifiP2PBean.deviceIp = wifiP2pInfo.groupOwnerAddress.getHostAddress();
                             }
                         }
+                        Collections.sort(wifiP2PList, (p1, p2) -> {
+                            try {
+                                String s1 = (String) p1.deviceName;
+                                String s2 = (String) p2.deviceName;
+                                if (TextUtils.isEmpty(s1)) {
+                                    return 1;
+                                } else if (TextUtils.isEmpty(s2)) {
+                                    return -1;
+                                } else {
+                                    return s1.compareToIgnoreCase(s2);
+                                }
+                            } catch (Exception e) {
+                                FlyLog.e(e.toString());
+                            }
+                            return 0;
+                        });
                         for (IWifiP2PListener listener : listeners) {
                             listener.notityWifiP2P(wifiP2PList);
                         }

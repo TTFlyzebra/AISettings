@@ -2,8 +2,10 @@ package com.flyzebra.mdrvset.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -40,12 +42,15 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
     private MdvrAdapter adapter;
     private TextView message;
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
+    private WifiManager wifiManager = null;
     private final WifiP2PScanner wifiP2PServer = new WifiP2PScanner(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         Fzebra.get().init(getApplicationContext());
 
@@ -83,11 +88,15 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.action_reset){
+        if (item.getItemId() == R.id.action_reset) {
+            wifiP2PServer.wifiP2PList.clear();
+            adapter.notifyDataSetChanged();
+            wifiManager.setWifiEnabled(false);
+            wifiManager.setWifiEnabled(true);
             wifiP2PServer.stop();
             wifiP2PServer.start();
             return true;
-        }else{
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -153,6 +162,6 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
         mHandler.postDelayed(() -> {
             message.setText("");
             message.setVisibility(View.INVISIBLE);
-        }, 2000);
+        }, 5000);
     }
 }

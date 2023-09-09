@@ -368,7 +368,7 @@
     <string name="fullmsg">注意：云手机进入全屏控制界面后，点击悬浮窗选择退出按钮方可退出全屏控制界面。</string>
     <string name="confirm">确定</string>
     <string name="cancle">取消</string>
-    <string name="wait_p2p_network">"正在创建网络连接，请稍候再试......"</string>
+    <string name="wait_p2p_network">"正在创建网络连接，请稍候......\n如一直连接不上，可尝试开关飞行模式，点击右上角刷新列表按钮后再重新连接!"</string>
     <string name="loading_home">正在加载…</string>
     <string name="refresh">刷新</string>
 </resources>

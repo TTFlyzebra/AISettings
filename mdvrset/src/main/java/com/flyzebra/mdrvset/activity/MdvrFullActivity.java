@@ -49,7 +49,7 @@ public class MdvrFullActivity extends Activity implements View.OnClickListener, 
     private Button backkey;
     private Button homekey;
     private Button exitfull;
-    private final float mAlpha = 0.5f;
+    private final float mAlpha = 0.8f;
     private final long mHideTime = 3000;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
