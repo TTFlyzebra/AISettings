@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.view.mdvrview;
+package com.flyzebra.mdrvset.view.remote;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,8 +14,8 @@ import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.MdvrCtlActivity;
-import com.flyzebra.mdrvset.bean.MdvrBean;
+import com.flyzebra.mdrvset.activity.RemoteActivity;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
 
@@ -26,9 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlVideoView
  */
-public class MdvrItemView extends MdvrBaseView {
-    private Handler mHander = new Handler(Looper.getMainLooper());
-    private Runnable selfFixedThread = new Runnable() {
+public class RcItemView extends RcBaseView {
+    private final Handler mHander = new Handler(Looper.getMainLooper());
+    private final Runnable selfFixedThread = new Runnable() {
         @Override
         public void run() {
             Notify.get().miniNotify(
@@ -50,15 +50,15 @@ public class MdvrItemView extends MdvrBaseView {
 
     private final Handler mCmdHandler = new Handler(mCmdThread.getLooper());
 
-    private AtomicBoolean isConnect = new AtomicBoolean(true);
-    private AtomicBoolean isStop = new AtomicBoolean(true);
+    private final AtomicBoolean isConnect = new AtomicBoolean(true);
+    private final AtomicBoolean isStop = new AtomicBoolean(true);
     private long lastConnectTime = 0;
 
-    public MdvrItemView(Context context) {
+    public RcItemView(Context context) {
         this(context, null);
     }
 
-    public MdvrItemView(Context context, AttributeSet attrs) {
+    public RcItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -76,7 +76,7 @@ public class MdvrItemView extends MdvrBaseView {
     }
 
     @Override
-    public void setMdvrBean(MdvrBean mdvrBean) {
+    public void setMdvrBean(WifiP2PBean mdvrBean) {
         super.setMdvrBean(mdvrBean);
         if (!TextUtils.isEmpty(mdvrBean.deviceIp)) {
             start();
@@ -139,7 +139,7 @@ public class MdvrItemView extends MdvrBaseView {
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(getContext(), MdvrCtlActivity.class);
+                    Intent intent = new Intent(getContext(), RemoteActivity.class);
                     intent.putExtra("PHONE", mdvrBean);
                     getContext().startActivity(intent);
                     dialog.cancel();

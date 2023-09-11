@@ -22,9 +22,9 @@ import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.AdasSetActivity;
-import com.flyzebra.mdrvset.bean.CalibInfo;
-import com.flyzebra.mdrvset.bean.RtmpChannel;
+import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.http.AdasInfo;
+import com.flyzebra.mdrvset.http.RtmpInfo;
 import com.flyzebra.mdrvset.view.AdasSetView;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
@@ -34,7 +34,7 @@ import com.flyzebra.utils.http.HttpResult;
 import com.flyzebra.utils.http.HttpUtil;
 
 public class AdasSetFragment extends Fragment {
-    private CalibInfo calibInfo = new CalibInfo();
+    private AdasInfo adasInfo = new AdasInfo();
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
     private RelativeLayout line_layout;
@@ -72,18 +72,18 @@ public class AdasSetFragment extends Fragment {
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            AdasSetActivity activity = (AdasSetActivity) getActivity();
+            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
                 mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
                 return;
             }
-            String json = "{\"CMD\":\"LIVE_PREVIEW_RTMP\",\"DO\":[{\"Channel\":" + mLiveChannel + ",\"CMD\":\"PLAY\",\"STREAM_TYPE\":1},";
-            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", json);
+            String str = String.format(RtmpInfo.GetRequest, mLiveChannel);
+            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", str);
             if (result.code == 200) {
                 try {
-                    RtmpChannel.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpChannel.GetRtmpResult.class);
+                    RtmpInfo.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpInfo.GetRtmpResult.class);
                     if (getRtmpResult != null && getRtmpResult.LIVE_PREVIEW_RTMP != null && getRtmpResult.LIVE_PREVIEW_RTMP.size() > 0) {
                         String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
                         mHandler.post(() -> glVideoView.play(playUrl));
@@ -168,12 +168,12 @@ public class AdasSetFragment extends Fragment {
         adasSetView.setMoveLisenter(new AdasSetView.MoveLisenter() {
             @Override
             public void notifyHorizon(int vaule) {
-                adas_cali_horizon_text.setText(String.valueOf(calibInfo.horizon));
+                adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
             }
 
             @Override
             public void notiryCarMiddle(int value) {
-                adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
+                adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
             }
         });
 
@@ -186,82 +186,82 @@ public class AdasSetFragment extends Fragment {
         adas_cali_cameraToLeftWheel_text.setOnClickListener(v -> showDialog((TextView) v, R.string.camera_to_left_wheel, R.id.adas_cali_cameraToLeftWheel_text));
 
         adas_cali_horizont_up.setOnClickListener(v -> {
-            if (calibInfo.horizon > 0) {
-                calibInfo.horizon--;
-                adas_cali_horizon_text.setText(String.valueOf(calibInfo.horizon));
+            if (adasInfo.horizon > 0) {
+                adasInfo.horizon--;
+                adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
                 adasSetView.updateHorizonView();
             }
         });
         adas_cali_horizont_down.setOnClickListener(v -> {
-            if (calibInfo.horizon < (Config.CAMERA_H - 1)) {
-                calibInfo.horizon++;
-                adas_cali_horizon_text.setText(String.valueOf(calibInfo.horizon));
+            if (adasInfo.horizon < (Config.CAM_HEIGHT - 1)) {
+                adasInfo.horizon++;
+                adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
                 adasSetView.updateHorizonView();
             }
         });
 
         adas_cali_carMiddle_left.setOnClickListener(v -> {
-            if (calibInfo.carMiddle > (-Config.CAMERA_W / 2) - 1) {
-                calibInfo.carMiddle--;
-                adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
+            if (adasInfo.carMiddle > (-Config.CAM_WIDTH / 2) - 1) {
+                adasInfo.carMiddle--;
+                adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
                 adasSetView.updateCarMiddleView();
             }
         });
         adas_cali_carMiddle_right.setOnClickListener(v -> {
-            if (calibInfo.carMiddle < (Config.CAMERA_W) / 2 - 1) {
-                calibInfo.carMiddle++;
-                adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
+            if (adasInfo.carMiddle < (Config.CAM_WIDTH) / 2 - 1) {
+                adasInfo.carMiddle++;
+                adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
                 adasSetView.updateCarMiddleView();
             }
         });
 
         adas_cali_cameraHeight_left.setOnClickListener(v -> {
-            if (calibInfo.cameraHeight > 0) {
-                calibInfo.cameraHeight--;
-                adas_cali_cameraHeight_text.setText(String.valueOf(calibInfo.cameraHeight));
+            if (adasInfo.cameraHeight > 0) {
+                adasInfo.cameraHeight--;
+                adas_cali_cameraHeight_text.setText(String.valueOf(adasInfo.cameraHeight));
             }
         });
         adas_cali_cameraHeight_right.setOnClickListener(v -> {
-            calibInfo.cameraHeight++;
-            adas_cali_cameraHeight_text.setText(String.valueOf(calibInfo.cameraHeight));
+            adasInfo.cameraHeight++;
+            adas_cali_cameraHeight_text.setText(String.valueOf(adasInfo.cameraHeight));
         });
 
         adas_cali_cameraToAxle_left.setOnClickListener(v -> {
-            calibInfo.cameraToAxle--;
-            adas_cali_cameraToAxle_text.setText(String.valueOf(calibInfo.cameraToAxle));
+            adasInfo.cameraToAxle--;
+            adas_cali_cameraToAxle_text.setText(String.valueOf(adasInfo.cameraToAxle));
         });
         adas_cali_cameraToAxle_right.setOnClickListener(v -> {
-            calibInfo.cameraToAxle++;
-            adas_cali_cameraToAxle_text.setText(String.valueOf(calibInfo.cameraToAxle));
+            adasInfo.cameraToAxle++;
+            adas_cali_cameraToAxle_text.setText(String.valueOf(adasInfo.cameraToAxle));
         });
 
         adas_cali_carWidth_left.setOnClickListener(v -> {
-            if (calibInfo.carWidth > 0) {
-                calibInfo.carWidth--;
-                adas_cali_carWidth_text.setText(String.valueOf(calibInfo.carWidth));
+            if (adasInfo.carWidth > 0) {
+                adasInfo.carWidth--;
+                adas_cali_carWidth_text.setText(String.valueOf(adasInfo.carWidth));
             }
         });
         adas_cali_carWidth_right.setOnClickListener(v -> {
-            calibInfo.carWidth++;
-            adas_cali_carWidth_text.setText(String.valueOf(calibInfo.carWidth));
+            adasInfo.carWidth++;
+            adas_cali_carWidth_text.setText(String.valueOf(adasInfo.carWidth));
         });
 
         adas_cali_cameraToBumper_left.setOnClickListener(v -> {
-            calibInfo.cameraToBumper--;
-            adas_cali_cameraToBumper_text.setText(String.valueOf(calibInfo.cameraToBumper));
+            adasInfo.cameraToBumper--;
+            adas_cali_cameraToBumper_text.setText(String.valueOf(adasInfo.cameraToBumper));
         });
         adas_cali_cameraToBumper_right.setOnClickListener(v -> {
-            calibInfo.cameraToBumper++;
-            adas_cali_cameraToBumper_text.setText(String.valueOf(calibInfo.cameraToBumper));
+            adasInfo.cameraToBumper++;
+            adas_cali_cameraToBumper_text.setText(String.valueOf(adasInfo.cameraToBumper));
         });
 
         adas_cali_cameraToLeftWheel_left.setOnClickListener(v -> {
-            calibInfo.cameraToLeftWheel--;
-            adas_cali_cameraToLeftWheel_text.setText(String.valueOf(calibInfo.cameraToLeftWheel));
+            adasInfo.cameraToLeftWheel--;
+            adas_cali_cameraToLeftWheel_text.setText(String.valueOf(adasInfo.cameraToLeftWheel));
         });
         adas_cali_cameraToLeftWheel_right.setOnClickListener(v -> {
-            calibInfo.cameraToLeftWheel++;
-            adas_cali_cameraToLeftWheel_text.setText(String.valueOf(calibInfo.cameraToLeftWheel));
+            adasInfo.cameraToLeftWheel++;
+            adas_cali_cameraToLeftWheel_text.setText(String.valueOf(adasInfo.cameraToLeftWheel));
         });
 
         adas_save_btn.setOnClickListener(v -> {
@@ -269,17 +269,17 @@ public class AdasSetFragment extends Fragment {
             if (TextUtils.isEmpty(gateway)) {
                 return;
             }
-            CalibInfo.SetRequest setRequest = new CalibInfo.SetRequest();
-            setRequest.DATA = calibInfo;
+            AdasInfo.SetRequest setRequest = new AdasInfo.SetRequest();
+            setRequest.DATA = adasInfo;
             String setString = GsonUtil.objectToJson(setRequest);
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
-                    AdasSetActivity activity = (AdasSetActivity) getActivity();
+                    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
                         try {
-                            CalibInfo.SetResult data = GsonUtil.json2Object(result.data, CalibInfo.SetResult.class);
+                            AdasInfo.SetResult data = GsonUtil.json2Object(result.data, AdasInfo.SetResult.class);
                             if (!TextUtils.isEmpty(data.ErrNO) && data.ErrNO.equals("0000")) {
                                 activity.showMessage(R.string.set_ok);
                             } else {
@@ -303,7 +303,7 @@ public class AdasSetFragment extends Fragment {
                 line_layout.setVisibility(View.VISIBLE);
                 adas_save_btn.setVisibility(View.VISIBLE);
             } else {
-                AdasSetActivity activity = (AdasSetActivity) getActivity();
+                ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                 if (activity != null) {
                     activity.showMessage(R.string.note_wifi_connected);
                 }
@@ -325,35 +325,35 @@ public class AdasSetFragment extends Fragment {
         bt1.setOnClickListener(v -> {
             textView.setText(edit.getText());
             if (resID == R.id.adas_cali_horizon_text) {
-                calibInfo.horizon = Integer.parseInt(edit.getText().toString());
+                adasInfo.horizon = Integer.parseInt(edit.getText().toString());
                 adasSetView.updateHorizonView();
             } else if (resID == R.id.adas_cali_carMiddle_text) {
-                calibInfo.carMiddle = Integer.parseInt(edit.getText().toString());
+                adasInfo.carMiddle = Integer.parseInt(edit.getText().toString());
                 adasSetView.updateCarMiddleView();
             } else if (resID == R.id.adas_cali_cameraHeight_text) {
-                calibInfo.cameraHeight = Integer.parseInt(edit.getText().toString());
+                adasInfo.cameraHeight = Integer.parseInt(edit.getText().toString());
             } else if (resID == R.id.adas_cali_cameraToAxle_text) {
-                calibInfo.cameraToAxle = Integer.parseInt(edit.getText().toString());
+                adasInfo.cameraToAxle = Integer.parseInt(edit.getText().toString());
             } else if (resID == R.id.adas_cali_carWidth_text) {
-                calibInfo.carWidth = Integer.parseInt(edit.getText().toString());
+                adasInfo.carWidth = Integer.parseInt(edit.getText().toString());
             } else if (resID == R.id.adas_cali_cameraToBumper_text) {
-                calibInfo.cameraToBumper = Integer.parseInt(edit.getText().toString());
+                adasInfo.cameraToBumper = Integer.parseInt(edit.getText().toString());
             } else if (resID == R.id.adas_cali_cameraToLeftWheel_text) {
-                calibInfo.cameraToLeftWheel = Integer.parseInt(edit.getText().toString());
+                adasInfo.cameraToLeftWheel = Integer.parseInt(edit.getText().toString());
             }
             dlg.dismiss();
         });
     }
 
     private void updateView() {
-        adas_cali_horizon_text.setText(String.valueOf(calibInfo.horizon));
-        adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
-        adas_cali_cameraHeight_text.setText(String.valueOf(calibInfo.cameraHeight));
-        adas_cali_cameraToAxle_text.setText(String.valueOf(calibInfo.cameraToAxle));
-        adas_cali_carWidth_text.setText(String.valueOf(calibInfo.carWidth));
-        adas_cali_cameraToBumper_text.setText(String.valueOf(calibInfo.cameraToBumper));
-        adas_cali_cameraToLeftWheel_text.setText(String.valueOf(calibInfo.cameraToLeftWheel));
-        adasSetView.upCalibInfo(calibInfo);
+        adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
+        adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
+        adas_cali_cameraHeight_text.setText(String.valueOf(adasInfo.cameraHeight));
+        adas_cali_cameraToAxle_text.setText(String.valueOf(adasInfo.cameraToAxle));
+        adas_cali_carWidth_text.setText(String.valueOf(adasInfo.carWidth));
+        adas_cali_cameraToBumper_text.setText(String.valueOf(adasInfo.cameraToBumper));
+        adas_cali_cameraToLeftWheel_text.setText(String.valueOf(adasInfo.cameraToLeftWheel));
+        adasSetView.upCalibInfo(adasInfo);
     }
 
     @Override
@@ -366,18 +366,18 @@ public class AdasSetFragment extends Fragment {
         is_connected = false;
         String gateway = WifiUtil.getGateway(getActivity());
         if (!TextUtils.isEmpty(gateway)) {
-            CalibInfo.GetRequest getRequest = new CalibInfo.GetRequest();
-            String getString = GsonUtil.objectToJson(getRequest);
+            AdasInfo.GetRequest getRequest = new AdasInfo.GetRequest();
+            String postStr = GsonUtil.objectToJson(getRequest);
             tHandler.removeCallbacksAndMessages(null);
             tHandler.post(() -> {
-                final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", getString);
+                final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", postStr);
                 mHandler.removeCallbacksAndMessages(null);
                 mHandler.post(() -> {
                     if (result.code == 200) {
                         try {
-                            CalibInfo.GetResult data = GsonUtil.json2Object(result.data, CalibInfo.GetResult.class);
+                            AdasInfo.GetResult data = GsonUtil.json2Object(result.data, AdasInfo.GetResult.class);
                             if (!TextUtils.isEmpty(data.ErrNO) && data.ErrNO.equals("0000")) {
-                                calibInfo = data.DATA;
+                                adasInfo = data.DATA;
                                 updateView();
                                 is_connected = true;
                             }

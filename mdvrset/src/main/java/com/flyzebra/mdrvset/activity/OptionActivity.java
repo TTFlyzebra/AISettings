@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.flyzebra.mdvrset.R;
 
-public class SelectActivity extends AppCompatActivity {
+public class OptionActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,6 @@ public class SelectActivity extends AppCompatActivity {
     }
 
     public void md600(View view) {
-        startActivity(new Intent(this, AdasSetActivity.class));
+        startActivity(new Intent(this, ArcsoftSetActivity.class));
     }
 }

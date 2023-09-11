@@ -5,4 +5,10 @@
     android:layout_alignParentBottom="true"
     android:orientation="vertical">
 
+    <com.flyzebra.mdrvset.view.BsdSetView
+        android:id="@+id/bsdSetView"
+        android:background="#FFFFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

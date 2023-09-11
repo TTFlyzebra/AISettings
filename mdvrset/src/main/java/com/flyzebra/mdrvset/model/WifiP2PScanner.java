@@ -22,21 +22,19 @@ import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 
-import com.flyzebra.mdrvset.bean.MdvrBean;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
 import com.flyzebra.utils.FlyLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WifiP2PScanner {
-    public final List<MdvrBean> wifiP2PList = new ArrayList<>();
+    public final List<WifiP2PBean> wifiP2PList = new ArrayList<>();
     private final Context mContext;
     private WifiP2pManager wifiP2pManager;
     private Channel wifChannel;
     private MyRecevier myRecevier;
-    private final AtomicBoolean is_stop = new AtomicBoolean(true);
 
     public WifiP2PScanner(Context context) {
         mContext = context;
@@ -139,14 +137,14 @@ public class WifiP2PScanner {
                 for (WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()) {
                     if (device.deviceName.startsWith("MD201_")) {
                         boolean is_added = false;
-                        for (MdvrBean wifiP2PBean : wifiP2PList) {
+                        for (WifiP2PBean wifiP2PBean : wifiP2PList) {
                             if (wifiP2PBean.deviceName.equals(device.deviceName)) {
                                 is_added = true;
                                 break;
                             }
                         }
                         if (!is_added) {
-                            final MdvrBean wifiP2PBean = new MdvrBean();
+                            final WifiP2PBean wifiP2PBean = new WifiP2PBean();
                             wifiP2PBean.deviceName = device.deviceName;
                             wifiP2PBean.deviceAddress = device.deviceAddress;
                             wifiP2PList.add(wifiP2PBean);
@@ -180,7 +178,7 @@ public class WifiP2PScanner {
                     if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
                         WifiP2pGroup p2pGroupInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_GROUP);
                         WifiP2pDevice device = p2pGroupInfo.getOwner();
-                        for (MdvrBean wifiP2PBean : wifiP2PList) {
+                        for (WifiP2PBean wifiP2PBean : wifiP2PList) {
                             if (wifiP2PBean.deviceName.equals(device.deviceName) && wifiP2PBean.deviceAddress.equals(device.deviceAddress)) {
                                 wifiP2PBean.deviceIp = wifiP2pInfo.groupOwnerAddress.getHostAddress();
                             }
@@ -212,7 +210,7 @@ public class WifiP2PScanner {
         }
     }
 
-    public void connect(MdvrBean wifiP2PBean) {
+    public void connect(WifiP2PBean wifiP2PBean) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = wifiP2PBean.deviceAddress;
         config.wps.setup = WpsInfo.PBC;
@@ -245,10 +243,10 @@ public class WifiP2PScanner {
     }
 
     public interface IWifiP2PListener {
-        void notityWifiP2P(List<MdvrBean> list);
+        void notityWifiP2P(List<WifiP2PBean> list);
     }
 
-    private List<IWifiP2PListener> listeners = new ArrayList<>();
+    private final List<IWifiP2PListener> listeners = new ArrayList<>();
 
     public void addListener(IWifiP2PListener listener) {
         listeners.add(listener);

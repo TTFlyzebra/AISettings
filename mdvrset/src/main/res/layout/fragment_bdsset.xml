@@ -10,7 +10,7 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/bds_spinner"
+            android:id="@+id/bsd_spinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
@@ -18,7 +18,7 @@
             android:minWidth="120dp" />
 
         <ImageView
-            android:id="@+id/bds_save_btn"
+            android:id="@+id/bsd_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

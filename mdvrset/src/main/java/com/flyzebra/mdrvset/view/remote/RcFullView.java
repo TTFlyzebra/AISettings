@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.view.mdvrview;
+package com.flyzebra.mdrvset.view.remote;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,13 +14,13 @@ import com.flyzebra.utils.ByteUtil;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlVideoView
  */
-public class MdvrFullView extends MdvrBaseView implements View.OnTouchListener {
+public class RcFullView extends RcBaseView implements View.OnTouchListener {
 
-    public MdvrFullView(Context context) {
+    public RcFullView(Context context) {
         this(context, null);
     }
 
-    public MdvrFullView(Context context, AttributeSet attrs) {
+    public RcFullView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
     }

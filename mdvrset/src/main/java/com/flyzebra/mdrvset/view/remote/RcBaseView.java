@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.view.mdvrview;
+package com.flyzebra.mdrvset.view.remote;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.NotifyType;
-import com.flyzebra.mdrvset.bean.MdvrBean;
+import com.flyzebra.mdrvset.Config;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
 import com.flyzebra.utils.ByteUtil;
 
 /**
@@ -15,19 +16,19 @@ import com.flyzebra.utils.ByteUtil;
  * Time: 18-5-14 下午9:00.
  * Discription: This is GlVideoView
  */
-public class MdvrBaseView extends GLSurfaceView implements INotify {
+public class RcBaseView extends GLSurfaceView implements INotify {
     protected GLRender glRender;
-    protected MdvrBean mdvrBean;
+    protected WifiP2PBean mdvrBean;
     protected int mWidth;
     protected int mHeight;
-    protected int sWidth = 1280;
-    protected int sHeight = 720;
+    protected int sWidth = Config.CAM_WIDTH;
+    protected int sHeight = Config.CAM_HEIGHT;
 
-    public MdvrBaseView(Context context) {
+    public RcBaseView(Context context) {
         this(context, null);
     }
 
-    public MdvrBaseView(Context context, AttributeSet attrs) {
+    public RcBaseView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -39,10 +40,8 @@ public class MdvrBaseView extends GLSurfaceView implements INotify {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    public void setMdvrBean(MdvrBean mdvrBean) {
+    public void setMdvrBean(WifiP2PBean mdvrBean) {
         this.mdvrBean = mdvrBean;
-        sWidth = mdvrBean.width;
-        sHeight = mdvrBean.height;
     }
 
     @Override

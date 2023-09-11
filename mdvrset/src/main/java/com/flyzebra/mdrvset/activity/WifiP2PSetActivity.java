@@ -25,7 +25,7 @@ import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.mdrvset.adapder.WifiP2PAdapter;
-import com.flyzebra.mdrvset.bean.MdvrBean;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
 import com.flyzebra.mdrvset.model.WifiP2PScanner;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
@@ -131,12 +131,12 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     }
 
     @Override
-    public void notityWifiP2P(List<MdvrBean> list) {
+    public void notityWifiP2P(List<WifiP2PBean> list) {
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onItemClick(View v, MdvrBean mdvrBean) {
+    public void onItemClick(View v, WifiP2PBean mdvrBean) {
         if (TextUtils.isEmpty(mdvrBean.deviceIp)) {
             showMessage(R.string.wait_p2p_network);
             wifiP2PServer.connect(mdvrBean);
@@ -149,7 +149,7 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(this, MdvrCtlActivity.class);
+                    Intent intent = new Intent(this, RemoteActivity.class);
                     intent.putExtra("mdvrBean", mdvrBean);
                     startActivity(intent);
                     dialog.cancel();

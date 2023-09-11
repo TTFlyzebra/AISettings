@@ -28,8 +28,8 @@ import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.bean.MdvrBean;
-import com.flyzebra.mdrvset.view.mdvrview.MdvrFullView;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
+import com.flyzebra.mdrvset.view.remote.RcFullView;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
 import com.flyzebra.utils.DisplayUtil;
@@ -37,8 +37,8 @@ import com.flyzebra.utils.SPUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MdvrCtlActivity extends Activity implements View.OnClickListener, INotify {
-    private MdvrFullView mdvrView;
+public class RemoteActivity extends Activity implements View.OnClickListener, INotify {
+    private RcFullView mdvrView;
     private ImageView fButton;
     private LinearLayout fMenu;
     private Button sysreboot;
@@ -63,7 +63,7 @@ public class MdvrCtlActivity extends Activity implements View.OnClickListener, I
     }
 
     private final Handler mCmdHandler = new Handler(mCmdThread.getLooper());
-    private MdvrBean mdvrBean = null;
+    private WifiP2PBean mdvrBean = null;
     private AtomicBoolean isConnect = new AtomicBoolean(true);
     private AtomicBoolean isStop = new AtomicBoolean(true);
     private long lastConnectTime = 0;
@@ -138,8 +138,8 @@ public class MdvrCtlActivity extends Activity implements View.OnClickListener, I
                         int top = fButton.getTop();
                         int abs = (bWidth) / 2;
                         if (Math.abs(left - bLeft) > abs || Math.abs(top - bTop) > abs) {
-                            SPUtil.set(MdvrCtlActivity.this, "bfLeft", left);
-                            SPUtil.set(MdvrCtlActivity.this, "bfTop", top);
+                            SPUtil.set(RemoteActivity.this, "bfLeft", left);
+                            SPUtil.set(RemoteActivity.this, "bfTop", top);
                             return true;
                         } else {
                             layoutFloatButton(bLeft, bTop, bLeft + bWidth, bTop + bHeight);
@@ -151,8 +151,8 @@ public class MdvrCtlActivity extends Activity implements View.OnClickListener, I
             }
         });
 
-        int left = (int) SPUtil.get(MdvrCtlActivity.this, "bfLeft", 0);
-        int top = (int) SPUtil.get(MdvrCtlActivity.this, "bfTop", screen_h / 2);
+        int left = (int) SPUtil.get(RemoteActivity.this, "bfLeft", 0);
+        int top = (int) SPUtil.get(RemoteActivity.this, "bfTop", screen_h / 2);
         if (left != 0 || top != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fButton.getLayoutParams();
             params.leftMargin = left;

@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.flyzebra.mdrvset.bean.MdvrBean;
-import com.flyzebra.mdrvset.view.mdvrview.MdvrItemView;
+import com.flyzebra.mdrvset.bean.WifiP2PBean;
+import com.flyzebra.mdrvset.view.remote.RcItemView;
 import com.flyzebra.mdvrset.R;
 
 import java.util.List;
@@ -21,20 +21,20 @@ public class WifiP2PAdapter extends BaseAdapter implements OnClickListener {
 
     private static class ViewHolder {
         public LinearLayout ll01 = null;
-        public MdvrItemView mdvr = null;
+        public RcItemView mdvr = null;
         public TextView tv01 = null;
         public TextView tv02 = null;
         public TextView tv03 = null;
         public TextView tv04 = null;
     }
 
-    private List<MdvrBean> mdvrList;
+    private List<WifiP2PBean> mdvrList;
     private final int idListview;
     private OnItemClick mOnItemClick = null;
     private final Context mContext;
     private ListView listView;
 
-    public WifiP2PAdapter(Context context, ListView listView, List<MdvrBean> list, int idListview, OnItemClick OnItemClick) {
+    public WifiP2PAdapter(Context context, ListView listView, List<WifiP2PBean> list, int idListview, OnItemClick OnItemClick) {
         this.listView = listView;
         this.mOnItemClick = OnItemClick;
         this.mdvrList = list;
@@ -74,7 +74,7 @@ public class WifiP2PAdapter extends BaseAdapter implements OnClickListener {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        MdvrBean mdvrBean = mdvrList.get(position);
+        WifiP2PBean mdvrBean = mdvrList.get(position);
         holder.mdvr.setMdvrBean(mdvrBean);
         holder.tv01.setText(mdvrBean.deviceName);
         holder.tv02.setText(String.valueOf(mdvrBean.getTid()));
@@ -97,7 +97,7 @@ public class WifiP2PAdapter extends BaseAdapter implements OnClickListener {
     }
 
     public interface OnItemClick {
-        void onItemClick(View view, MdvrBean mdvrBean);
+        void onItemClick(View view, WifiP2PBean mdvrBean);
     }
 
 }

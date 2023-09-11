@@ -1,6 +1,6 @@
-package com.flyzebra.mdrvset.bean;
+package com.flyzebra.mdrvset.http;
 
-public class CalibInfo {
+public class AdasInfo {
     public int horizon = 420; //地平线，单位：pixel，有效值：大于等于0
     public int carMiddle = 0; //车辆中线距离光心偏移量，单位：pixel
     public int cameraHeight = 200; //摄像头距离地面高度，单位：cm，有效值：大于等于0
@@ -17,13 +17,13 @@ public class CalibInfo {
     {
         "CMD":" GETADASCALIB",
         "DATA":{
-        "horizon":420,
-                "carMiddle":0,
-                "cameraHeight":200,
-                "cameraToAxle":200,
-                "carWidth":200,
-                "cameraToBumper":200,
-                "cameraToLeftWheel":120
+            "horizon":420,
+            "carMiddle":0,
+            "cameraHeight":200,
+            "cameraToAxle":200,
+            "carWidth":200,
+            "cameraToBumper":200,
+            "cameraToLeftWheel":120
         },
         "ErrNO":"0000"
     }*/
@@ -33,7 +33,7 @@ public class CalibInfo {
 
     public static class GetResult {
         public String CMD;
-        public CalibInfo DATA;
+        public AdasInfo DATA;
         public String ErrNO;
     }
 
@@ -42,22 +42,22 @@ public class CalibInfo {
         "CMD":"SETADASCALIB",
         "DATA":{
         "horizon":420,
-                "carMiddle":0,
-                "cameraHeight":200,
-                "cameraToAxle":200,
-                "carWidth":200,
-                "cameraToBumper":200,
-                "cameraToLeftWheel":120
+            "carMiddle":0,
+            "cameraHeight":200,
+            "cameraToAxle":200,
+            "carWidth":200,
+            "cameraToBumper":200,
+            "cameraToLeftWheel":120
         }
     }
     MDVR->WEB
     {
         "CMD":" SETADASCALIB",
-            "ErrNO":"0000"
+        "ErrNO":"0000"
     }*/
     public static class SetRequest {
         public String CMD = "SETADASCALIB";
-        public CalibInfo DATA;
+        public AdasInfo DATA;
     }
 
     public static class SetResult {

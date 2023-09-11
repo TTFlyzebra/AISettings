@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:weightSum="3">
 
-    <com.flyzebra.mdrvset.view.mdvrview.MdvrItemView
+    <com.flyzebra.mdrvset.view.remote.RcItemView
         android:id="@+id/mdvrview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

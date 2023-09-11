@@ -7,16 +7,13 @@ import androidx.annotation.NonNull;
 
 import com.flyzebra.utils.ByteUtil;
 
-public class MdvrBean implements Parcelable {
-    public String model = "MD201";
-    public int width = 1280;
-    public int height = 720;
+public class WifiP2PBean implements Parcelable {
     public String deviceAddress = "";
     public String deviceName = "";
     public String deviceIp = "";
     private long tid = 0;
 
-    public MdvrBean() {
+    public WifiP2PBean() {
 
     }
 
@@ -30,25 +27,22 @@ public class MdvrBean implements Parcelable {
         }
     }
 
-    protected MdvrBean(Parcel in) {
+    protected WifiP2PBean(Parcel in) {
         deviceAddress = in.readString();
         deviceName = in.readString();
         deviceIp = in.readString();
         tid = in.readLong();
-        model = in.readString();
-        width = in.readInt();
-        height = in.readInt();
     }
 
-    public static final Creator<MdvrBean> CREATOR = new Creator<MdvrBean>() {
+    public static final Creator<WifiP2PBean> CREATOR = new Creator<WifiP2PBean>() {
         @Override
-        public MdvrBean createFromParcel(Parcel in) {
-            return new MdvrBean(in);
+        public WifiP2PBean createFromParcel(Parcel in) {
+            return new WifiP2PBean(in);
         }
 
         @Override
-        public MdvrBean[] newArray(int size) {
-            return new MdvrBean[size];
+        public WifiP2PBean[] newArray(int size) {
+            return new WifiP2PBean[size];
         }
     };
 
@@ -63,9 +57,6 @@ public class MdvrBean implements Parcelable {
         dest.writeString(deviceName);
         dest.writeString(deviceIp);
         dest.writeLong(tid);
-        dest.writeString(model);
-        dest.writeInt(width);
-        dest.writeInt(height);
     }
 
 

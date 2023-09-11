@@ -41,11 +41,11 @@
         </activity>
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.AdasSetActivity"
+            android:name="com.flyzebra.mdrvset.activity.ArcsoftSetActivity"
             android:theme="@style/Theme.Noactionbar" />
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.SelectActivity"
+            android:name="com.flyzebra.mdrvset.activity.OptionActivity"
             android:theme="@style/Theme.Normal" />
 
         <activity
@@ -54,7 +54,7 @@
             android:theme="@style/Theme.Normal" />
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.MdvrCtlActivity"
+            android:name="com.flyzebra.mdrvset.activity.RemoteActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Full" />

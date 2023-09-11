@@ -14,12 +14,12 @@ import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.bean.CalibInfo;
+import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
 public class AdasSetView extends RelativeLayout {
-    private CalibInfo calibInfo = new CalibInfo();
+    private AdasInfo adasInfo = new AdasInfo();
     private RelativeLayout horizonView;
     private RelativeLayout horizonView_child;
     private RelativeLayout carMiddleView;
@@ -63,14 +63,14 @@ public class AdasSetView extends RelativeLayout {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     horizon_y = event.getRawY();
-                    horizon_down = calibInfo.horizon;
+                    horizon_down = adasInfo.horizon;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    calibInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAMERA_H / height);
-                    calibInfo.horizon = Math.max(0, calibInfo.horizon);
-                    calibInfo.horizon = Math.min(Config.CAMERA_H, calibInfo.horizon);
+                    adasInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAM_HEIGHT / height);
+                    adasInfo.horizon = Math.max(0, adasInfo.horizon);
+                    adasInfo.horizon = Math.min(Config.CAM_HEIGHT, adasInfo.horizon);
                     updateHorizonView();
-                    if (moveLisenter != null) moveLisenter.notifyHorizon(calibInfo.horizon);
+                    if (moveLisenter != null) moveLisenter.notifyHorizon(adasInfo.horizon);
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
@@ -92,12 +92,12 @@ public class AdasSetView extends RelativeLayout {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     carMiddle_x = event.getRawX();
-                    carMiddle_down = calibInfo.carMiddle;
+                    carMiddle_down = adasInfo.carMiddle;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    calibInfo.carMiddle = (int) (carMiddle_down + (event.getRawX() - carMiddle_x) * Config.CAMERA_W / width);
+                    adasInfo.carMiddle = (int) (carMiddle_down + (event.getRawX() - carMiddle_x) * Config.CAM_WIDTH / width);
                     updateCarMiddleView();
-                    if (moveLisenter != null) moveLisenter.notiryCarMiddle(calibInfo.carMiddle);
+                    if (moveLisenter != null) moveLisenter.notiryCarMiddle(adasInfo.carMiddle);
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
@@ -115,7 +115,7 @@ public class AdasSetView extends RelativeLayout {
             RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) horizonView.getLayoutParams();
             if (params1 != null) {
                 params1.height = height / 5;
-                params1.topMargin = calibInfo.horizon * height / Config.CAMERA_H - height / 10;
+                params1.topMargin = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 10;
             }
             RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) horizonView_child.getLayoutParams();
             if (params2 != null) {
@@ -128,7 +128,7 @@ public class AdasSetView extends RelativeLayout {
             RelativeLayout.LayoutParams params4 = (RelativeLayout.LayoutParams) carMiddleView.getLayoutParams();
             if (params4 != null) {
                 params4.width = height / 5;
-                params4.leftMargin = (calibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
+                params4.leftMargin = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 10;
             }
         } catch (Exception e) {
             FlyLog.e(e.toString());
@@ -136,19 +136,19 @@ public class AdasSetView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
-    public void upCalibInfo(CalibInfo calibInfo) {
-        this.calibInfo = calibInfo;
+    public void upCalibInfo(AdasInfo calibInfo) {
+        this.adasInfo = calibInfo;
         updateHorizonView();
         updateCarMiddleView();
     }
 
     public void updateHorizonView() {
-        int top = calibInfo.horizon * height / Config.CAMERA_H - height / 10;
+        int top = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 10;
         horizonView.layout(0, top, horizonView.getWidth(), top + horizonView.getHeight());
     }
 
     public void updateCarMiddleView() {
-        int left = (calibInfo.carMiddle + Config.CAMERA_W / 2) * width / Config.CAMERA_W - height / 10;
+        int left = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 10;
         carMiddleView.layout(left, 0, left + carMiddleView.getWidth(), carMiddleView.getHeight());
     }
 

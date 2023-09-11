@@ -3,7 +3,7 @@ package com.flyzebra.mdrvset.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Mdvr201 implements Parcelable {
+public class RemoteBean implements Parcelable {
     public long mdvrId = 1;
     public String stid = "8K6H0EZ94E";
     public String model = "MD201";
@@ -13,7 +13,7 @@ public class Mdvr201 implements Parcelable {
     public long remaintime;
     public String ip;
 
-    protected Mdvr201(Parcel in) {
+    protected RemoteBean(Parcel in) {
         mdvrId = in.readLong();
         stid = in.readString();
         model = in.readString();
@@ -24,15 +24,15 @@ public class Mdvr201 implements Parcelable {
         ip = in.readString();
     }
 
-    public static final Creator<Mdvr201> CREATOR = new Creator<Mdvr201>() {
+    public static final Creator<RemoteBean> CREATOR = new Creator<RemoteBean>() {
         @Override
-        public Mdvr201 createFromParcel(Parcel in) {
-            return new Mdvr201(in);
+        public RemoteBean createFromParcel(Parcel in) {
+            return new RemoteBean(in);
         }
 
         @Override
-        public Mdvr201[] newArray(int size) {
-            return new Mdvr201[size];
+        public RemoteBean[] newArray(int size) {
+            return new RemoteBean[size];
         }
     };
 

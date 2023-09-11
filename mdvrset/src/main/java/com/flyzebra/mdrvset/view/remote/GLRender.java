@@ -5,12 +5,13 @@
  * Date: 2022/12/2 19:08
  * Description:
  */
-package com.flyzebra.mdrvset.view.mdvrview;
+package com.flyzebra.mdrvset.view.remote;
 
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
+import com.flyzebra.mdrvset.Config;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 import com.flyzebra.utils.GlShaderUtil;
@@ -24,33 +25,32 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class GLRender implements GLSurfaceView.Renderer {
-    private Context mContext;
-    private int[] textureid_yuv = new int[3];
-    private int width = 1280;
-    private int height = 720;
+    private final Context mContext;
+    private final int[] textureid_yuv = new int[3];
+    private final int width = Config.CAM_WIDTH;
+    private final int height = Config.CAM_HEIGHT;
     private int yuv_w = 0;
     private int yuv_h = 0;
-    private byte[] yByte = new byte[width * height];
-    private byte[] uByte = new byte[width * height / 4];
-    private byte[] vByte = new byte[width * height / 4];
-    private ByteBuffer y;
-    private ByteBuffer u;
-    private ByteBuffer v;
+    private final byte[] uByte = new byte[width * height / 4];
+    private final byte[] vByte = new byte[width * height / 4];
+    private final ByteBuffer y;
+    private final ByteBuffer u;
+    private final ByteBuffer v;
     private final Object objectLock = new Object();
 
     //顶点坐标
-    private float[] vertexData = {   // in counterclockwise order:
+    private final float[] vertexData = {   // in counterclockwise order:
             -1f, -1f, // bottom left
             +1f, -1f, // bottom right+
             -1f, +1f, // top left
             +1f, +1f, // top right
     };
     //纹理坐标
-    private float[] textureData = {   // in counterclockwise order:
-            0f, 1f,  // bottom left
-            1f, 1f,  // bottom right
-            0f, 0f,  // top left
-            1f, 0f,  // top right
+    private final float[] textureData = {   // in counterclockwise order:
+            +0f, +1f,  // bottom left
+            +1f, +1f,  // bottom right
+            +0f, +0f,  // top left
+            +1f, +0f,  // top right
     };
 
     private FloatBuffer vertexBuffer;
@@ -62,7 +62,7 @@ public class GLRender implements GLSurfaceView.Renderer {
     private int sampler_u;
     private int sampler_v;
     private int vMatrix;
-    private float[] vMatrixBaseData = {
+    private final float[] vMatrixBaseData = {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
@@ -71,6 +71,7 @@ public class GLRender implements GLSurfaceView.Renderer {
 
     public GLRender(Context context) {
         mContext = context;
+        byte[] yByte = new byte[width * height];
         y = ByteBuffer.wrap(yByte);
         u = ByteBuffer.wrap(uByte);
         v = ByteBuffer.wrap(vByte);
@@ -78,7 +79,7 @@ public class GLRender implements GLSurfaceView.Renderer {
 
     public void upYuvData(byte[] yuv, int offset, int w, int h, int size) {
         if (w * h > width * height) {
-            FlyLog.e("yuv size error.");
+            FlyLog.e("yuv size error. size=%d", size);
             return;
         }
         synchronized (objectLock) {
@@ -146,7 +147,7 @@ public class GLRender implements GLSurfaceView.Renderer {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
         GLES30.glClearColor(0f, 0f, 0f, 1f);
         synchronized (objectLock) {
-            if(yuv_w==0 || yuv_h==0) return;
+            if (yuv_w == 0 || yuv_h == 0) return;
             GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
             GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureid_yuv[0]);
             GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_LUMINANCE, yuv_w, yuv_h, 0, GLES30.GL_LUMINANCE, GLES30.GL_UNSIGNED_BYTE, y);//
@@ -178,8 +179,8 @@ public class GLRender implements GLSurfaceView.Renderer {
             v.position(0);
             Arrays.fill(uByte, (byte) 0x7F);
             Arrays.fill(vByte, (byte) 0x7F);
-            ((ByteBuffer) u).put(uByte, 0, yuv_w * yuv_h / 4);
-            ((ByteBuffer) v).put(vByte, 0, yuv_w * yuv_h / 4);
+            u.put(uByte, 0, yuv_w * yuv_h / 4);
+            v.put(vByte, 0, yuv_w * yuv_h / 4);
             u.flip();
             v.flip();
         }

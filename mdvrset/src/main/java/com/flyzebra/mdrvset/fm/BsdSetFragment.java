@@ -20,9 +20,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
-import com.flyzebra.mdrvset.activity.AdasSetActivity;
-import com.flyzebra.mdrvset.bean.CalibInfo;
-import com.flyzebra.mdrvset.bean.RtmpChannel;
+import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.http.AdasInfo;
+import com.flyzebra.mdrvset.http.BsdInfo;
+import com.flyzebra.mdrvset.http.RtmpInfo;
+import com.flyzebra.mdrvset.view.BsdSetView;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 import com.flyzebra.utils.GsonUtil;
@@ -30,14 +32,15 @@ import com.flyzebra.utils.WifiUtil;
 import com.flyzebra.utils.http.HttpResult;
 import com.flyzebra.utils.http.HttpUtil;
 
-public class BdsSetFragment extends Fragment {
-    private CalibInfo calibInfo = new CalibInfo();
+public class BsdSetFragment extends Fragment {
+    private BsdInfo bsdInfo = new BsdInfo();
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
     private RelativeLayout line_layout;
-    private Spinner bds_spinner;
+    private Spinner bsd_spinner;
+    private BsdSetView bsdSetView;
 
-    private ImageView bds_save_btn;
+    private ImageView bsd_save_btn;
     private Button calibration_start_btn;
     private boolean is_connected = false;
 
@@ -45,30 +48,30 @@ public class BdsSetFragment extends Fragment {
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            AdasSetActivity activity = (AdasSetActivity) getActivity();
+            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
                 mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
                 return;
             }
-            String json = "{\"CMD\":\"LIVE_PREVIEW_RTMP\",\"DO\":[{\"Channel\":" + mLiveChannel + ",\"CMD\":\"PLAY\",\"STREAM_TYPE\":1},";
-            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", json);
+            String str = String.format(RtmpInfo.GetRequest, mLiveChannel);
+            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", str);
             if (result.code == 200) {
                 try {
-                    RtmpChannel.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpChannel.GetRtmpResult.class);
+                    RtmpInfo.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpInfo.GetRtmpResult.class);
                     if (getRtmpResult != null && getRtmpResult.LIVE_PREVIEW_RTMP != null && getRtmpResult.LIVE_PREVIEW_RTMP.size() > 0) {
                         String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
                         mHandler.post(() -> glVideoView.play(playUrl));
                     } else {
-                        tHandler.postDelayed(BdsSetFragment.this.playTask, 2000);
+                        tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
                     }
                 } catch (Exception e) {
                     FlyLog.e(e.toString());
-                    tHandler.postDelayed(BdsSetFragment.this.playTask, 2000);
+                    tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
                 }
             } else {
-                tHandler.postDelayed(BdsSetFragment.this.playTask, 2000);
+                tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
             }
         }
     };
@@ -95,10 +98,12 @@ public class BdsSetFragment extends Fragment {
         start_layout.setVisibility(View.VISIBLE);
         line_layout.setVisibility(View.INVISIBLE);
 
-        bds_spinner = view.findViewById(R.id.bds_spinner);
-        bds_save_btn = view.findViewById(R.id.bds_save_btn);
-        bds_spinner.setSelection(0);
-        bds_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        bsd_spinner = view.findViewById(R.id.bsd_spinner);
+        bsdSetView = view.findViewById(R.id.bsdSetView);
+
+        bsd_save_btn = view.findViewById(R.id.bsd_save_btn);
+        bsd_spinner.setSelection(0);
+        bsd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 glVideoView.stop();
@@ -113,22 +118,22 @@ public class BdsSetFragment extends Fragment {
             }
         });
 
-        bds_save_btn.setOnClickListener(v -> {
+        bsd_save_btn.setOnClickListener(v -> {
             String gateway = WifiUtil.getGateway(getActivity());
             if (TextUtils.isEmpty(gateway)) {
                 return;
             }
-            CalibInfo.SetRequest setRequest = new CalibInfo.SetRequest();
-            setRequest.DATA = calibInfo;
+            BsdInfo.SetRequest setRequest = new BsdInfo.SetRequest();
+            setRequest.DATA = bsdInfo;
             String setString = GsonUtil.objectToJson(setRequest);
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
-                    AdasSetActivity activity = (AdasSetActivity) getActivity();
+                    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
                         try {
-                            CalibInfo.SetResult data = GsonUtil.json2Object(result.data, CalibInfo.SetResult.class);
+                            AdasInfo.SetResult data = GsonUtil.json2Object(result.data, AdasInfo.SetResult.class);
                             if (!TextUtils.isEmpty(data.ErrNO) && data.ErrNO.equals("0000")) {
                                 activity.showMessage(R.string.set_ok);
                             } else {
@@ -144,20 +149,20 @@ public class BdsSetFragment extends Fragment {
             });
         });
 
-        bds_save_btn.setVisibility(View.INVISIBLE);
+        bsd_save_btn.setVisibility(View.INVISIBLE);
         calibration_start_btn = start_layout.findViewById(R.id.calibration_start_btn);
         calibration_start_btn.setOnClickListener(v -> {
-            if (is_connected) {
-                start_layout.setVisibility(View.INVISIBLE);
-                line_layout.setVisibility(View.VISIBLE);
-                bds_save_btn.setVisibility(View.VISIBLE);
-            } else {
-                AdasSetActivity activity = (AdasSetActivity) getActivity();
-                if (activity != null) {
-                    activity.showMessage(R.string.note_wifi_connected);
-                }
-                checkConnected();
-            }
+            //if (is_connected) {
+            start_layout.setVisibility(View.INVISIBLE);
+            line_layout.setVisibility(View.VISIBLE);
+            bsd_save_btn.setVisibility(View.VISIBLE);
+            //} else {
+            //    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+            //    if (activity != null) {
+            //        activity.showMessage(R.string.note_wifi_connected);
+            //    }
+            //    checkConnected();
+            //}
         });
         updateView();
     }
@@ -190,8 +195,7 @@ public class BdsSetFragment extends Fragment {
         is_connected = false;
         String gateway = WifiUtil.getGateway(getActivity());
         if (!TextUtils.isEmpty(gateway)) {
-            CalibInfo.GetRequest getRequest = new CalibInfo.GetRequest();
-            String getString = GsonUtil.objectToJson(getRequest);
+            String getString = String.format(BsdInfo.GetRequest, 0);
             tHandler.removeCallbacksAndMessages(null);
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", getString);
@@ -199,9 +203,9 @@ public class BdsSetFragment extends Fragment {
                 mHandler.post(() -> {
                     if (result.code == 200) {
                         try {
-                            CalibInfo.GetResult data = GsonUtil.json2Object(result.data, CalibInfo.GetResult.class);
+                            BsdInfo.GetResult data = GsonUtil.json2Object(result.data, BsdInfo.GetResult.class);
                             if (!TextUtils.isEmpty(data.ErrNO) && data.ErrNO.equals("0000")) {
-                                calibInfo = data.DATA;
+                                bsdInfo = data.DATA;
                                 updateView();
                                 is_connected = true;
                             }

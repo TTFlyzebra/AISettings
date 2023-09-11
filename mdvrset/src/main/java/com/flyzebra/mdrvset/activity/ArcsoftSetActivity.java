@@ -26,14 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AdasSetActivity extends AppCompatActivity implements View.OnClickListener {
+public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    public String[] fragmentName = {"AdasSetFragment", "BdsSetFragment"};
+    public String[] fragmentName = {"AdasSetFragment", "BsdSetFragment"};
     private int cerrent_fragment = 0;
 
     private final int[] imageViewResID = {R.id.adas_cali_im, R.id.adas_setting_im};
