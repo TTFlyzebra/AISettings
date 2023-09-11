@@ -193,7 +193,7 @@ public class AdasSetFragment1 extends Fragment {
             }
         });
         adas_cali_horizont_down.setOnClickListener(v -> {
-            if (calibInfo.horizon < (Config.CAMERA_H - 1)) {
+            if (calibInfo.horizon < (Config.CAM_HEIGHT - 1)) {
                 calibInfo.horizon++;
                 adas_cali_horizon_text.setText(String.valueOf(calibInfo.horizon));
                 adasSetView.updateHorizonView();
@@ -201,14 +201,14 @@ public class AdasSetFragment1 extends Fragment {
         });
 
         adas_cali_carMiddle_left.setOnClickListener(v -> {
-            if (calibInfo.carMiddle > (-Config.CAMERA_W / 2) - 1) {
+            if (calibInfo.carMiddle > (-Config.CAM_WIDTH / 2) - 1) {
                 calibInfo.carMiddle--;
                 adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
                 adasSetView.updateCarMiddleView();
             }
         });
         adas_cali_carMiddle_right.setOnClickListener(v -> {
-            if (calibInfo.carMiddle < (Config.CAMERA_W) / 2 - 1) {
+            if (calibInfo.carMiddle < (Config.CAM_WIDTH) / 2 - 1) {
                 calibInfo.carMiddle++;
                 adas_cali_carMiddle_text.setText(String.valueOf(calibInfo.carMiddle));
                 adasSetView.updateCarMiddleView();

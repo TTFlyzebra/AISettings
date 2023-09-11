@@ -41,7 +41,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/horizontal_line"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -49,14 +49,14 @@
                         android:gravity="center_vertical"
                         android:text=" ----- "
                         android:textColor="@color/RED"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text=")"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -108,7 +108,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/car_central_line"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,14 +116,14 @@
                         android:gravity="center_vertical"
                         android:text="  |  "
                         android:textColor="@color/YELLOW"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text=")"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -174,7 +174,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_height"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -225,7 +225,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_axle"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -276,7 +276,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/car_width"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -327,7 +327,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_bumper"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -378,7 +378,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_left_wheel"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
