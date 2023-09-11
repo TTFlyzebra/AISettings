@@ -11,15 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flyzebra.mdrvset.bean.MdvrBean;
 import com.flyzebra.mdrvset.view.mdvrview.MdvrItemView;
-import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.mdvrset.R;
 
 import java.util.List;
 
-public class MdvrAdapter extends BaseAdapter implements OnClickListener {
-    public static final String NAME = "NAME";
-    public static final String PATH = "INFO";
+public class WifiP2PAdapter extends BaseAdapter implements OnClickListener {
 
     private static class ViewHolder {
         public LinearLayout ll01 = null;
@@ -36,7 +34,7 @@ public class MdvrAdapter extends BaseAdapter implements OnClickListener {
     private final Context mContext;
     private ListView listView;
 
-    public MdvrAdapter(Context context, ListView listView, List<MdvrBean> list, int idListview, OnItemClick OnItemClick) {
+    public WifiP2PAdapter(Context context, ListView listView, List<MdvrBean> list, int idListview, OnItemClick OnItemClick) {
         this.listView = listView;
         this.mOnItemClick = OnItemClick;
         this.mdvrList = list;
@@ -65,7 +63,7 @@ public class MdvrAdapter extends BaseAdapter implements OnClickListener {
         ViewHolder holder = new ViewHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(idListview, null);
-            holder.ll01 = convertView.findViewById(R.id.item_root);
+            holder.ll01 = convertView.findViewById(R.id.item_ll01);
             holder.mdvr = convertView.findViewById(R.id.mdvrview);
             holder.tv01 = convertView.findViewById(R.id.mdvr_name);
             holder.tv02 = convertView.findViewById(R.id.mdvr_imei);
@@ -85,6 +83,9 @@ public class MdvrAdapter extends BaseAdapter implements OnClickListener {
 
         holder.mdvr.setTag(position);
         holder.mdvr.setOnClickListener(this);
+
+        holder.ll01.setTag(position);
+        holder.ll01.setOnClickListener(this);
 
         return convertView;
     }

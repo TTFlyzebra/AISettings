@@ -41,18 +41,22 @@
         </activity>
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.MdvrMainActivity"
+            android:name="com.flyzebra.mdrvset.activity.AdasSetActivity"
+            android:theme="@style/Theme.Noactionbar" />
+
+        <activity
+            android:name="com.flyzebra.mdrvset.activity.SelectActivity"
+            android:theme="@style/Theme.Normal" />
+
+        <activity
+            android:name="com.flyzebra.mdrvset.activity.WifiP2PSetActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/Theme.Normal" />
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.MdvrFullActivity"
+            android:name="com.flyzebra.mdrvset.activity.MdvrCtlActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Full" />
-
-        <activity
-            android:name="com.flyzebra.mdrvset.activity.AdasSetActivity"
-            android:theme="@style/Theme.Normal" />
     </application>
 </manifest>

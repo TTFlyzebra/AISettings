@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.wifip2p;
+package com.flyzebra.mdrvset.model;
 
 import static android.os.Looper.getMainLooper;
 
@@ -22,6 +22,7 @@ import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 
+import com.flyzebra.mdrvset.bean.MdvrBean;
 import com.flyzebra.utils.FlyLog;
 
 import java.util.ArrayList;
@@ -41,12 +42,8 @@ public class WifiP2PScanner {
         mContext = context;
     }
 
-    public void start() {
-        wifiP2PList.clear();
+    public void init(){
         wifiP2pManager = (WifiP2pManager) mContext.getSystemService(Context.WIFI_P2P_SERVICE);
-        wifChannel = wifiP2pManager.initialize(mContext, getMainLooper(), () -> {
-            FlyLog.d("wifip2p channel disconnected!");
-        });
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_DISCOVERY_CHANGED_ACTION);
@@ -55,7 +52,20 @@ public class WifiP2PScanner {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
         myRecevier = new MyRecevier();
         mContext.registerReceiver(myRecevier, intentFilter);
+    }
 
+    public void release(){
+        mContext.unregisterReceiver(myRecevier);
+    }
+
+    public void startScan() {
+        wifiP2PList.clear();
+        for (IWifiP2PListener listener : listeners) {
+            listener.notityWifiP2P(wifiP2PList);
+        }
+        wifChannel = wifiP2pManager.initialize(mContext, getMainLooper(), () -> {
+            FlyLog.d("wifip2p channel disconnected!");
+        });
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             FlyLog.e("checkSelfPermission ACCESS_FINE_LOCATION failed!");
             return;
@@ -74,7 +84,11 @@ public class WifiP2PScanner {
         });
     }
 
-    public void stop() {
+    public void stopScan() {
+        wifiP2PList.clear();
+        for (IWifiP2PListener listener : listeners) {
+            listener.notityWifiP2P(wifiP2PList);
+        }
         wifiP2pManager.stopPeerDiscovery(wifChannel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
@@ -100,7 +114,6 @@ public class WifiP2PScanner {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             wifChannel.close();
         }
-        mContext.unregisterReceiver(myRecevier);
     }
 
     private class MyRecevier extends BroadcastReceiver {
@@ -108,19 +121,19 @@ public class WifiP2PScanner {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
-                //int wifi_p2p_state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
-                //if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                //    FlyLog.d("wiifp2p is enabled!");
-                //} else if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_DISABLED) {
-                //    FlyLog.e("wiifp2p is disabled!");
-                //}
+                int wifi_p2p_state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
+                if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
+                    startScan();
+                } else if (wifi_p2p_state == WifiP2pManager.WIFI_P2P_STATE_DISABLED) {
+                    stopScan();
+                }
             } else if (WifiP2pManager.WIFI_P2P_DISCOVERY_CHANGED_ACTION.equals(action)) {
-                //int discoveryState = intent.getIntExtra(WifiP2pManager.EXTRA_DISCOVERY_STATE, -1);
-                //if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STARTED) {
-                //    FlyLog.d("wifip2p discovery started!");
-                //} else if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STOPPED) {
-                //    FlyLog.d("wifip2p discovery stopped!");
-                //}
+                int discoveryState = intent.getIntExtra(WifiP2pManager.EXTRA_DISCOVERY_STATE, -1);
+                if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STARTED) {
+                    FlyLog.d("wifip2p discovery started!");
+                } else if (discoveryState == WifiP2pManager.WIFI_P2P_DISCOVERY_STOPPED) {
+                    FlyLog.d("wifip2p discovery stopped!");
+                }
             } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
                 WifiP2pDeviceList wifiP2pDeviceList = intent.getParcelableExtra(WifiP2pManager.EXTRA_P2P_DEVICE_LIST);
                 for (WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()) {
@@ -237,11 +250,11 @@ public class WifiP2PScanner {
 
     private List<IWifiP2PListener> listeners = new ArrayList<>();
 
-    public void addWifiP2PListener(IWifiP2PListener listener) {
+    public void addListener(IWifiP2PListener listener) {
         listeners.add(listener);
     }
 
-    public void removeWifiP2PListener(IWifiP2PListener listener) {
+    public void removeListener(IWifiP2PListener listener) {
         listeners.remove(listener);
     }
 }

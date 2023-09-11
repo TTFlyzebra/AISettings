@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.wifip2p;
+package com.flyzebra.mdrvset.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

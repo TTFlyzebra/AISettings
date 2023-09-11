@@ -16,7 +16,7 @@
         android:layout_height="@dimen/title_bar_height"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/adas_view_ll"
@@ -31,7 +31,7 @@
                 android:layout_height="@dimen/bar_choise_item_height"
                 android:layout_marginTop="@dimen/bar_choise_item_margin_top"
                 android:gravity="center"
-                android:src="@drawable/ic_tab_adas_press" />
+                android:src="@drawable/ic_shezhi_press" />
 
             <TextView
                 android:id="@+id/adas_cali_tv"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/bar_content_item_margin"
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
-                android:text="@string/dms_calibration"
+                android:text="@string/adas_configuration"
                 android:textColor="@color/menu_text_on"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_marginTop="@dimen/bar_content_item_margin"
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
-                android:text="@string/settings"
+                android:text="@string/dms_configuration"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
@@ -84,10 +84,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#7FFFFFFF"
-            android:gravity="center"
+            android:gravity="start|center"
             android:padding="8dp"
             android:textColor="#AFFF0000"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:visibility="invisible" />
     </LinearLayout>
 </RelativeLayout>

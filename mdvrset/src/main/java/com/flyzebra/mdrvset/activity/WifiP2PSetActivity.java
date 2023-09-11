@@ -24,22 +24,22 @@ import androidx.core.app.ActivityCompat;
 import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
-import com.flyzebra.mdrvset.adapder.MdvrAdapter;
-import com.flyzebra.mdrvset.wifip2p.MdvrBean;
-import com.flyzebra.mdrvset.wifip2p.WifiP2PScanner;
+import com.flyzebra.mdrvset.adapder.WifiP2PAdapter;
+import com.flyzebra.mdrvset.bean.MdvrBean;
+import com.flyzebra.mdrvset.model.WifiP2PScanner;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
 import java.util.List;
 
-public class MdvrMainActivity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, MdvrAdapter.OnItemClick {
+public class WifiP2PSetActivity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, WifiP2PAdapter.OnItemClick {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    private MdvrAdapter adapter;
+    private WifiP2PAdapter adapter;
     private TextView message;
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
     private WifiManager wifiManager = null;
@@ -48,7 +48,7 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_wifip2p);
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
@@ -62,13 +62,14 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
         }
 
         ListView listView = findViewById(R.id.ac_main_listview);
-        adapter = new MdvrAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
+        adapter = new WifiP2PAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
         listView.setAdapter(adapter);
 
         message = findViewById(R.id.message);
 
         Notify.get().registerListener(this);
-        wifiP2PServer.addWifiP2PListener(this);
+        wifiP2PServer.init();
+        wifiP2PServer.addListener(this);
     }
 
     @Override
@@ -89,12 +90,10 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_reset) {
-            wifiP2PServer.wifiP2PList.clear();
-            adapter.notifyDataSetChanged();
             wifiManager.setWifiEnabled(false);
             wifiManager.setWifiEnabled(true);
-            wifiP2PServer.stop();
-            wifiP2PServer.start();
+            wifiP2PServer.stopScan();
+            wifiP2PServer.startScan();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -104,18 +103,20 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
     @Override
     protected void onStart() {
         super.onStart();
-        wifiP2PServer.start();
+        wifiP2PServer.startScan();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        wifiP2PServer.stop();
+        wifiP2PServer.stopScan();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        wifiP2PServer.removeListener(this);
+        wifiP2PServer.release();
         Notify.get().unregisterListener(this);
         Fzebra.get().release();
         FlyLog.d("onDestroy");
@@ -148,7 +149,7 @@ public class MdvrMainActivity extends AppCompatActivity implements INotify, Wifi
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(this, MdvrFullActivity.class);
+                    Intent intent = new Intent(this, MdvrCtlActivity.class);
                     intent.putExtra("mdvrBean", mdvrBean);
                     startActivity(intent);
                     dialog.cancel();

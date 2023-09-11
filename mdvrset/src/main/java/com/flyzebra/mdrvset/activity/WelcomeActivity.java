@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcom);
         mHandler.postDelayed(() -> {
-            startActivity(new Intent(WelcomeActivity.this, MdvrMainActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, SelectActivity.class));
             finish();
         }, 1000);
     }

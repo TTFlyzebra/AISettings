@@ -346,10 +346,10 @@
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
 
-    <string name="adas_set_ok">Parameter setting successful!</string>
-    <string name="adas_set_json_error">Parameter setting failed, parameter error!</string>
-    <string name="adas_set_error_network">Parameter setting failed, network error!</string>
-    <string name="adas_note_wifi_connected">Please connect to the WIFI hotspot of the MDVR before calibrating!</string>
+    <string name="set_ok">Parameter setting successful!</string>
+    <string name="set_json_error">Parameter setting failed, parameter error!</string>
+    <string name="set_error_network">Parameter setting failed, network error!</string>
+    <string name="note_wifi_connected">Please connect to the WIFI hotspot of the MDVR before calibrating!</string>
 
     <string name="power_key">电源键</string>
     <string name="back_key">后退键</string>

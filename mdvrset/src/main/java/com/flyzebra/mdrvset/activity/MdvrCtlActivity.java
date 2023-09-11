@@ -28,8 +28,8 @@ import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
+import com.flyzebra.mdrvset.bean.MdvrBean;
 import com.flyzebra.mdrvset.view.mdvrview.MdvrFullView;
-import com.flyzebra.mdrvset.wifip2p.MdvrBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
 import com.flyzebra.utils.DisplayUtil;
@@ -37,7 +37,7 @@ import com.flyzebra.utils.SPUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MdvrFullActivity extends Activity implements View.OnClickListener, INotify {
+public class MdvrCtlActivity extends Activity implements View.OnClickListener, INotify {
     private MdvrFullView mdvrView;
     private ImageView fButton;
     private LinearLayout fMenu;
@@ -138,8 +138,8 @@ public class MdvrFullActivity extends Activity implements View.OnClickListener, 
                         int top = fButton.getTop();
                         int abs = (bWidth) / 2;
                         if (Math.abs(left - bLeft) > abs || Math.abs(top - bTop) > abs) {
-                            SPUtil.set(MdvrFullActivity.this, "bfLeft", left);
-                            SPUtil.set(MdvrFullActivity.this, "bfTop", top);
+                            SPUtil.set(MdvrCtlActivity.this, "bfLeft", left);
+                            SPUtil.set(MdvrCtlActivity.this, "bfTop", top);
                             return true;
                         } else {
                             layoutFloatButton(bLeft, bTop, bLeft + bWidth, bTop + bHeight);
@@ -151,8 +151,8 @@ public class MdvrFullActivity extends Activity implements View.OnClickListener, 
             }
         });
 
-        int left = (int) SPUtil.get(MdvrFullActivity.this, "bfLeft", 0);
-        int top = (int) SPUtil.get(MdvrFullActivity.this, "bfTop", screen_h / 2);
+        int left = (int) SPUtil.get(MdvrCtlActivity.this, "bfLeft", 0);
+        int top = (int) SPUtil.get(MdvrCtlActivity.this, "bfTop", screen_h / 2);
         if (left != 0 || top != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fButton.getLayoutParams();
             params.leftMargin = left;

@@ -350,10 +350,10 @@
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
 
-    <string name="adas_set_ok">参数设置成功!</string>
-    <string name="adas_set_json_error">参数设置失败，参数错误！</string>
-    <string name="adas_set_error_network">参数设置失败，网络错误！</string>
-    <string name="adas_note_wifi_connected">请先连接至MDVR设备WIFI热点再进行标定!</string>
+    <string name="set_ok">参数设置成功!</string>
+    <string name="set_json_error">参数设置失败，参数错误！</string>
+    <string name="set_error_network">参数设置失败，网络错误！</string>
+    <string name="note_wifi_connected">请先连接至MDVR设备WIFI热点再进行标定!</string>
 
     <string name="power_key">电源键</string>
     <string name="back_key">后退键</string>

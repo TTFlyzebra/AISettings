@@ -44,7 +44,8 @@
             android:background="@drawable/def_button"
             android:gravity="center"
             android:text="@string/screen_dpi"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/fm_phone_powerkey"
@@ -54,7 +55,8 @@
             android:background="@drawable/def_button"
             android:gravity="center"
             android:text="@string/power_key"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/fm_phone_voladd"

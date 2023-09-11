@@ -14,8 +14,8 @@ import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.MdvrFullActivity;
-import com.flyzebra.mdrvset.wifip2p.MdvrBean;
+import com.flyzebra.mdrvset.activity.MdvrCtlActivity;
+import com.flyzebra.mdrvset.bean.MdvrBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
 
@@ -139,7 +139,7 @@ public class MdvrItemView extends MdvrBaseView {
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(getContext(), MdvrFullActivity.class);
+                    Intent intent = new Intent(getContext(), MdvrCtlActivity.class);
                     intent.putExtra("PHONE", mdvrBean);
                     getContext().startActivity(intent);
                     dialog.cancel();

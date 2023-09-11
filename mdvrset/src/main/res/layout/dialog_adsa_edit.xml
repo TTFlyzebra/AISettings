@@ -7,14 +7,14 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/adas_dlg_text"
+        android:id="@+id/dlg_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/adas_dlg_edit"
+        android:id="@+id/dlg_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

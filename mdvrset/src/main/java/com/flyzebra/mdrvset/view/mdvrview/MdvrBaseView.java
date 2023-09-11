@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.NotifyType;
-import com.flyzebra.mdrvset.wifip2p.MdvrBean;
+import com.flyzebra.mdrvset.bean.MdvrBean;
 import com.flyzebra.utils.ByteUtil;
 
 /**

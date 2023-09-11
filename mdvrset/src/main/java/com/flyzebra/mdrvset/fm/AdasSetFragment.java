@@ -33,7 +33,7 @@ import com.flyzebra.utils.WifiUtil;
 import com.flyzebra.utils.http.HttpResult;
 import com.flyzebra.utils.http.HttpUtil;
 
-public class AdasSetFragment1 extends Fragment {
+public class AdasSetFragment extends Fragment {
     private CalibInfo calibInfo = new CalibInfo();
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
@@ -76,7 +76,7 @@ public class AdasSetFragment1 extends Fragment {
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
-                mHandler.post(() -> activity.showMessage(R.string.adas_note_wifi_connected));
+                mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
                 return;
             }
             String json = "{\"CMD\":\"LIVE_PREVIEW_RTMP\",\"DO\":[{\"Channel\":" + mLiveChannel + ",\"CMD\":\"PLAY\",\"STREAM_TYPE\":1},";
@@ -88,14 +88,14 @@ public class AdasSetFragment1 extends Fragment {
                         String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
                         mHandler.post(() -> glVideoView.play(playUrl));
                     } else {
-                        tHandler.postDelayed(AdasSetFragment1.this.playTask, 2000);
+                        tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
                     }
                 } catch (Exception e) {
                     FlyLog.e(e.toString());
-                    tHandler.postDelayed(AdasSetFragment1.this.playTask, 2000);
+                    tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
                 }
             } else {
-                tHandler.postDelayed(AdasSetFragment1.this.playTask, 2000);
+                tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
             }
         }
     };
@@ -111,7 +111,7 @@ public class AdasSetFragment1 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_adasset1, container, false);
+        return inflater.inflate(R.layout.fragment_adasset, container, false);
     }
 
     @Override
@@ -281,15 +281,15 @@ public class AdasSetFragment1 extends Fragment {
                         try {
                             CalibInfo.SetResult data = GsonUtil.json2Object(result.data, CalibInfo.SetResult.class);
                             if (!TextUtils.isEmpty(data.ErrNO) && data.ErrNO.equals("0000")) {
-                                activity.showMessage(R.string.adas_set_ok);
+                                activity.showMessage(R.string.set_ok);
                             } else {
-                                activity.showMessage(R.string.adas_set_json_error);
+                                activity.showMessage(R.string.set_json_error);
                             }
                         } catch (Exception e) {
                             FlyLog.e(e.toString());
                         }
                     } else {
-                        activity.showMessage(R.string.adas_set_error_network);
+                        activity.showMessage(R.string.set_error_network);
                     }
                 });
             });
@@ -305,7 +305,7 @@ public class AdasSetFragment1 extends Fragment {
             } else {
                 AdasSetActivity activity = (AdasSetActivity) getActivity();
                 if (activity != null) {
-                    activity.showMessage(R.string.adas_note_wifi_connected);
+                    activity.showMessage(R.string.note_wifi_connected);
                 }
                 checkConnected();
             }
@@ -315,8 +315,8 @@ public class AdasSetFragment1 extends Fragment {
 
     private void showDialog(TextView textView, int textId, int resID) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_adsa_edit, null);
-        TextView title = view.findViewById(R.id.adas_dlg_text);
-        EditText edit = view.findViewById(R.id.adas_dlg_edit);
+        TextView title = view.findViewById(R.id.dlg_text);
+        EditText edit = view.findViewById(R.id.dlg_edit);
         edit.setText(textView.getText());
         edit.requestFocus();
         Button bt1 = view.findViewById(R.id.lg_dlg_bt1);
