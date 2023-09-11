@@ -350,4 +350,5 @@
     <string name="adas_set_json_error">Parameter setting failed, parameter error!</string>
     <string name="adas_set_error_network">Parameter setting failed, network error!</string>
     <string name="adas_note_wifi_connected">Please connect to the WIFI hotspot of the MDVR before calibrating!</string>
+    <string name="save_adas">Saving settings...</string>
 </resources>
