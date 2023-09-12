@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <FrameLayout
         android:id="@+id/ac_fm01"
@@ -83,10 +84,10 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#7FFFFFFF"
+            android:background="@drawable/rectangle_message"
             android:gravity="start|center"
             android:padding="8dp"
-            android:textColor="#AFFF0000"
+            android:textColor="#BFFF0000"
             android:textSize="18sp"
             android:visibility="invisible" />
     </LinearLayout>

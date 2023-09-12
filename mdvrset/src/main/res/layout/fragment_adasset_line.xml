@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -160,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -211,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -262,7 +262,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -313,7 +313,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -364,7 +364,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:orientation="horizontal">
 
                 <LinearLayout

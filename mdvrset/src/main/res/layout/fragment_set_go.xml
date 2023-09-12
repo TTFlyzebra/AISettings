@@ -16,6 +16,7 @@
         android:layout_marginTop="@dimen/default_sens_choise_margin"
         android:layout_marginRight="@dimen/default_sens_choise_margin"
         android:lineSpacingExtra="2dp"
+        android:textColor="@color/black"
         android:text="@string/bsd_cali_hint2"
         android:textSize="18sp" />
 

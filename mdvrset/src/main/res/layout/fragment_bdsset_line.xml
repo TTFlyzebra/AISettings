@@ -9,8 +9,7 @@
         android:id="@+id/bsdSetView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:background="#FFFFFFFF" />
+        android:layout_alignParentTop="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,14 +27,13 @@
                 android:id="@+id/bsd_set_textinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_rectangle"
+                android:background="@drawable/rectangle_item"
                 android:paddingStart="2dp" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:background="@drawable/item_rectangle">
+                android:background="@drawable/rectangle_item">
 
                 <TextView
                     android:layout_width="wrap_content"

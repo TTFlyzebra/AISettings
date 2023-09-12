@@ -52,7 +52,7 @@ public class AdasSetView extends RelativeLayout {
         horizonView_parent = new RelativeLayout(context);
         RelativeLayout.LayoutParams params_parent = new RelativeLayout.LayoutParams(-1, 100);
         addView(horizonView_parent, params_parent);
-        horizonView_parent.setBackgroundResource(R.drawable.horizon_background);
+        horizonView_parent.setBackgroundResource(R.drawable.rectangle_horizon_top_bottom);
         horizonView = new RelativeLayout(context);
         horizonView_child = new RelativeLayout(context);
         LayoutParams params_hc = new LayoutParams(-1, 2);
