@@ -69,6 +69,7 @@
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
                 android:text="@string/bsd_settings"
+                android:textColor="@color/menu_text_off"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>

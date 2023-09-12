@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/adasSetView"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,6 +42,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/horizontal_line"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
 
                     <TextView
@@ -56,6 +58,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text=")"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -66,7 +69,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_horizont_up"
@@ -108,6 +112,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/car_central_line"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
 
                     <TextView
@@ -123,6 +128,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text=")"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -133,7 +139,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_carMiddle_left"
@@ -174,6 +181,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_height"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -184,7 +192,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_cameraHeight_left"
@@ -225,6 +234,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_axle"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -235,7 +245,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_cameraToAxle_left"
@@ -276,6 +287,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/car_width"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -286,7 +298,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_carWidth_left"
@@ -327,6 +340,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_bumper"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -337,7 +351,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_cameraToBumper_left"
@@ -378,6 +393,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/camera_to_left_wheel"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -388,7 +404,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="200" />
+                    android:text="200"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/adas_cali_cameraToLeftWheel_left"

@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.flyzebra.ffplay.view.GlVideoView;
 import com.flyzebra.mdrvset.Config;
 import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.adapder.SpinnerAdapater;
 import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdrvset.http.RtmpInfo;
 import com.flyzebra.mdrvset.view.AdasSetView;
@@ -70,36 +71,6 @@ public class AdasSetFragment extends Fragment {
     private boolean is_connected = false;
 
     private int mLiveChannel = 0;
-    public Runnable playTask = new Runnable() {
-        @Override
-        public void run() {
-            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
-            if (activity == null) return;
-            String gateway = WifiUtil.getGateway(activity);
-            if (TextUtils.isEmpty(gateway)) {
-                mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
-                return;
-            }
-            String str = String.format(RtmpInfo.GetRequest, mLiveChannel);
-            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", str);
-            if (result.code == 200) {
-                try {
-                    RtmpInfo.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpInfo.GetRtmpResult.class);
-                    if (getRtmpResult != null && getRtmpResult.LIVE_PREVIEW_RTMP != null && getRtmpResult.LIVE_PREVIEW_RTMP.size() > 0) {
-                        String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
-                        mHandler.post(() -> glVideoView.play(playUrl));
-                    } else {
-                        tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
-                    }
-                } catch (Exception e) {
-                    FlyLog.e(e.toString());
-                    tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
-                }
-            } else {
-                tHandler.postDelayed(AdasSetFragment.this.playTask, 2000);
-            }
-        }
-    };
 
     private static final HandlerThread httpThread = new HandlerThread("http_thread");
 
@@ -112,25 +83,52 @@ public class AdasSetFragment extends Fragment {
 
     private ProgressDialog progressDialog;
 
+    public Runnable playTask = new Runnable() {
+        @Override
+        public void run() {
+            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+            if (activity == null) return;
+            String gateway = WifiUtil.getGateway(activity);
+            if (TextUtils.isEmpty(gateway)) {
+                mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
+                return;
+            }
+            String str = String.format(RtmpInfo.GetRequest, mLiveChannel + 1);
+            final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", str);
+            if (result.code == 200) {
+                try {
+                    RtmpInfo.GetRtmpResult getRtmpResult = GsonUtil.json2Object(result.data, RtmpInfo.GetRtmpResult.class);
+                    if (getRtmpResult != null && getRtmpResult.LIVE_PREVIEW_RTMP != null && getRtmpResult.LIVE_PREVIEW_RTMP.size() > 0) {
+                        String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
+                        mHandler.post(() -> glVideoView.play(playUrl));
+                    } else {
+                        tHandler.postDelayed(AdasSetFragment.this.playTask, 3000);
+                    }
+                } catch (Exception e) {
+                    FlyLog.e(e.toString());
+                    tHandler.postDelayed(AdasSetFragment.this.playTask, 3000);
+                }
+            } else {
+                tHandler.postDelayed(AdasSetFragment.this.playTask, 3000);
+            }
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
         return inflater.inflate(R.layout.fragment_adasset, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
-
         glVideoView = view.findViewById(R.id.gl_ffplay);
         start_layout = view.findViewById(R.id.fm_aiset_start_layout);
         line_layout = view.findViewById(R.id.fm_aiset_line_layout);
-        start_layout.setVisibility(View.VISIBLE);
-        line_layout.setVisibility(View.INVISIBLE);
-
         channel_spinner = view.findViewById(R.id.adas_channel_spinner);
         adasSetView = view.findViewById(R.id.adasSetView);
-
+        adas_save_btn = view.findViewById(R.id.adas_save_btn);
         adas_cali_horizon_text = view.findViewById(R.id.adas_cali_horizon_text);
         adas_cali_carMiddle_text = view.findViewById(R.id.adas_cali_carMiddle_text);
         adas_cali_cameraHeight_text = view.findViewById(R.id.adas_cali_cameraHeight_text);
@@ -153,14 +151,15 @@ public class AdasSetFragment extends Fragment {
         adas_cali_cameraToLeftWheel_left = view.findViewById(R.id.adas_cali_cameraToLeftWheel_left);
         adas_cali_cameraToLeftWheel_right = view.findViewById(R.id.adas_cali_cameraToLeftWheel_right);
 
-        adas_save_btn = view.findViewById(R.id.adas_save_btn);
+        start_layout.setVisibility(View.VISIBLE);
+        line_layout.setVisibility(View.INVISIBLE);
 
+        channel_spinner.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.spinnerchannelnum)));
         channel_spinner.setSelection(0);
         channel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                glVideoView.stop();
-                mLiveChannel = position + 1;
+                mLiveChannel = position;
                 tHandler.removeCallbacks(playTask);
                 tHandler.post(playTask);
             }

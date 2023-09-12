@@ -16,28 +16,20 @@
         android:layout_marginTop="@dimen/default_sens_choise_margin"
         android:layout_marginRight="@dimen/default_sens_choise_margin"
         android:lineSpacingExtra="2dp"
-        android:textColor="@color/black"
         android:text="@string/bsd_cali_hint2"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/calibration_start_btn"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
+        android:layout_margin="@dimen/bar_choise_item_margin_bottom"
+        android:background="@drawable/def_button"
         android:text="@string/start_calibration"
-        android:textColor="@color/black" />
-
-    <Button
-        android:id="@+id/calibration_start_dms_btn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
-        android:text="@string/start_dms_calibration"
         android:textColor="@color/black"
-        android:visibility="gone" />
+        android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"

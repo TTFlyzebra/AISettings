@@ -63,6 +63,7 @@ public class BsdSetView extends RelativeLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
+        setBackgroundColor(0x01FFFFFF);
         base_paint = new Paint();
         base_paint.setAntiAlias(true);
         base_paint.setStyle(Paint.Style.STROKE);

@@ -11,17 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
 import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.adapder.SpinnerAdapater;
 import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdrvset.http.BsdInfo;
 import com.flyzebra.mdrvset.http.RtmpInfo;
@@ -40,17 +39,27 @@ public class BsdSetFragment extends Fragment {
     private RelativeLayout line_layout;
     private Spinner channel_spinner;
     private BsdSetView bsdSetView;
-
     private Spinner bsd_camera_spinner;
-
     private ImageView bsd_save_btn;
     private Button calibration_start_btn;
-    private boolean is_connected = false;
-
     private TextView bsd_set_textinfo;
+
+    private boolean is_connected = false;
 
     private int mLiveChannel = 0;
     private int mBsdSpinner = 0;
+
+    private static final HandlerThread httpThread = new HandlerThread("http_thread");
+
+    static {
+        httpThread.start();
+    }
+
+    private static final Handler tHandler = new Handler(httpThread.getLooper());
+    private static final Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private ProgressDialog progressDialog;
+
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
@@ -70,57 +79,44 @@ public class BsdSetFragment extends Fragment {
                         String playUrl = getRtmpResult.LIVE_PREVIEW_RTMP.get(0).RTMP_ADDR;
                         mHandler.post(() -> glVideoView.play(playUrl));
                     } else {
-                        tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
+                        tHandler.postDelayed(BsdSetFragment.this.playTask, 3000);
                     }
                 } catch (Exception e) {
                     FlyLog.e(e.toString());
-                    tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
+                    tHandler.postDelayed(BsdSetFragment.this.playTask, 3000);
                 }
             } else {
-                tHandler.postDelayed(BsdSetFragment.this.playTask, 2000);
+                tHandler.postDelayed(BsdSetFragment.this.playTask, 3000);
             }
         }
     };
 
-    private static final HandlerThread httpThread = new HandlerThread("http_thread");
-
-    static {
-        httpThread.start();
-    }
-
-    private static final Handler tHandler = new Handler(httpThread.getLooper());
-    private static final Handler mHandler = new Handler(Looper.getMainLooper());
-
-    private ProgressDialog progressDialog;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
         return inflater.inflate(R.layout.fragment_bdsset, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
-
         glVideoView = view.findViewById(R.id.gl_ffplay);
         start_layout = view.findViewById(R.id.fm_aiset_start_layout);
         line_layout = view.findViewById(R.id.fm_aiset_line_layout);
+        channel_spinner = view.findViewById(R.id.bsd_channel_spinner);
+        bsdSetView = view.findViewById(R.id.bsdSetView);
+        bsd_camera_spinner = view.findViewById(R.id.bsd_camera_spinner);
+        bsd_save_btn = view.findViewById(R.id.bsd_save_btn);
+
         start_layout.setVisibility(View.VISIBLE);
         line_layout.setVisibility(View.INVISIBLE);
 
-        channel_spinner = view.findViewById(R.id.bsd_channel_spinner);
-        bsdSetView = view.findViewById(R.id.bsdSetView);
-
-        bsd_camera_spinner = view.findViewById(R.id.bsd_camera_spinner);
-
-        bsd_save_btn = view.findViewById(R.id.bsd_save_btn);
+        channel_spinner.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.spinnerchannelnum)));
         channel_spinner.setSelection(0);
         channel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mLiveChannel = position;
-                glVideoView.stop();
                 tHandler.removeCallbacks(playTask);
                 tHandler.post(playTask);
             }
@@ -134,8 +130,11 @@ public class BsdSetFragment extends Fragment {
         bsdSetView.setMoveLisenter(bsdInfo -> {
             this.bsdInfo = bsdInfo;
             bsd_set_textinfo.setText(this.bsdInfo.toText());
+            bsd_camera_spinner.setSelection(bsdInfo.reversed);
         });
 
+        bsd_camera_spinner.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.bsdcameradirection)));
+        bsd_camera_spinner.setSelection(bsdInfo.reversed);
         bsd_camera_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -202,20 +201,6 @@ public class BsdSetFragment extends Fragment {
 
         bsd_set_textinfo = view.findViewById(R.id.bsd_set_textinfo);
         updateView();
-    }
-
-    private void showDialog(TextView textView, int textId, int resID) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_adsa_edit, null);
-        TextView title = view.findViewById(R.id.dlg_text);
-        EditText edit = view.findViewById(R.id.dlg_edit);
-        edit.setText(textView.getText());
-        edit.requestFocus();
-        Button bt1 = view.findViewById(R.id.lg_dlg_bt1);
-        title.setText(textId);
-        final AlertDialog dlg = new AlertDialog.Builder(getActivity()).setView(view).show();
-        bt1.setOnClickListener(v -> {
-            dlg.dismiss();
-        });
     }
 
     private void updateView() {

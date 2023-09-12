@@ -19,7 +19,7 @@ public class OptionActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
+        setContentView(R.layout.activity_option);
     }
 
     public void md201(View view) {

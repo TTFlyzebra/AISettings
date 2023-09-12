@@ -74,10 +74,10 @@ void FfPlayer::playThread() {
     fmt_ctx->interrupt_callback.opaque = (FfPlayer *) this;
 
     AVDictionary *avdic = nullptr;
-    av_dict_set(&avdic, "stimeout", "5000000", 0);//设置超时5秒
+    //av_dict_set(&avdic, "stimeout", "5000000", 0);//设置超时5秒
     //av_dict_set(&avdic, "rtsp_transport", "tcp", 0);//使用TCP播放RTSP
-    av_dict_set(&avdic, "probesize", "100*1024", 0);
-    av_dict_set(&avdic, "max_analyze_duration", "5 * AV_TIME_BASE", 0);
+    //av_dict_set(&avdic, "probesize", "100*1024", 0);
+    //av_dict_set(&avdic, "max_analyze_duration", "5 * AV_TIME_BASE", 0);
     int ret = avformat_open_input(&fmt_ctx, play_url, nullptr, &avdic);
     av_dict_free(&avdic);
     if (ret != 0) {

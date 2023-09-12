@@ -9,7 +9,7 @@
         android:id="@+id/bsdSetView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_item"
-                android:paddingStart="2dp" />
+                android:paddingStart="2dp"
+                android:textColor="@color/black" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -42,6 +43,7 @@
                     android:gravity="center"
                     android:paddingStart="2dp"
                     android:text="@string/bsd_calib_direction"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <Spinner
@@ -49,6 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/black"
                     android:entries="@array/bsdcameradirection"
                     android:minWidth="120dp"
                     android:textSize="16sp" />

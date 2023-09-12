@@ -54,7 +54,7 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adasset);
+        setContentView(R.layout.activity_arcsoftset);
 
         for (String s : PERMISSIONS_STORAGE) {
             if (ActivityCompat.checkSelfPermission(this, s) != PackageManager.PERMISSION_GRANTED) {
