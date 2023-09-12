@@ -285,6 +285,7 @@
     <string name="mode_adjust_2_hint">Currently in demo mode, related functions cannot be saved</string>
     <string name="advance_setting">Advanced settings</string>
 
+    <string name="adas_settings">ADAS settings</string>
     <string name="dsm_settings">DSM settings</string>
     <string name="bsd_settings">BSD settings</string>
     <string name="bsd1_settings">BSD1 settings</string>
@@ -345,6 +346,12 @@
 
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
+
+    <string name="camera_right_rear">right rear</string>
+    <string name="camera_left_ront">left front</string>
+    <string name="camera_righ_front">right front</string>
+    <string name="camera_left_rear">left rear</string>
+    <string name="camera_center_front">center front</string>
 
     <string name="set_ok">Parameter setting successful!</string>
     <string name="set_json_error">Parameter setting failed, parameter error!</string>

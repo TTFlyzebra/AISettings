@@ -1,5 +1,6 @@
 package com.flyzebra.mdrvset.fm;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -37,14 +38,19 @@ public class BsdSetFragment extends Fragment {
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
     private RelativeLayout line_layout;
-    private Spinner bsd_spinner;
+    private Spinner channel_spinner;
     private BsdSetView bsdSetView;
+
+    private Spinner bsd_camera_spinner;
 
     private ImageView bsd_save_btn;
     private Button calibration_start_btn;
     private boolean is_connected = false;
 
+    private TextView bsd_set_textinfo;
+
     private int mLiveChannel = 0;
+    private int mBsdSpinner = 0;
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
@@ -55,7 +61,7 @@ public class BsdSetFragment extends Fragment {
                 mHandler.post(() -> activity.showMessage(R.string.note_wifi_connected));
                 return;
             }
-            String str = String.format(RtmpInfo.GetRequest, mLiveChannel);
+            String str = String.format(RtmpInfo.GetRequest, mLiveChannel + 1);
             final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", str);
             if (result.code == 200) {
                 try {
@@ -85,6 +91,8 @@ public class BsdSetFragment extends Fragment {
     private static final Handler tHandler = new Handler(httpThread.getLooper());
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private ProgressDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_bdsset, container, false);
@@ -92,24 +100,46 @@ public class BsdSetFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
+
         glVideoView = view.findViewById(R.id.gl_ffplay);
         start_layout = view.findViewById(R.id.fm_aiset_start_layout);
         line_layout = view.findViewById(R.id.fm_aiset_line_layout);
         start_layout.setVisibility(View.VISIBLE);
         line_layout.setVisibility(View.INVISIBLE);
 
-        bsd_spinner = view.findViewById(R.id.bsd_spinner);
+        channel_spinner = view.findViewById(R.id.bsd_channel_spinner);
         bsdSetView = view.findViewById(R.id.bsdSetView);
 
+        bsd_camera_spinner = view.findViewById(R.id.bsd_camera_spinner);
+
         bsd_save_btn = view.findViewById(R.id.bsd_save_btn);
-        bsd_spinner.setSelection(0);
-        bsd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        channel_spinner.setSelection(0);
+        channel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mLiveChannel = position;
                 glVideoView.stop();
-                mLiveChannel = position + 1;
                 tHandler.removeCallbacks(playTask);
                 tHandler.post(playTask);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        bsdSetView.setMoveLisenter(bsdInfo -> {
+            this.bsdInfo = bsdInfo;
+            bsd_set_textinfo.setText(this.bsdInfo.toText());
+        });
+
+        bsd_camera_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mBsdSpinner = position;
             }
 
             @Override
@@ -123,12 +153,16 @@ public class BsdSetFragment extends Fragment {
             if (TextUtils.isEmpty(gateway)) {
                 return;
             }
+            bsdInfo.BSD_CHN_INDEX = mLiveChannel;
+            bsdInfo.reversed = mBsdSpinner;
             BsdInfo.SetRequest setRequest = new BsdInfo.SetRequest();
             setRequest.DATA = bsdInfo;
             String setString = GsonUtil.objectToJson(setRequest);
+            progressDialog.show();
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
+                    progressDialog.dismiss();
                     ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
@@ -141,6 +175,7 @@ public class BsdSetFragment extends Fragment {
                             }
                         } catch (Exception e) {
                             FlyLog.e(e.toString());
+                            activity.showMessage(R.string.set_json_error);
                         }
                     } else {
                         activity.showMessage(R.string.set_error_network);
@@ -152,18 +187,20 @@ public class BsdSetFragment extends Fragment {
         bsd_save_btn.setVisibility(View.INVISIBLE);
         calibration_start_btn = start_layout.findViewById(R.id.calibration_start_btn);
         calibration_start_btn.setOnClickListener(v -> {
-            //if (is_connected) {
-            start_layout.setVisibility(View.INVISIBLE);
-            line_layout.setVisibility(View.VISIBLE);
-            bsd_save_btn.setVisibility(View.VISIBLE);
-            //} else {
-            //    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
-            //    if (activity != null) {
-            //        activity.showMessage(R.string.note_wifi_connected);
-            //    }
-            //    checkConnected();
-            //}
+            if (is_connected) {
+                start_layout.setVisibility(View.INVISIBLE);
+                line_layout.setVisibility(View.VISIBLE);
+                bsd_save_btn.setVisibility(View.VISIBLE);
+            } else {
+                ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                if (activity != null) {
+                    activity.showMessage(R.string.note_wifi_connected);
+                }
+                checkConnected();
+            }
         });
+
+        bsd_set_textinfo = view.findViewById(R.id.bsd_set_textinfo);
         updateView();
     }
 
@@ -182,7 +219,8 @@ public class BsdSetFragment extends Fragment {
     }
 
     private void updateView() {
-
+        bsd_set_textinfo.setText(bsdInfo.toText());
+        bsdSetView.upBsdInfo(bsdInfo);
     }
 
     @Override

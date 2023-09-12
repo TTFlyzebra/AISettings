@@ -72,8 +72,8 @@ public class AdasSetView extends RelativeLayout {
                     adasInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAM_HEIGHT / height);
                     adasInfo.horizon = Math.max(Config.CAM_HEIGHT / 3, adasInfo.horizon);
                     adasInfo.horizon = Math.min(Config.CAM_HEIGHT / 2, adasInfo.horizon);
-                    updateHorizonView();
-                    if (moveLisenter != null) moveLisenter.notifyHorizon(adasInfo.horizon);
+                    updateView();
+                    if (moveLisenter != null) moveLisenter.notifyAdasInfo(adasInfo);
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
@@ -98,8 +98,8 @@ public class AdasSetView extends RelativeLayout {
                     break;
                 case MotionEvent.ACTION_MOVE:
                     adasInfo.carMiddle = (int) (carMiddle_down + (event.getRawX() - carMiddle_x) * Config.CAM_WIDTH / width);
-                    updateCarMiddleView();
-                    if (moveLisenter != null) moveLisenter.notiryCarMiddle(adasInfo.carMiddle);
+                    updateView();
+                    if (moveLisenter != null) moveLisenter.notifyAdasInfo(adasInfo);
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
@@ -142,30 +142,23 @@ public class AdasSetView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
-    public void upCalibInfo(AdasInfo adasInfo) {
+    public void upAdasInfo(AdasInfo adasInfo) {
         this.adasInfo = adasInfo;
-        updateHorizonView();
-        updateCarMiddleView();
+        updateView();
     }
 
-    public void updateHorizonView() {
-        int top = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 20;
-        horizonView.layout(0, top, horizonView.getWidth(), top + horizonView.getHeight());
-    }
-
-    public void updateCarMiddleView() {
-        int left = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 20;
-        carMiddleView.layout(left, 0, left + carMiddleView.getWidth(), carMiddleView.getHeight());
+    public void updateView() {
+        int horizon_top = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 20;
+        horizonView.layout(0, horizon_top, horizonView.getWidth(), horizon_top + horizonView.getHeight());
+        int carMiddle_left = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 20;
+        carMiddleView.layout(carMiddle_left, 0, carMiddle_left + carMiddleView.getWidth(), carMiddleView.getHeight());
     }
 
     public interface MoveLisenter {
-        void notifyHorizon(int vaule);
-
-        void notiryCarMiddle(int value);
+        void notifyAdasInfo(AdasInfo adasInfo);
     }
 
     private MoveLisenter moveLisenter;
-
     public void setMoveLisenter(MoveLisenter moveLisenter) {
         this.moveLisenter = moveLisenter;
     }

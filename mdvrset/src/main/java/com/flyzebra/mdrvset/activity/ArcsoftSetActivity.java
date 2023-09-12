@@ -133,7 +133,7 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
         mHandler.postDelayed(() -> {
             message.setText("");
             message.setVisibility(View.INVISIBLE);
-        }, 2000);
+        }, 3000);
     }
 
     @Override

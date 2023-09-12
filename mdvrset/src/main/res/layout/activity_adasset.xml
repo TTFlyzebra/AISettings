@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/bar_content_item_margin"
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
-                android:text="@string/adas_configuration"
+                android:text="@string/adas_settings"
                 android:textColor="@color/menu_text_on"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_marginTop="@dimen/bar_content_item_margin"
                 android:layout_marginBottom="@dimen/bar_choise_item_margin_bottom"
                 android:gravity="center"
-                android:text="@string/dms_configuration"
+                android:text="@string/bsd_settings"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>

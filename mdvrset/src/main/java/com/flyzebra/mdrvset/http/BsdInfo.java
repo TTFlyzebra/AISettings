@@ -1,7 +1,10 @@
 package com.flyzebra.mdrvset.http;
 
+import com.flyzebra.mdrvset.bean.BsdBean;
+
 public class BsdInfo {
     public int BSD_CHN_INDEX = 0;//0:前BSD通道  1:后BSD通道 2:左BSD通道 3:右BSD通道
+    public int reversed = 4;//0：平视（右后）；1：平视（左前）；2：平视（右前）；3：平视（左后）；4：俯视
     public int baseLinePoints_0_x = 100; //基准线
     public int baseLinePoints_0_y = 100;
     public int baseLinePoints_1_x = 100;
@@ -22,7 +25,10 @@ public class BsdInfo {
     public int lowDangerLine_startPoint_y = 100;
     public int lowDangerLine_endPoint_x = 1200;
     public int lowDangerLine_endPoint_y = 600;
-    public int reversed = 2;//俯视：固定写2;  平视：右后或左前设置值为0 ，右前或左后设置值为1
+
+    public String toText() {
+        return BsdBean.fromBsdInfo(this).toText();
+    }
 
     /*WEB->MDVR
     {

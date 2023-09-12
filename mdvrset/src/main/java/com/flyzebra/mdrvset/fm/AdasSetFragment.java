@@ -39,7 +39,7 @@ public class AdasSetFragment extends Fragment {
     private GlVideoView glVideoView;
     private RelativeLayout start_layout;
     private RelativeLayout line_layout;
-    private Spinner adas_spinner;
+    private Spinner channel_spinner;
     private AdasSetView adasSetView;
 
     private TextView adas_cali_horizon_text;
@@ -128,7 +128,7 @@ public class AdasSetFragment extends Fragment {
         start_layout.setVisibility(View.VISIBLE);
         line_layout.setVisibility(View.INVISIBLE);
 
-        adas_spinner = view.findViewById(R.id.adas_spinner);
+        channel_spinner = view.findViewById(R.id.adas_channel_spinner);
         adasSetView = view.findViewById(R.id.adasSetView);
 
         adas_cali_horizon_text = view.findViewById(R.id.adas_cali_horizon_text);
@@ -155,8 +155,8 @@ public class AdasSetFragment extends Fragment {
 
         adas_save_btn = view.findViewById(R.id.adas_save_btn);
 
-        adas_spinner.setSelection(0);
-        adas_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        channel_spinner.setSelection(0);
+        channel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 glVideoView.stop();
@@ -171,16 +171,10 @@ public class AdasSetFragment extends Fragment {
             }
         });
 
-        adasSetView.setMoveLisenter(new AdasSetView.MoveLisenter() {
-            @Override
-            public void notifyHorizon(int vaule) {
-                adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
-            }
-
-            @Override
-            public void notiryCarMiddle(int value) {
-                adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
-            }
+        adasSetView.setMoveLisenter(adasInfo -> {
+            this.adasInfo = adasInfo;
+            adas_cali_horizon_text.setText(String.valueOf(this.adasInfo.horizon));
+            adas_cali_carMiddle_text.setText(String.valueOf(this.adasInfo.carMiddle));
         });
 
         adas_cali_horizon_text.setOnClickListener(v -> showDialog((TextView) v, R.string.horizontal_line2, R.id.adas_cali_horizon_text));
@@ -195,14 +189,14 @@ public class AdasSetFragment extends Fragment {
             if (adasInfo.horizon > 0) {
                 adasInfo.horizon--;
                 adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
-                adasSetView.updateHorizonView();
+                adasSetView.updateView();
             }
         });
         adas_cali_horizont_down.setOnClickListener(v -> {
             if (adasInfo.horizon < (Config.CAM_HEIGHT - 1)) {
                 adasInfo.horizon++;
                 adas_cali_horizon_text.setText(String.valueOf(adasInfo.horizon));
-                adasSetView.updateHorizonView();
+                adasSetView.updateView();
             }
         });
 
@@ -210,14 +204,14 @@ public class AdasSetFragment extends Fragment {
             if (adasInfo.carMiddle > (-Config.CAM_WIDTH / 2) - 1) {
                 adasInfo.carMiddle--;
                 adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
-                adasSetView.updateCarMiddleView();
+                adasSetView.updateView();
             }
         });
         adas_cali_carMiddle_right.setOnClickListener(v -> {
             if (adasInfo.carMiddle < (Config.CAM_WIDTH) / 2 - 1) {
                 adasInfo.carMiddle++;
                 adas_cali_carMiddle_text.setText(String.valueOf(adasInfo.carMiddle));
-                adasSetView.updateCarMiddleView();
+                adasSetView.updateView();
             }
         });
 
@@ -282,7 +276,7 @@ public class AdasSetFragment extends Fragment {
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
-				progressDialog.dismiss();
+                    progressDialog.dismiss();
                     ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
@@ -295,6 +289,7 @@ public class AdasSetFragment extends Fragment {
                             }
                         } catch (Exception e) {
                             FlyLog.e(e.toString());
+                            activity.showMessage(R.string.set_json_error);
                         }
                     } else {
                         activity.showMessage(R.string.set_error_network);
@@ -334,10 +329,10 @@ public class AdasSetFragment extends Fragment {
             textView.setText(edit.getText());
             if (resID == R.id.adas_cali_horizon_text) {
                 adasInfo.horizon = Integer.parseInt(edit.getText().toString());
-                adasSetView.updateHorizonView();
+                adasSetView.updateView();
             } else if (resID == R.id.adas_cali_carMiddle_text) {
                 adasInfo.carMiddle = Integer.parseInt(edit.getText().toString());
-                adasSetView.updateCarMiddleView();
+                adasSetView.updateView();
             } else if (resID == R.id.adas_cali_cameraHeight_text) {
                 adasInfo.cameraHeight = Integer.parseInt(edit.getText().toString());
             } else if (resID == R.id.adas_cali_cameraToAxle_text) {
@@ -361,7 +356,7 @@ public class AdasSetFragment extends Fragment {
         adas_cali_carWidth_text.setText(String.valueOf(adasInfo.carWidth));
         adas_cali_cameraToBumper_text.setText(String.valueOf(adasInfo.cameraToBumper));
         adas_cali_cameraToLeftWheel_text.setText(String.valueOf(adasInfo.cameraToLeftWheel));
-        adasSetView.upCalibInfo(adasInfo);
+        adasSetView.upAdasInfo(adasInfo);
     }
 
     @Override

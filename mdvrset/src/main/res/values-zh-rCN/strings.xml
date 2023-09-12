@@ -288,6 +288,7 @@
     <string name="mode_adjust_2_hint">当前处于演示模式，相关功能无法保存</string>
     <string name="advance_setting">高级设置</string>
 
+    <string name="adas_settings">ADAS设置</string>
     <string name="dsm_settings">DSM设置</string>
     <string name="bsd_settings">BSD设置</string>
     <string name="bsd1_settings">BSD1设置</string>
@@ -349,6 +350,12 @@
 
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
+
+    <string name="camera_right_rear">平视（右后）</string>
+    <string name="camera_left_ront">平视（左前）</string>
+    <string name="camera_righ_front">平视（右前）</string>
+    <string name="camera_left_rear">平视（左后）</string>
+    <string name="camera_center_front">俯视</string>
 
     <string name="set_ok">参数设置成功!</string>
     <string name="set_json_error">参数设置失败，参数错误！</string>

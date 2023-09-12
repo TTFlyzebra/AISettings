@@ -16,7 +16,6 @@ import android.util.AttributeSet;
 
 import com.flyzebra.mdvrset.R;
 
-
 /**
  * Created by FlyZebra on 2016/3/25.
  */

@@ -138,10 +138,8 @@ public class HttpUtil {
                 }
                 result.data = sbf.toString();
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            FlyLog.w(e.toString());
         } finally {
             // 关闭资源
             if (null != br) {

@@ -114,4 +114,12 @@
         <item>normal (front right)</item>
         <item>right rear</item>
     </string-array>
+
+    <string-array name="bsdcameradirection">
+        <item>right rear</item>
+        <item>left front</item>
+        <item>right front</item>
+        <item>left rear</item>
+        <item>center front</item>
+    </string-array>
 </resources>

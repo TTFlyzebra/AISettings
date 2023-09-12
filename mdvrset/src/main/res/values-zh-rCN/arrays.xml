@@ -114,4 +114,12 @@
         <item>正常(右前)</item>
         <item>右后</item>
     </string-array>
+
+    <string-array name="bsdcameradirection">
+        <item>平视（右后）</item>
+        <item>平视（左前）</item>
+        <item>平视（右前）</item>
+        <item>平视（左后）</item>
+        <item>俯视</item>
+    </string-array>
 </resources>
