@@ -1,5 +1,6 @@
 package com.flyzebra.mdrvset.fm;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -109,6 +110,8 @@ public class AdasSetFragment extends Fragment {
     private static final Handler tHandler = new Handler(httpThread.getLooper());
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private ProgressDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_adasset, container, false);
@@ -116,6 +119,9 @@ public class AdasSetFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getActivity().getString(R.string.save_adas));
+
         glVideoView = view.findViewById(R.id.gl_ffplay);
         start_layout = view.findViewById(R.id.fm_aiset_start_layout);
         line_layout = view.findViewById(R.id.fm_aiset_line_layout);
@@ -272,9 +278,11 @@ public class AdasSetFragment extends Fragment {
             AdasInfo.SetRequest setRequest = new AdasInfo.SetRequest();
             setRequest.DATA = adasInfo;
             String setString = GsonUtil.objectToJson(setRequest);
+            progressDialog.show();
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
+				progressDialog.dismiss();
                     ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {

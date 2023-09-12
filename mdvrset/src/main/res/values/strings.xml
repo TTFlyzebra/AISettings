@@ -350,6 +350,7 @@
     <string name="set_json_error">Parameter setting failed, parameter error!</string>
     <string name="set_error_network">Parameter setting failed, network error!</string>
     <string name="note_wifi_connected">Please connect to the WIFI hotspot of the MDVR before calibrating!</string>
+    <string name="save_adas">Saving settings...</string>
 
     <string name="power_key">电源键</string>
     <string name="back_key">后退键</string>

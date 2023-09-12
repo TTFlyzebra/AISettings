@@ -22,6 +22,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcom);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mHandler.postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, OptionActivity.class));
             finish();

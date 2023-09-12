@@ -20,6 +20,7 @@ import com.flyzebra.utils.FlyLog;
 
 public class AdasSetView extends RelativeLayout {
     private AdasInfo adasInfo = new AdasInfo();
+    private RelativeLayout horizonView_parent;
     private RelativeLayout horizonView;
     private RelativeLayout horizonView_child;
     private RelativeLayout carMiddleView;
@@ -48,15 +49,17 @@ public class AdasSetView extends RelativeLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init(Context context) {
-        setSoundEffectsEnabled(false);
+        horizonView_parent = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params_parent = new RelativeLayout.LayoutParams(-1, 100);
+        addView(horizonView_parent, params_parent);
+        horizonView_parent.setBackgroundResource(R.drawable.horizon_background);
         horizonView = new RelativeLayout(context);
         horizonView_child = new RelativeLayout(context);
-        RelativeLayout.LayoutParams params_hc = new RelativeLayout.LayoutParams(-1, 4);
+        LayoutParams params_hc = new LayoutParams(-1, 2);
         horizonView.addView(horizonView_child, params_hc);
-        horizonView_child.setBackgroundResource(R.color.GREEN);
-        RelativeLayout.LayoutParams params_h = new RelativeLayout.LayoutParams(-1, 100);
+        horizonView_child.setBackgroundColor(0xFF00FF00);
+        LayoutParams params_h = new LayoutParams(-1, 100);
         addView(horizonView, params_h);
-        horizonView.setBackgroundResource(R.drawable.horizon_rectangle);
         horizonView.setOnClickListener(v -> {
         });
         horizonView.setOnTouchListener((v, event) -> {
@@ -67,8 +70,8 @@ public class AdasSetView extends RelativeLayout {
                     break;
                 case MotionEvent.ACTION_MOVE:
                     adasInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAM_HEIGHT / height);
-                    adasInfo.horizon = Math.max(0, adasInfo.horizon);
-                    adasInfo.horizon = Math.min(Config.CAM_HEIGHT, adasInfo.horizon);
+                    adasInfo.horizon = Math.max(Config.CAM_HEIGHT / 3, adasInfo.horizon);
+                    adasInfo.horizon = Math.min(Config.CAM_HEIGHT / 2, adasInfo.horizon);
                     updateHorizonView();
                     if (moveLisenter != null) moveLisenter.notifyHorizon(adasInfo.horizon);
                     break;
@@ -77,14 +80,13 @@ public class AdasSetView extends RelativeLayout {
             }
             return false;
         });
-        horizonView.setSoundEffectsEnabled(false);
 
         carMiddleView = new RelativeLayout(context);
         carMiddleView_child = new RelativeLayout(context);
-        RelativeLayout.LayoutParams params_mc = new RelativeLayout.LayoutParams(4, -1);
+        LayoutParams params_mc = new LayoutParams(2, -1);
         carMiddleView.addView(carMiddleView_child, params_mc);
-        carMiddleView_child.setBackgroundResource(R.color.YELLOW);
-        RelativeLayout.LayoutParams params_m = new RelativeLayout.LayoutParams(100, -1);
+        carMiddleView_child.setBackgroundColor(0xFFFFFF00);
+        LayoutParams params_m = new LayoutParams(100, -1);
         addView(carMiddleView, params_m);
         carMiddleView.setOnClickListener(v -> {
         });
@@ -104,7 +106,6 @@ public class AdasSetView extends RelativeLayout {
             }
             return false;
         });
-        carMiddleView.setSoundEffectsEnabled(false);
     }
 
     @Override
@@ -112,23 +113,28 @@ public class AdasSetView extends RelativeLayout {
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = (int) (width * 9f / 16f);
         try {
-            RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) horizonView.getLayoutParams();
+            LayoutParams params0 = (LayoutParams) horizonView_parent.getLayoutParams();
+            if (params0 != null) {
+                params0.height = height / 2 - height / 3 + 6;
+                params0.topMargin = height / 3 - 3;
+            }
+            LayoutParams params1 = (LayoutParams) horizonView.getLayoutParams();
             if (params1 != null) {
-                params1.height = height / 5;
-                params1.topMargin = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 10;
+                params1.height = height / 10;
+                params1.topMargin = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 20;
             }
-            RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) horizonView_child.getLayoutParams();
+            LayoutParams params2 = (LayoutParams) horizonView_child.getLayoutParams();
             if (params2 != null) {
-                params2.topMargin = height / 10 - 2;
+                params2.topMargin = height / 20 - 1;
             }
-            RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) carMiddleView_child.getLayoutParams();
+            LayoutParams params3 = (LayoutParams) carMiddleView_child.getLayoutParams();
             if (params3 != null) {
-                params3.leftMargin = height / 10 - 2;
+                params3.leftMargin = height / 20 - 1;
             }
-            RelativeLayout.LayoutParams params4 = (RelativeLayout.LayoutParams) carMiddleView.getLayoutParams();
+            LayoutParams params4 = (LayoutParams) carMiddleView.getLayoutParams();
             if (params4 != null) {
-                params4.width = height / 5;
-                params4.leftMargin = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 10;
+                params4.width = height / 10;
+                params4.leftMargin = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 20;
             }
         } catch (Exception e) {
             FlyLog.e(e.toString());
@@ -136,19 +142,19 @@ public class AdasSetView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
-    public void upCalibInfo(AdasInfo calibInfo) {
-        this.adasInfo = calibInfo;
+    public void upCalibInfo(AdasInfo adasInfo) {
+        this.adasInfo = adasInfo;
         updateHorizonView();
         updateCarMiddleView();
     }
 
     public void updateHorizonView() {
-        int top = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 10;
+        int top = adasInfo.horizon * height / Config.CAM_HEIGHT - height / 20;
         horizonView.layout(0, top, horizonView.getWidth(), top + horizonView.getHeight());
     }
 
     public void updateCarMiddleView() {
-        int left = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 10;
+        int left = (adasInfo.carMiddle + Config.CAM_WIDTH / 2) * width / Config.CAM_WIDTH - height / 20;
         carMiddleView.layout(left, 0, left + carMiddleView.getWidth(), carMiddleView.getHeight());
     }
 
