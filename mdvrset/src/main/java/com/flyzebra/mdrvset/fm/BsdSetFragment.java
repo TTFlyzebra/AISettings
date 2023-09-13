@@ -39,7 +39,8 @@ public class BsdSetFragment extends Fragment {
     private RelativeLayout line_layout;
     private Spinner channel_spinner;
     private BsdSetView bsdSetView;
-    private Spinner bsd_camera_spinner;
+    private Spinner bsd_camera_spinner1;
+    private Spinner bsd_camera_spinner2;
     private ImageView bsd_save_btn;
     private Button calibration_start_btn;
     private TextView bsd_set_textinfo;
@@ -47,6 +48,7 @@ public class BsdSetFragment extends Fragment {
     private boolean is_connected = false;
 
     private int mLiveChannel = 0;
+    private int mBsdChannel = 0;
     private int mBsdSpinner = 0;
 
     private static final HandlerThread httpThread = new HandlerThread("http_thread");
@@ -105,7 +107,8 @@ public class BsdSetFragment extends Fragment {
         line_layout = view.findViewById(R.id.fm_aiset_line_layout);
         channel_spinner = view.findViewById(R.id.bsd_channel_spinner);
         bsdSetView = view.findViewById(R.id.bsdSetView);
-        bsd_camera_spinner = view.findViewById(R.id.bsd_camera_spinner);
+        bsd_camera_spinner1 = view.findViewById(R.id.bsd_camera_spinner1);
+        bsd_camera_spinner2 = view.findViewById(R.id.bsd_camera_spinner2);
         bsd_save_btn = view.findViewById(R.id.bsd_save_btn);
 
         start_layout.setVisibility(View.VISIBLE);
@@ -130,12 +133,28 @@ public class BsdSetFragment extends Fragment {
         bsdSetView.setMoveLisenter(bsdInfo -> {
             this.bsdInfo = bsdInfo;
             bsd_set_textinfo.setText(this.bsdInfo.toText());
-            bsd_camera_spinner.setSelection(bsdInfo.reversed);
+            bsd_camera_spinner1.setSelection(bsdInfo.BSD_CHN_INDEX);
+            bsd_camera_spinner2.setSelection(bsdInfo.reversed);
         });
 
-        bsd_camera_spinner.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.bsdcameradirection)));
-        bsd_camera_spinner.setSelection(bsdInfo.reversed);
-        bsd_camera_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        bsd_camera_spinner1.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.bsdcamerachanenl)));
+        bsd_camera_spinner1.setSelection(bsdInfo.BSD_CHN_INDEX);
+        bsd_camera_spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mBsdChannel = position;
+                checkConnected();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        bsd_camera_spinner2.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.bsdcameradirection)));
+        bsd_camera_spinner2.setSelection(bsdInfo.reversed);
+        bsd_camera_spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mBsdSpinner = position;
@@ -152,7 +171,7 @@ public class BsdSetFragment extends Fragment {
             if (TextUtils.isEmpty(gateway)) {
                 return;
             }
-            bsdInfo.BSD_CHN_INDEX = mLiveChannel;
+            bsdInfo.BSD_CHN_INDEX = mBsdChannel;
             bsdInfo.reversed = mBsdSpinner;
             BsdInfo.SetRequest setRequest = new BsdInfo.SetRequest();
             setRequest.DATA = bsdInfo;
@@ -218,7 +237,7 @@ public class BsdSetFragment extends Fragment {
         is_connected = false;
         String gateway = WifiUtil.getGateway(getActivity());
         if (!TextUtils.isEmpty(gateway)) {
-            String getString = String.format(BsdInfo.GetRequest, 0);
+            String getString = String.format(BsdInfo.GetRequest, mBsdChannel);
             tHandler.removeCallbacksAndMessages(null);
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", getString);

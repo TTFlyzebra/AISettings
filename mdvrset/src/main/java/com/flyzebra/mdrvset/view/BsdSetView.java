@@ -107,6 +107,10 @@ public class BsdSetView extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                         bsdBean.baseLine[n].x = (int) (baseLinePointDown[n].x + (event.getRawX() - baseLinePoint[n].x) * Config.CAM_WIDTH / width);
                         bsdBean.baseLine[n].y = (int) (baseLinePointDown[n].y + (event.getRawY() - baseLinePoint[n].y) * Config.CAM_HEIGHT / height);
+                        bsdBean.baseLine[n].x = Math.max(0, bsdBean.baseLine[n].x);
+                        bsdBean.baseLine[n].x = Math.min(Config.CAM_WIDTH, bsdBean.baseLine[n].x);
+                        bsdBean.baseLine[n].y = Math.max(0, bsdBean.baseLine[n].y);
+                        bsdBean.baseLine[n].y = Math.min(Config.CAM_HEIGHT, bsdBean.baseLine[n].y);
                         updateView();
                         if (moveLisenter != null) {
                             moveLisenter.notifyBsdInfo(bsdBean.toBsdInfo(bsdBean));
@@ -139,6 +143,10 @@ public class BsdSetView extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                         bsdBean.highLine[n].x = (int) (highDangerLinePointDown[n].x + (event.getRawX() - highDangerLinePoint[n].x) * Config.CAM_WIDTH / width);
                         bsdBean.highLine[n].y = (int) (highDangerLinePointDown[n].y + (event.getRawY() - highDangerLinePoint[n].y) * Config.CAM_HEIGHT / height);
+                        bsdBean.highLine[n].x = Math.max(0, bsdBean.highLine[n].x);
+                        bsdBean.highLine[n].x = Math.min(Config.CAM_WIDTH, bsdBean.highLine[n].x);
+                        bsdBean.highLine[n].y = Math.max(0, bsdBean.highLine[n].y);
+                        bsdBean.highLine[n].y = Math.min(Config.CAM_HEIGHT, bsdBean.highLine[n].y);
                         updateView();
                         if (moveLisenter != null) {
                             moveLisenter.notifyBsdInfo(bsdBean.toBsdInfo(bsdBean));
@@ -171,6 +179,10 @@ public class BsdSetView extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                         bsdBean.mediumLine[n].x = (int) (mediumDangerLinePointDown[n].x + (event.getRawX() - mediumDangerLinePoint[n].x) * Config.CAM_WIDTH / width);
                         bsdBean.mediumLine[n].y = (int) (mediumDangerLinePointDown[n].y + (event.getRawY() - mediumDangerLinePoint[n].y) * Config.CAM_HEIGHT / height);
+                        bsdBean.mediumLine[n].x = Math.max(0, bsdBean.mediumLine[n].x);
+                        bsdBean.mediumLine[n].x = Math.min(Config.CAM_WIDTH, bsdBean.mediumLine[n].x);
+                        bsdBean.mediumLine[n].y = Math.max(0, bsdBean.mediumLine[n].y);
+                        bsdBean.mediumLine[n].y = Math.min(Config.CAM_HEIGHT, bsdBean.mediumLine[n].y);
                         updateView();
                         if (moveLisenter != null) {
                             moveLisenter.notifyBsdInfo(bsdBean.toBsdInfo(bsdBean));
@@ -203,6 +215,10 @@ public class BsdSetView extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                         bsdBean.lowLine[n].x = (int) (lowDangerLinePointDown[n].x + (event.getRawX() - lowDangerLinePoint[n].x) * Config.CAM_WIDTH / width);
                         bsdBean.lowLine[n].y = (int) (lowDangerLinePointDown[n].y + (event.getRawY() - lowDangerLinePoint[n].y) * Config.CAM_HEIGHT / height);
+                        bsdBean.lowLine[n].x = Math.max(0, bsdBean.lowLine[n].x);
+                        bsdBean.lowLine[n].x = Math.min(Config.CAM_WIDTH, bsdBean.lowLine[n].x);
+                        bsdBean.lowLine[n].y = Math.max(0, bsdBean.lowLine[n].y);
+                        bsdBean.lowLine[n].y = Math.min(Config.CAM_HEIGHT, bsdBean.lowLine[n].y);
                         updateView();
                         if (moveLisenter != null) {
                             moveLisenter.notifyBsdInfo(bsdBean.toBsdInfo(bsdBean));

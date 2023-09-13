@@ -67,7 +67,7 @@ public class BsdInfo {
         "ErrNO":"0000"
     }*/
     /*请求json定义太复杂，直接字符串format效率*/
-    public static final String GetRequest = "{\"CMD\":\"GETBSDCALIB\",\"DATA\":{\"BSD_CHN_INDEX\":0,}}";
+    public static final String GetRequest = "{\"CMD\":\"GETBSDCALIB\",\"DATA\":{\"BSD_CHN_INDEX\":%s,}}";
 
     public static class GetResult {
         public String CMD;

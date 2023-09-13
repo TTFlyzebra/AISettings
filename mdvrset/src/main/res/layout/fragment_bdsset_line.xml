@@ -31,31 +31,62 @@
                 android:paddingStart="2dp"
                 android:textColor="@color/black" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:background="@drawable/rectangle_item">
+                android:background="@drawable/rectangle_item"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:paddingStart="2dp"
+                    android:text="@string/bsd_calib_channel"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/bsd_camera_spinner1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:entries="@array/bsdcamerachanenl"
+                    android:minWidth="120dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/rectangle_item"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
-                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
                     android:paddingStart="2dp"
                     android:text="@string/bsd_calib_direction"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <Spinner
-                    android:id="@+id/bsd_camera_spinner"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/bsd_camera_spinner2"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/black"
                     android:entries="@array/bsdcameradirection"
                     android:minWidth="120dp"
                     android:textSize="16sp" />
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

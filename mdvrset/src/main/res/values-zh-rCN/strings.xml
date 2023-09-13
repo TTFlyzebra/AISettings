@@ -252,6 +252,7 @@
     <string name="channel_mike_hint">(关闭后不进行该通道录音)</string>
     <string name="channel_preview_quality">图像品质</string>
 
+    <string name="bsd_calib_channel">BSD</string>
     <string name="bsd_calib_direction">摄像头方向</string>
 
     <string name="ai_config_dms">DMS功能开关</string>

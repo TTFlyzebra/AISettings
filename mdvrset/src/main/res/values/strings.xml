@@ -249,6 +249,8 @@
     <string name="channel_mike">Recording switch</string>
     <string name="channel_mike_hint">(The channel will not be recorded after it is closed)</string>
     <string name="channel_preview_quality">Image quality</string>
+
+    <string name="bsd_calib_channel">BSD</string>
     <string name="bsd_calib_direction">Camera direction</string>
 
     <string name="ai_config_dms">DMS function switch</string>

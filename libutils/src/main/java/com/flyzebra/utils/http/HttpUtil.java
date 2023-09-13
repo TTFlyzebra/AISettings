@@ -93,10 +93,10 @@ public class HttpUtil {
      * 向指定 URL 发送POST方法的请求
      *
      * @param httpUrl 发送请求的 URL
-     * @param param   请求参数应该是{"key":"==g43sEvsUcbcunFv3mHkIzlHO4iiUIT R7WwXuSVKTK0yugJnZSlr6qNbxsL8OqCUAFyCDCoRKQ882m6cTTi0q9uCJsq JJvxS+8mZVRP/7lWfEVt8/N9mKplUA68SWJEPSXyz4MDeFam766KEyvqZ99d"}的形式。
+     * @param params   请求参数应该是{"key":"==g43sEvsUcbcunFv3mHkIzlHO4iiUIT R7WwXuSVKTK0yugJnZSlr6qNbxsL8OqCUAFyCDCoRKQ882m6cTTi0q9uCJsq JJvxS+8mZVRP/7lWfEVt8/N9mKplUA68SWJEPSXyz4MDeFam766KEyvqZ99d"}的形式。
      * @return 所代表远程资源的响应结果
      */
-    public static HttpResult doPostJson(String httpUrl, String param) {
+    public static HttpResult doPostJson(String httpUrl, String params) {
         HttpURLConnection connection = null;
         InputStream is = null;
         OutputStream os = null;
@@ -123,7 +123,7 @@ public class HttpUtil {
             // 通过连接对象获取一个输出流
             os = connection.getOutputStream();
             // 通过输出流对象将参数写出去/传输出去,它是通过字节数组写出的
-            os.write(param.getBytes());
+            os.write(params.getBytes());
             // 通过连接对象获取一个输入流，向远程读取
             result.code = connection.getResponseCode();
             if (200 == (result.code = connection.getResponseCode())) {
@@ -139,6 +139,7 @@ public class HttpUtil {
                 result.data = sbf.toString();
             }
         } catch (Exception e) {
+            FlyLog.w("%s-%s", httpUrl, params);
             FlyLog.w(e.toString());
         } finally {
             // 关闭资源

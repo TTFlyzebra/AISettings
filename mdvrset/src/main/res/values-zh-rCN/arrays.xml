@@ -122,4 +122,11 @@
         <item>平视（左后）</item>
         <item>俯视</item>
     </string-array>
+
+    <string-array name="bsdcamerachanenl">
+        <item>前BSD通道</item>
+        <item>后BSD通道</item>
+        <item>左BSD通道</item>
+        <item>右BSD通道</item>
+    </string-array>
 </resources>
