@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.fm;
+package com.flyzebra.mdrvset.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class BsdSetFragment extends Fragment {
 
     private int mLiveChannel = 0;
     private int mBsdChannel = 0;
-    private int mBsdSpinner = 0;
+    private int mBsdDirection = 0;
 
     private static final HandlerThread httpThread = new HandlerThread("http_thread");
 
@@ -133,8 +133,6 @@ public class BsdSetFragment extends Fragment {
         bsdSetView.setMoveLisenter(bsdInfo -> {
             this.bsdInfo = bsdInfo;
             bsd_set_textinfo.setText(this.bsdInfo.toText());
-            bsd_camera_spinner1.setSelection(bsdInfo.BSD_CHN_INDEX);
-            bsd_camera_spinner2.setSelection(bsdInfo.reversed);
         });
 
         bsd_camera_spinner1.setAdapter(new SpinnerAdapater(getContext(), getResources().getStringArray(R.array.bsdcamerachanenl)));
@@ -143,6 +141,7 @@ public class BsdSetFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mBsdChannel = position;
+                updateView();
                 checkConnected();
             }
 
@@ -157,7 +156,8 @@ public class BsdSetFragment extends Fragment {
         bsd_camera_spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mBsdSpinner = position;
+                mBsdDirection = position;
+                updateView();
             }
 
             @Override
@@ -171,8 +171,6 @@ public class BsdSetFragment extends Fragment {
             if (TextUtils.isEmpty(gateway)) {
                 return;
             }
-            bsdInfo.BSD_CHN_INDEX = mBsdChannel;
-            bsdInfo.reversed = mBsdSpinner;
             BsdInfo.SetRequest setRequest = new BsdInfo.SetRequest();
             setRequest.DATA = bsdInfo;
             String setString = GsonUtil.objectToJson(setRequest);
@@ -223,6 +221,8 @@ public class BsdSetFragment extends Fragment {
     }
 
     private void updateView() {
+        bsdInfo.BSD_CHN_INDEX = mBsdChannel;
+        bsdInfo.reversed = mBsdDirection;
         bsd_set_textinfo.setText(bsdInfo.toText());
         bsdSetView.upBsdInfo(bsdInfo);
     }

@@ -266,6 +266,7 @@ public class BsdSetView extends RelativeLayout {
                 base_params.width = base_params.height = width / 10;
                 base_params.leftMargin = bsdBean.baseLine[i].x * width / Config.CAM_WIDTH - width / 20;
                 base_params.topMargin = bsdBean.baseLine[i].y * height / Config.CAM_HEIGHT - width / 20;
+                baseLineView[i].setSize(width/10, width/10);
             }
 
             for (int i = 0; i < 2; i++) {
@@ -273,6 +274,7 @@ public class BsdSetView extends RelativeLayout {
                 high_params.width = high_params.height = width / 10;
                 high_params.leftMargin = bsdBean.highLine[i].x * width / Config.CAM_WIDTH - width / 20;
                 high_params.topMargin = bsdBean.highLine[i].y * height / Config.CAM_HEIGHT - width / 20;
+                highDangerLineView[i].setSize(width/10, width/10);
             }
 
             for (int i = 0; i < 2; i++) {
@@ -280,6 +282,7 @@ public class BsdSetView extends RelativeLayout {
                 high_params.width = high_params.height = width / 10;
                 high_params.leftMargin = bsdBean.mediumLine[i].x * width / Config.CAM_WIDTH - width / 20;
                 high_params.topMargin = bsdBean.mediumLine[i].y * height / Config.CAM_HEIGHT - width / 20;
+                mediumDangerLineView[i].setSize(width/10, width/10);
             }
 
             for (int i = 0; i < 2; i++) {
@@ -287,6 +290,7 @@ public class BsdSetView extends RelativeLayout {
                 high_params.width = high_params.height = width / 10;
                 high_params.leftMargin = bsdBean.lowLine[i].x * width / Config.CAM_WIDTH - width / 20;
                 high_params.topMargin = bsdBean.lowLine[i].y * height / Config.CAM_HEIGHT - width / 20;
+                lowDangerLineView[i].setSize(width/10, width/10);
             }
         } catch (Exception e) {
             FlyLog.e(e.toString());

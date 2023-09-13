@@ -9,8 +9,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 public class CircleView extends View {
-    private int width;
-    private int height;
+    private int width = 100;
+    private int height = 100;
     private Paint backPaint;
 
     public CircleView(Context context) {
@@ -35,17 +35,15 @@ public class CircleView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
         if (width > 0 && height > 0) {
             canvas.drawCircle(width / 2, height / 2, width / 10, backPaint);
         }
+    }
+
+    public void setSize(int width, int height){
+        this.width = width;
+        this.height = height;
     }
 }

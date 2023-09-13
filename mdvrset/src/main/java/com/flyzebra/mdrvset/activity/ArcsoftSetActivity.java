@@ -24,7 +24,6 @@ import com.flyzebra.utils.ResUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS_STORAGE = {
@@ -33,8 +32,8 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    public String[] fragmentName = {"AdasSetFragment", "BsdSetFragment"};
-    private int cerrent_fragment = 0;
+    public String[] fmName = {"AdasSetFragment", "BsdSetFragment"};
+    private int crt_fm = 0;
 
     private final int[] imageViewResID = {R.id.adas_cali_im, R.id.adas_setting_im};
     private final int[] textViewResID = {R.id.adas_cali_tv, R.id.adas_setting_tv};
@@ -82,7 +81,7 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
 
         message = findViewById(R.id.message);
 
-        replaceFragment(fragmentName[cerrent_fragment], R.id.ac_fm01);
+        replaceFragment(fmName[crt_fm], R.id.ac_fm01);
     }
 
 
@@ -97,10 +96,10 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
     public void replaceFragment(String classname, int resId) {
         try {
             FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-            Class<?> c1 = Class.forName(Objects.requireNonNull(MyApp.class.getPackage()).getName() + ".fm." + classname);
+            Class<?> c1 = Class.forName(MyApp.class.getPackage().getName() + ".fragment." + classname);
             Fragment fragmentRe = (Fragment) c1.newInstance();
-            if (fragmentName[cerrent_fragment].equals(classname)) {
-                Class<?> c2 = Class.forName(Objects.requireNonNull(MyApp.class.getPackage()).getName() + ".fm." + fragmentName[cerrent_fragment]);
+            if (fmName[crt_fm].equals(classname)) {
+                Class<?> c2 = Class.forName(MyApp.class.getPackage().getName() + ".fragment." + fmName[crt_fm]);
                 Fragment fragmentRm = (Fragment) c2.newInstance();
                 transaction1.remove(fragmentRm);
             }
@@ -118,8 +117,8 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
             if (ResId == linearLayoutResID[i]) {
                 iv_list.get(i).setImageResource(imageViewSrcResID_On[i]);
                 tv_list.get(i).setTextColor(textColor_On);
-                replaceFragment(fragmentName[i], R.id.ac_fm01);
-                cerrent_fragment = i;
+                replaceFragment(fmName[i], R.id.ac_fm01);
+                crt_fm = i;
             } else {
                 iv_list.get(i).setImageResource(imageViewSrcResID_Off[i]);
                 tv_list.get(i).setTextColor(textColer_Off);

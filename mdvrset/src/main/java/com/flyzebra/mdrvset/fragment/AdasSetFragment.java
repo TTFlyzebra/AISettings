@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.fm;
+package com.flyzebra.mdrvset.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

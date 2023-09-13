@@ -126,24 +126,27 @@ public class BsdBean {
             str.append("p").append(i + 1).append("(").append(baseLine[i].x).append(",").append(baseLine[i].y).append("), ");
         }
         str.delete(str.length() - 2, str.length());
-        str.append("; \n");
+        str.append("\n");
         str.append("highDangerLine:\n");
         for (int i = 0; i < 2; i++) {
             str.append("p").append(i + 1).append("(").append(highLine[i].x).append(",").append(highLine[i].y).append("), ");
         }
         str.delete(str.length() - 2, str.length());
-        str.append("; \n");
+        str.append("\n");
         str.append("mediumDangerLine:\n");
         for (int i = 0; i < 2; i++) {
             str.append("p").append(i + 1).append("(").append(mediumLine[i].x).append(",").append(mediumLine[i].y).append("), ");
         }
         str.delete(str.length() - 2, str.length());
-        str.append("; \n");
+        str.append("\n");
         str.append("lowDangerLine:\n");
         for (int i = 0; i < 2; i++) {
             str.append("p").append(i + 1).append("(").append(lowLine[i].x).append(",").append(lowLine[i].y).append("), ");
         }
         str.delete(str.length() - 2, str.length());
+        str.append("\n");
+        str.append("bsd channel: ").append(BSD_CHN_INDEX).append("\n");
+        str.append("camera direction: ").append(reversed);
         return str.toString();
     }
 }
