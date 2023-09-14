@@ -290,7 +290,7 @@
     <string name="advance_setting">高级设置</string>
 
     <string name="adas_settings">ADAS设置</string>
-    <string name="dsm_settings">DSM设置</string>
+    <string name="dms_settings">DMS设置</string>
     <string name="bsd_settings">BSD设置</string>
     <string name="bsd1_settings">BSD1设置</string>
     <string name="bsd2_settings">BSD2设置</string>
@@ -352,17 +352,22 @@
     <string name="mcu_restart_success_and_login">MCU重启成功，请重新登录！</string>
     <string name="select_channel_channel_success_and_login">通道功能切换成功，请重新登录！</string>
 
-    <string name="camera_right_rear">平视（右后）</string>
-    <string name="camera_left_ront">平视（左前）</string>
-    <string name="camera_righ_front">平视（右前）</string>
-    <string name="camera_left_rear">平视（左后）</string>
+    <string name="camera_right_rear">平视(右后)</string>
+    <string name="camera_left_ront">平视(左前)</string>
+    <string name="camera_righ_front">平视(右前)</string>
+    <string name="camera_left_rear">平视(左后)</string>
     <string name="camera_center_front">俯视</string>
+
+    <string name="dms_step1">1、DMS按步骤要求安装并调整好摄像头位置，不需要保存设置。</string>
+    <string name="dms_step2">2、DMS摄像头推荐安装于驾驶员正前方或驾驶舱A柱处，安装时尽量使摄像头靠近驾驶员正前方，摄像头显示画面确保驾驶员头部在画面中无丢失。个别车型的摄像头安装位存在画面中人脸遮挡情况，摄像头可向左/右偏移直至摄像头不遮挡人脸为止。</string>
+    <string name="dms_step3">3、DMS摄像头安装于驾驶员正前方时，需保证人脸上下角度小于20°；安装于A柱时，需保证人脸左右角度小于30°。</string>
+    <string name="dms_step4">4、如需要支持安全带检测功能，画面中须保证至少可以看到驾驶员腋下10cm。</string>
 
     <string name="set_ok">参数设置成功!</string>
     <string name="set_json_error">参数设置失败，参数错误！</string>
     <string name="set_error_network">参数设置失败，网络错误！</string>
     <string name="note_wifi_connected">请先连接至MDVR设备WIFI热点再进行标定!</string>
-    <string name="save_adas">正在保存设置...</string>
+    <string name="save_adas">正在保存设置…</string>
 
     <string name="power_key">电源键</string>
     <string name="back_key">后退键</string>
@@ -370,14 +375,14 @@
     <string name="volumn_del">音量键-</string>
     <string name="home_key">显示桌面</string>
     <string name="reconnect">断线重连</string>
-    <string name="system_reboot">重启手机</string>
+    <string name="system_reboot">重启设备</string>
     <string name="screen_dpi">高清显示</string>
     <string name="exit_full">退出全屏</string>
-    <string name="fullctl">开始控制云手机</string>
-    <string name="fullmsg">注意：云手机进入全屏控制界面后，点击悬浮窗选择退出按钮方可退出全屏控制界面。</string>
+    <string name="fullctl">开始控制设备</string>
+    <string name="fullmsg">注意：进入全屏控制界面后，点击悬浮窗选择退出按钮方可退出全屏控制界面。</string>
     <string name="confirm">确定</string>
     <string name="cancle">取消</string>
-    <string name="wait_p2p_network">"正在创建网络连接，请稍候......\n如一直连接不上，可尝试开关飞行模式，点击右上角刷新列表按钮后再重新连接!"</string>
+    <string name="wait_p2p_network">"正在创建网络连接，请稍候......\n如一直连接不上，请尝试开关飞行模式再重新连接!"</string>
     <string name="loading_home">正在加载…</string>
     <string name="refresh">刷新</string>
 </resources>

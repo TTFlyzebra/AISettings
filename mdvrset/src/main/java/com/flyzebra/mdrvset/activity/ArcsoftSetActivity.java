@@ -32,14 +32,14 @@ public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClic
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSION_CODE = 101;
 
-    public String[] fmName = {"AdasSetFragment", "BsdSetFragment"};
+    public String[] fmName = {"AdasSetFragment", "BsdSetFragment", "DmsSetFragment"};
     private int crt_fm = 0;
 
-    private final int[] imageViewResID = {R.id.adas_cali_im, R.id.adas_setting_im};
-    private final int[] textViewResID = {R.id.adas_cali_tv, R.id.adas_setting_tv};
-    private final int[] linearLayoutResID = {R.id.adas_view_ll, R.id.adas_setting_view_ll};
-    private final int[] imageViewSrcResID_Off = {R.drawable.ic_shezhi_normal, R.drawable.ic_shezhi_normal};
-    private final int[] imageViewSrcResID_On = {R.drawable.ic_shezhi_press, R.drawable.ic_shezhi_press};
+    private final int[] imageViewResID = {R.id.adas_setting_im, R.id.bsd_setting_im, R.id.dms_setting_im};
+    private final int[] textViewResID = {R.id.adas_setting_tv, R.id.bsd_setting_tv, R.id.dms_setting_tv};
+    private final int[] linearLayoutResID = {R.id.adas_setting_view_ll, R.id.bsd_setting_view_ll, R.id.dms_setting_view_ll};
+    private final int[] imageViewSrcResID_Off = {R.drawable.ic_shezhi_normal, R.drawable.ic_shezhi_normal, R.drawable.ic_shezhi_normal};
+    private final int[] imageViewSrcResID_On = {R.drawable.ic_shezhi_press, R.drawable.ic_shezhi_press, R.drawable.ic_shezhi_press};
     private final List<ImageView> iv_list = new ArrayList<>();
     private final List<TextView> tv_list = new ArrayList<>();
     private final List<LinearLayout> ll_list = new ArrayList<>();
