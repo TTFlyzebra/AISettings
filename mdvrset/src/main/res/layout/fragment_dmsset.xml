@@ -25,6 +25,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" />
 
+    <com.flyzebra.mdrvset.view.DmsImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:scaleType="fitXY"
+        android:src="@drawable/dms_select" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
