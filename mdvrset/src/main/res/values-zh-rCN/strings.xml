@@ -358,10 +358,10 @@
     <string name="camera_left_rear">平视(左后)</string>
     <string name="camera_center_front">俯视</string>
 
-    <string name="dms_step1">1、DMS按步骤要求安装并调整好摄像头位置，不需要保存设置。</string>
-    <string name="dms_step2">2、DMS摄像头推荐安装于驾驶员正前方或驾驶舱A柱处，安装时尽量使摄像头靠近驾驶员正前方，摄像头显示画面确保驾驶员头部在画面中无丢失。个别车型的摄像头安装位存在画面中人脸遮挡情况，摄像头可向左/右偏移直至摄像头不遮挡人脸为止。</string>
-    <string name="dms_step3">3、DMS摄像头安装于驾驶员正前方时，需保证人脸上下角度小于20°；安装于A柱时，需保证人脸左右角度小于30°。</string>
-    <string name="dms_step4">4、如需要支持安全带检测功能，画面中须保证至少可以看到驾驶员腋下10cm。</string>
+    <string name="dms_step1">DMS按以下步骤安装并调整好摄像头位置，不需要保存设置。</string>
+    <string name="dms_step2">1、DMS摄像头推荐安装于驾驶员正前方或驾驶舱A柱处，安装时尽量使摄像头靠近驾驶员正前方，摄像头显示画面确保驾驶员头部在画面中无丢失。个别车型的摄像头安装位存在画面中人脸遮挡情况，摄像头可向左/右偏移直至摄像头不遮挡人脸为止。</string>
+    <string name="dms_step3">2、DMS摄像头安装于驾驶员正前方时，需保证人脸上下角度小于20°；安装于A柱时，需保证人脸左右角度小于30°。</string>
+    <string name="dms_step4">3、如需要支持安全带检测功能，画面中须保证至少可以看到驾驶员腋下10cm。</string>
 
     <string name="set_ok">参数设置成功!</string>
     <string name="set_json_error">参数设置失败，参数错误！</string>

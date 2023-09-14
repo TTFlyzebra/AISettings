@@ -355,10 +355,10 @@
     <string name="camera_left_rear">left rear</string>
     <string name="camera_center_front">center front</string>
 
-    <string name="dms_step1">1. DMS installs and adjusts the camera position according to the step-by-step requirements, without the need to save settings.</string>
-    <string name="dms_step2">2. The DMS camera is recommended to be installed directly in front of the driver or at the A-pillar of the cockpit. When installing, the camera should be as close as possible to the front of the driver, and the display screen of the camera should ensure that the driver\'s head is not lost in the picture. The camera installation position of some car models may have facial obstruction in the image, and the camera can be shifted left/right until the camera does not obstruct the face.</string>
-    <string name="dms_step3">3. When the DMS camera is installed directly in front of the driver, it is necessary to ensure that the face angle is less than 20 °; When installing on the A-pillar, it is necessary to ensure that the left and right angles of the face are less than 30 °.</string>
-    <string name="dms_step4">4. If it is necessary to support the seat belt detection function, the screen must ensure that at least 10cm of the driver\'s armpit can be seen.</string>
+    <string name="dms_step1">DMS follows the steps below to install and adjust the camera position without saving the settings.</string>
+    <string name="dms_step2">1. The DMS camera is recommended to be installed directly in front of the driver or at the A-pillar of the cockpit. When installing, the camera should be as close as possible to the front of the driver, and the display screen of the camera should ensure that the driver\'s head is not lost in the picture. The camera installation position of some car models may have facial obstruction in the image, and the camera can be shifted left/right until the camera does not obstruct the face.</string>
+    <string name="dms_step3">2. When the DMS camera is installed directly in front of the driver, it is necessary to ensure that the face angle is less than 20 °; When installing on the A-pillar, it is necessary to ensure that the left and right angles of the face are less than 30 °.</string>
+    <string name="dms_step4">3. If it is necessary to support the seat belt detection function, the screen must ensure that at least 10cm of the driver\'s armpit can be seen.</string>
 
     <string name="set_ok">Parameter setting successful!</string>
     <string name="set_json_error">Parameter setting failed, parameter error!</string>

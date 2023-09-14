@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:text="@string/dms_step1"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/RED"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
