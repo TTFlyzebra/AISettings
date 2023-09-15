@@ -48,8 +48,6 @@ public class BsdSetFragment extends Fragment {
     private boolean is_connected = false;
 
     private int mLiveChannel = 0;
-    private int mBsdChannel = 0;
-    private int mBsdDirection = 0;
 
     private static final HandlerThread httpThread = new HandlerThread("http_thread");
 
@@ -140,7 +138,7 @@ public class BsdSetFragment extends Fragment {
         bsd_camera_spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mBsdChannel = position;
+                bsdInfo.BSD_CHN_INDEX = position;
                 updateView();
                 checkConnected();
             }
@@ -156,7 +154,7 @@ public class BsdSetFragment extends Fragment {
         bsd_camera_spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mBsdDirection = position;
+                bsdInfo.reversed = position;
                 updateView();
             }
 
@@ -221,9 +219,8 @@ public class BsdSetFragment extends Fragment {
     }
 
     private void updateView() {
-        bsdInfo.BSD_CHN_INDEX = mBsdChannel;
-        bsdInfo.reversed = mBsdDirection;
         bsd_set_textinfo.setText(bsdInfo.toText());
+        bsd_camera_spinner2.setSelection(bsdInfo.reversed);
         bsdSetView.upBsdInfo(bsdInfo);
     }
 
@@ -237,7 +234,7 @@ public class BsdSetFragment extends Fragment {
         is_connected = false;
         String gateway = WifiUtil.getGateway(getActivity());
         if (!TextUtils.isEmpty(gateway)) {
-            String getString = String.format(BsdInfo.GetRequest, mBsdChannel);
+            String getString = String.format(BsdInfo.GetRequest, bsdInfo.BSD_CHN_INDEX);
             tHandler.removeCallbacksAndMessages(null);
             tHandler.post(() -> {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", getString);
