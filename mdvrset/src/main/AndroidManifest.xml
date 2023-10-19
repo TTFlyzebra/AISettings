@@ -32,6 +32,7 @@
         <activity
             android:name="com.flyzebra.mdrvset.activity.WelcomeActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Normal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,15 +43,18 @@
 
         <activity
             android:name="com.flyzebra.mdrvset.activity.ArcsoftSetActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Noactionbar" />
 
         <activity
             android:name="com.flyzebra.mdrvset.activity.OptionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Normal" />
 
         <activity
             android:name="com.flyzebra.mdrvset.activity.WifiP2PSetActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Normal" />
 
         <activity

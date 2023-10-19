@@ -120,13 +120,13 @@
         <item>left front</item>
         <item>right front</item>
         <item>left rear</item>
-        <item>center front</item>
+        <item>top view</item>
     </string-array>
 
     <string-array name="bsdcamerachanenl">
-        <item>前BSD通道</item>
-        <item>后BSD通道</item>
-        <item>左BSD通道</item>
-        <item>右BSD通道</item>
+        <item>Front</item>
+        <item>Rear</item>
+        <item>Left</item>
+        <item>Right</item>
     </string-array>
 </resources>

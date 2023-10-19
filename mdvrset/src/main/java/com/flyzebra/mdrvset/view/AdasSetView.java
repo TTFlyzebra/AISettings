@@ -70,8 +70,8 @@ public class AdasSetView extends RelativeLayout {
                     break;
                 case MotionEvent.ACTION_MOVE:
                     adasInfo.horizon = (int) (horizon_down + (event.getRawY() - horizon_y) * Config.CAM_HEIGHT / height);
-                    adasInfo.horizon = Math.max(Config.CAM_HEIGHT / 3, adasInfo.horizon);
-                    adasInfo.horizon = Math.min(Config.CAM_HEIGHT / 2, adasInfo.horizon);
+                    adasInfo.horizon = Math.max(Config.CAM_HEIGHT * 300 / 720, adasInfo.horizon);
+                    adasInfo.horizon = Math.min(Config.CAM_HEIGHT * 420 / 720, adasInfo.horizon);
                     updateView();
                     if (moveLisenter != null) moveLisenter.notifyAdasInfo(adasInfo);
                     break;
@@ -115,8 +115,8 @@ public class AdasSetView extends RelativeLayout {
         try {
             LayoutParams params0 = (LayoutParams) horizonView_parent.getLayoutParams();
             if (params0 != null) {
-                params0.height = height / 2 - height / 3 + 6;
-                params0.topMargin = height / 3 - 3;
+                params0.height = height * 120 / 720 + 10;
+                params0.topMargin = height * 300 / 720 - 4;
             }
             LayoutParams params1 = (LayoutParams) horizonView.getLayoutParams();
             if (params1 != null) {

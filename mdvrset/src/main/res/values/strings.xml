@@ -355,10 +355,10 @@
     <string name="camera_left_rear">left rear</string>
     <string name="camera_center_front">center front</string>
 
-    <string name="dms_step1">DMS follows the steps below to install and adjust the camera position without saving the settings.</string>
-    <string name="dms_step2">1. The DMS camera is recommended to be installed directly in front of the driver or at the A-pillar of the cockpit. When installing, the camera should be as close as possible to the front of the driver, and the display screen of the camera should ensure that the driver\'s head is not lost in the picture. The camera installation position of some car models may have facial obstruction in the image, and the camera can be shifted left/right until the camera does not obstruct the face.</string>
-    <string name="dms_step3">2. When the DMS camera is installed directly in front of the driver, it is necessary to ensure that the face angle is less than 20 °; When installing on the A-pillar, it is necessary to ensure that the left and right angles of the face are less than 30 °.</string>
-    <string name="dms_step4">3. If it is necessary to support the seat belt detection function, the screen must ensure that at least 10cm of the driver\'s armpit can be seen.</string>
+    <string name="dms_step1">Install and adjust the DMS camera position according to the following steps, no need to save settings.</string>
+    <string name="dms_step2">1. It is recommended that the DMS camera be installed in front of the driver or on the A-pillar of the cockpit. Try to place the camera as close to the driver\'s front when installing. Ensure that the driver\'s head is not lost in the camera display. For some vehicle models, the camera installation may cause facial obstruction in the display, so the camera can be shifted to the left/right until it does not obscure the face.</string>
+    <string name="dms_step3">2. When the DMS camera is installed in front of the driver, ensure that the up and down angle of the face is less than 20°; when installed on the A-pillar, ensure that the left-right angle of the face is less than 30°.</string>
+    <string name="dms_step4">3. If the seat belt detection function is required, it must be ensured that at least 10cm under the driver\'s shoulders can be seen on the screen.</string>
 
     <string name="set_ok">Parameter setting successful!</string>
     <string name="set_json_error">Parameter setting failed, parameter error!</string>
@@ -376,10 +376,10 @@
     <string name="screen_dpi">HD</string>
     <string name="exit_full">Exit</string>
     <string name="fullctl">Start controlling the device</string>
-    <string name="fullmsg">Note: After entering the full screen control interface, click on the floating window and select the exit button to exit the full screen control interface.</string>
+    <string name="fullmsg">Note: After entering the full-screen control interface, click the hover window and select the exit button to exit the full-screen control interface.</string>
     <string name="confirm">confirm</string>
     <string name="cancle">cancle</string>
-    <string name="wait_p2p_network">"Creating wifip2o network connection, please wait…\nIf you have been unable to connect, please try switching on and off the flight mode before reconnecting!"</string>
+    <string name="wait_p2p_network">Creating wifip2o network connection, please wait…\nIf you keep failing to connect, try switching the flight mode on and off and reconnecting!</string>
     <string name="loading_home">Loading…</string>
     <string name="refresh">Refresh</string>
 </resources>
