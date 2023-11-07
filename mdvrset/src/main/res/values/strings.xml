@@ -20,19 +20,19 @@
     <string name="login_password">Password:</string>
     <string name="login_ok">Login</string>
 
-    <string name="horizontal_line">"Horizon :   ("</string>
+    <string name="horizontal_line">Horizon (pixel)</string>
     <string name="engine_line">"Hood line:   ("</string>
-    <string name="car_central_line">"Vehicle center line:   ("</string>
-    <string name="camera_height">Camera height:</string>
+    <string name="car_central_line">Distance between the center line of the vehicle and the optical center offset (in pixels)</string>
+    <string name="camera_height">Height of camera from the ground (cm)</string>
     <string name="camera_central">Camera center:</string>
-    <string name="camera_to_wheel">The distance from the camera to the front wheel: cm</string>
-    <string name="camera_to_axle">The distance from the camera to the back wheel: cm</string>
+    <string name="camera_to_wheel">Horizontal distance of Camera from the left front wheel (cm)</string>
+    <string name="camera_to_axle">Camera distance from front axle (cm)</string>
     <string name="target_to_camera">Target distance from camera:cm</string>
     <string name="target_to_ground">The distance from the bottom of the target to the ground:cm</string>
     <string name="camera_to_wheel_hint">When the current wheel is behind the camera, the input value is negative </string>
-    <string name="car_width">Vehicle width: cm</string>
-    <string name="camera_to_bumper">Distance from camera to head of vehicle: cm</string>
-    <string name="camera_to_left_wheel">The distance from the camera to the left wheel: cm</string>
+    <string name="car_width">Vehicle width (cm)</string>
+    <string name="camera_to_bumper">Camera distance from the front of the vehicle (cm)</string>
+    <string name="camera_to_left_wheel">Horizontal distance of Camera from the left front wheel (cm)</string>
     <string name="param_reset">Reset</string>
     <string name="camera_switch">Switch</string>
     <string name="horizontal_line2">"horizon"</string>

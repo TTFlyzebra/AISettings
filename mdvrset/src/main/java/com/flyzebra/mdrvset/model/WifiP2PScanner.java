@@ -150,8 +150,8 @@ public class WifiP2PScanner {
                             wifiP2PList.add(wifiP2PBean);
                             Collections.sort(wifiP2PList, (p1, p2) -> {
                                 try {
-                                    String s1 = (String) p1.deviceName;
-                                    String s2 = (String) p2.deviceName;
+                                    String s1 = p1.deviceName;
+                                    String s2 = p2.deviceName;
                                     if (TextUtils.isEmpty(s1)) {
                                         return 1;
                                     } else if (TextUtils.isEmpty(s2)) {

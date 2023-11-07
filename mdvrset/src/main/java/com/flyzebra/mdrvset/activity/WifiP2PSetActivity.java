@@ -43,7 +43,7 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     private TextView message;
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
     private WifiManager wifiManager = null;
-    private final WifiP2PScanner wifiP2PServer = new WifiP2PScanner(this);
+    private final WifiP2PScanner wifiP2PScanner = new WifiP2PScanner(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +62,14 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
         }
 
         ListView listView = findViewById(R.id.ac_main_listview);
-        adapter = new WifiP2PAdapter(this, listView, wifiP2PServer.wifiP2PList, R.layout.mdvr_list_item, this);
+        adapter = new WifiP2PAdapter(this, listView, wifiP2PScanner.wifiP2PList, R.layout.mdvr_list_item, this);
         listView.setAdapter(adapter);
 
         message = findViewById(R.id.message);
 
         Notify.get().registerListener(this);
-        wifiP2PServer.init();
-        wifiP2PServer.addListener(this);
+        wifiP2PScanner.init();
+        wifiP2PScanner.addListener(this);
     }
 
     @Override
@@ -92,8 +92,8 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
         if (item.getItemId() == R.id.action_reset) {
             wifiManager.setWifiEnabled(false);
             wifiManager.setWifiEnabled(true);
-            wifiP2PServer.stopScan();
-            wifiP2PServer.startScan();
+            wifiP2PScanner.stopScan();
+            wifiP2PScanner.startScan();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -103,20 +103,20 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     @Override
     protected void onStart() {
         super.onStart();
-        wifiP2PServer.startScan();
+        wifiP2PScanner.startScan();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        wifiP2PServer.stopScan();
+        wifiP2PScanner.stopScan();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        wifiP2PServer.removeListener(this);
-        wifiP2PServer.release();
+        wifiP2PScanner.removeListener(this);
+        wifiP2PScanner.release();
         Notify.get().unregisterListener(this);
         Fzebra.get().release();
         FlyLog.d("onDestroy");
@@ -139,7 +139,7 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     public void onItemClick(View v, WifiP2PBean mdvrBean) {
         if (TextUtils.isEmpty(mdvrBean.deviceIp)) {
             showMessage(R.string.wait_p2p_network);
-            wifiP2PServer.connect(mdvrBean);
+            wifiP2PScanner.connect(mdvrBean);
             return;
         }
         new AlertDialog.Builder(this)

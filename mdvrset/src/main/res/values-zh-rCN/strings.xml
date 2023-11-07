@@ -19,19 +19,19 @@
     <string name="login_password">密码:</string>
     <string name="login_ok">登录</string>
 
-    <string name="horizontal_line">"地平线:   ("</string>
+    <string name="horizontal_line">地平线：pixel</string>
     <string name="engine_line">"引擎盖线:   ("</string>
-    <string name="car_central_line">"车辆中线:   ("</string>
-    <string name="camera_height">摄像头高度:cm</string>
-    <string name="camera_central">摄像头中心:cm</string>
-    <string name="camera_to_wheel">摄像头到前车轴距离:cm</string>
-    <string name="camera_to_axle">摄像头到后车轴距离:cm</string>
-    <string name="target_to_camera">标靶距离摄像头距离:cm</string>
-    <string name="target_to_ground">标靶底部距离地面距离:cm</string>
+    <string name="car_central_line">车辆中线距离光心偏移量：pixel</string>
+    <string name="camera_height">摄像头距离地面高度：cm</string>
+    <string name="camera_central">摄像头中心：cm</string>
+    <string name="camera_to_wheel">摄像头距离左前轮的水平距离：cm</string>
+    <string name="camera_to_axle">摄像头距离前车轴距离：cm</string>
+    <string name="target_to_camera">标靶距离摄像头距离：cm</string>
+    <string name="target_to_ground">标靶底部距离地面距离：cm</string>
     <string name="camera_to_wheel_hint">当前车轮在相机后方时，输入值为负值</string>
-    <string name="car_width">车身宽度:cm</string>
-    <string name="camera_to_bumper">摄像头到车头距离:cm</string>
-    <string name="camera_to_left_wheel">摄像头到左前轮距离:cm</string>
+    <string name="car_width">车辆宽度：cm</string>
+    <string name="camera_to_bumper">摄像头距离车头距离：cm</string>
+    <string name="camera_to_left_wheel">摄像头距离左前轮的水平距离：cm</string>
     <string name="param_reset">重置</string>
     <string name="camera_switch">切换</string>
 
