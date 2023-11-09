@@ -14,8 +14,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/fm_adasset_ll01"
         android:layout_below="@+id/adasSetView"
-        android:layout_alignParentBottom="true"
         android:background="@color/white">
 
         <LinearLayout
@@ -396,4 +396,36 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/fm_adasset_ll01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#7F000000"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/ck_lock_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lock_gps_speed"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/et_lock_speed"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="km"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </RelativeLayout>

@@ -14,7 +14,7 @@ import com.flyzebra.core.Fzebra;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.core.notify.Protocol;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.RemoteActivity;
+import com.flyzebra.mdrvset.activity.RemoteCtlActivity;
 import com.flyzebra.mdrvset.bean.WifiP2PBean;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.ByteUtil;
@@ -139,7 +139,7 @@ public class RcItemView extends RcBaseView {
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(getContext(), RemoteActivity.class);
+                    Intent intent = new Intent(getContext(), RemoteCtlActivity.class);
                     intent.putExtra("PHONE", mdvrBean);
                     getContext().startActivity(intent);
                     dialog.cancel();

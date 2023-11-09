@@ -19,7 +19,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
-import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.activity.MD600Activity;
 import com.flyzebra.mdrvset.adapder.SpinnerAdapater;
 import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdrvset.http.BsdInfo;
@@ -63,7 +63,7 @@ public class BsdSetFragment extends Fragment {
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+            MD600Activity activity = (MD600Activity) getActivity();
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
@@ -177,7 +177,7 @@ public class BsdSetFragment extends Fragment {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
                     progressDialog.dismiss();
-                    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                    MD600Activity activity = (MD600Activity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
                         try {
@@ -206,7 +206,7 @@ public class BsdSetFragment extends Fragment {
                 line_layout.setVisibility(View.VISIBLE);
                 bsd_save_btn.setVisibility(View.VISIBLE);
             } else {
-                ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                MD600Activity activity = (MD600Activity) getActivity();
                 if (activity != null) {
                     activity.showMessage(R.string.note_wifi_connected);
                 }

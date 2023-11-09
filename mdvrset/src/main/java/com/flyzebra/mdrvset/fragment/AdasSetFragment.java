@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
 import com.flyzebra.mdrvset.Config;
-import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.activity.MD600Activity;
 import com.flyzebra.mdrvset.adapder.SpinnerAdapater;
 import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdrvset.http.RtmpInfo;
@@ -86,7 +87,7 @@ public class AdasSetFragment extends Fragment {
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+            MD600Activity activity = (MD600Activity) getActivity();
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
@@ -276,7 +277,7 @@ public class AdasSetFragment extends Fragment {
                 final HttpResult result = HttpUtil.doPostJson("http://" + gateway + "/bin-cgi/mlg.cgi", setString);
                 mHandler.post(() -> {
                     progressDialog.dismiss();
-                    ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                    MD600Activity activity = (MD600Activity) getActivity();
                     if (activity == null) return;
                     if (result.code == 200) {
                         try {
@@ -297,6 +298,9 @@ public class AdasSetFragment extends Fragment {
             });
         });
 
+        CheckBox ck_lock_speed = view.findViewById(R.id.ck_lock_speed);
+        EditText et_lock_speed = view.findViewById(R.id.et_lock_speed);
+
         adas_save_btn.setVisibility(View.INVISIBLE);
         calibration_start_btn = start_layout.findViewById(R.id.calibration_start_btn);
         calibration_start_btn.setOnClickListener(v -> {
@@ -305,7 +309,7 @@ public class AdasSetFragment extends Fragment {
                 line_layout.setVisibility(View.VISIBLE);
                 adas_save_btn.setVisibility(View.VISIBLE);
             } else {
-                ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                MD600Activity activity = (MD600Activity) getActivity();
                 if (activity != null) {
                     activity.showMessage(R.string.note_wifi_connected);
                 }

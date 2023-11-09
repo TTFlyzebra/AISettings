@@ -23,10 +23,10 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     public void md201(View view) {
-        startActivity(new Intent(this, WifiP2PSetActivity.class));
+        startActivity(new Intent(this, MD201Activity.class));
     }
 
     public void md600(View view) {
-        startActivity(new Intent(this, ArcsoftSetActivity.class));
+        startActivity(new Intent(this, MD600Activity.class));
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 import com.flyzebra.ffplay.view.GlVideoView;
-import com.flyzebra.mdrvset.activity.ArcsoftSetActivity;
+import com.flyzebra.mdrvset.activity.MD600Activity;
 import com.flyzebra.mdrvset.adapder.SpinnerAdapater;
 import com.flyzebra.mdrvset.http.AdasInfo;
 import com.flyzebra.mdrvset.http.RtmpInfo;
@@ -43,7 +43,7 @@ public class DmsSetFragment extends Fragment {
     public Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+            MD600Activity activity = (MD600Activity) getActivity();
             if (activity == null) return;
             String gateway = WifiUtil.getGateway(activity);
             if (TextUtils.isEmpty(gateway)) {
@@ -116,7 +116,7 @@ public class DmsSetFragment extends Fragment {
                 mHandler.post(() -> {
                     if (result.code != 200) {
                         mHandler.post(() -> {
-                            ArcsoftSetActivity activity = (ArcsoftSetActivity) getActivity();
+                            MD600Activity activity = (MD600Activity) getActivity();
                             if (activity != null) {
                                 activity.showMessage(R.string.note_wifi_connected);
                             }

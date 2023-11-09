@@ -39,7 +39,7 @@ public class Fzebra implements INotify {
             _setTid(mTid);
             _setUid(mUid);
         } catch (Exception e) {
-            FlyLog.e();
+            FlyLog.e(e.toString());
         }
         Notify.get().registerListener(this);
     }

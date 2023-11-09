@@ -28,7 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mHandler.postDelayed(() -> {
-            startActivity(new Intent(WelcomeActivity.this, ArcsoftSetActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, OptionActivity.class));
             finish();
         }, 1000);
     }

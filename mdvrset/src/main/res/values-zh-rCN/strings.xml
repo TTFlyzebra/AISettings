@@ -385,4 +385,5 @@
     <string name="wait_p2p_network">"正在创建网络连接，请稍候......\n如一直连接不上，请尝试开关飞行模式再重新连接!"</string>
     <string name="loading_home">正在加载…</string>
     <string name="refresh">刷新</string>
+    <string name="lock_gps_speed">车速锁定</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,24 +27,23 @@ import com.flyzebra.core.notify.INotify;
 import com.flyzebra.core.notify.Notify;
 import com.flyzebra.mdrvset.adapder.WifiP2PAdapter;
 import com.flyzebra.mdrvset.bean.WifiP2PBean;
-import com.flyzebra.mdrvset.model.WifiP2PScanner;
+import com.flyzebra.mdrvset.bluetooth.BluetoothScanner;
+import com.flyzebra.mdrvset.wifip2p.WifiP2PScanner;
 import com.flyzebra.mdvrset.R;
 import com.flyzebra.utils.FlyLog;
 
 import java.util.List;
 
-public class WifiP2PSetActivity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, WifiP2PAdapter.OnItemClick {
-    private static final String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+public class MD201Activity extends AppCompatActivity implements INotify, WifiP2PScanner.IWifiP2PListener, WifiP2PAdapter.OnItemClick {
+    private String[] permissions = null;
     private static final int REQUEST_PERMISSION_CODE = 101;
 
     private WifiP2PAdapter adapter;
     private TextView message;
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
     private WifiManager wifiManager = null;
-    private final WifiP2PScanner wifiP2PScanner = new WifiP2PScanner(this);
+    private final WifiP2PScanner wifiP2PService = new WifiP2PScanner(this);
+    private final BluetoothScanner bluetoothService = new BluetoothScanner(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +54,41 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
 
         Fzebra.get().init(getApplicationContext());
 
-        for (String s : PERMISSIONS_STORAGE) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions = new String[]{
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            };
+        } else {
+            permissions = new String[]{
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            };
+        }
+
+        for (String s : permissions) {
             if (ActivityCompat.checkSelfPermission(this, s) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+                ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CODE);
                 break;
             }
         }
 
         ListView listView = findViewById(R.id.ac_main_listview);
-        adapter = new WifiP2PAdapter(this, listView, wifiP2PScanner.wifiP2PList, R.layout.mdvr_list_item, this);
+        adapter = new WifiP2PAdapter(this, listView, wifiP2PService.wifiP2PList, R.layout.mdvr_list_item, this);
         listView.setAdapter(adapter);
 
         message = findViewById(R.id.message);
 
         Notify.get().registerListener(this);
-        wifiP2PScanner.init();
-        wifiP2PScanner.addListener(this);
+        wifiP2PService.init();
+        wifiP2PService.addListener(this);
     }
 
     @Override
@@ -92,8 +111,11 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
         if (item.getItemId() == R.id.action_reset) {
             wifiManager.setWifiEnabled(false);
             wifiManager.setWifiEnabled(true);
-            wifiP2PScanner.stopScan();
-            wifiP2PScanner.startScan();
+            wifiP2PService.stopScan();
+            wifiP2PService.startScan();
+
+            bluetoothService.stop();
+            bluetoothService.start();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -103,20 +125,22 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     @Override
     protected void onStart() {
         super.onStart();
-        wifiP2PScanner.startScan();
+        bluetoothService.start();
+        wifiP2PService.startScan();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        wifiP2PScanner.stopScan();
+        bluetoothService.stop();
+        wifiP2PService.stopScan();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        wifiP2PScanner.removeListener(this);
-        wifiP2PScanner.release();
+        wifiP2PService.removeListener(this);
+        wifiP2PService.release();
         Notify.get().unregisterListener(this);
         Fzebra.get().release();
         FlyLog.d("onDestroy");
@@ -139,7 +163,7 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
     public void onItemClick(View v, WifiP2PBean mdvrBean) {
         if (TextUtils.isEmpty(mdvrBean.deviceIp)) {
             showMessage(R.string.wait_p2p_network);
-            wifiP2PScanner.connect(mdvrBean);
+            wifiP2PService.connect(mdvrBean);
             return;
         }
         new AlertDialog.Builder(this)
@@ -149,7 +173,7 @@ public class WifiP2PSetActivity extends AppCompatActivity implements INotify, Wi
                     dialog.dismiss();
                 })
                 .setNeutralButton(R.string.confirm, (dialog, which) -> {
-                    Intent intent = new Intent(this, RemoteActivity.class);
+                    Intent intent = new Intent(this, RemoteCtlActivity.class);
                     intent.putExtra("mdvrBean", mdvrBean);
                     startActivity(intent);
                     dialog.cancel();

@@ -37,7 +37,7 @@ import com.flyzebra.utils.SPUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class RemoteActivity extends Activity implements View.OnClickListener, INotify {
+public class RemoteCtlActivity extends Activity implements View.OnClickListener, INotify {
     private RcFullView mdvrView;
     private ImageView fButton;
     private LinearLayout fMenu;
@@ -138,8 +138,8 @@ public class RemoteActivity extends Activity implements View.OnClickListener, IN
                         int top = fButton.getTop();
                         int abs = (bWidth) / 2;
                         if (Math.abs(left - bLeft) > abs || Math.abs(top - bTop) > abs) {
-                            SPUtil.set(RemoteActivity.this, "bfLeft", left);
-                            SPUtil.set(RemoteActivity.this, "bfTop", top);
+                            SPUtil.set(RemoteCtlActivity.this, "bfLeft", left);
+                            SPUtil.set(RemoteCtlActivity.this, "bfTop", top);
                             return true;
                         } else {
                             layoutFloatButton(bLeft, bTop, bLeft + bWidth, bTop + bHeight);
@@ -151,8 +151,8 @@ public class RemoteActivity extends Activity implements View.OnClickListener, IN
             }
         });
 
-        int left = (int) SPUtil.get(RemoteActivity.this, "bfLeft", 0);
-        int top = (int) SPUtil.get(RemoteActivity.this, "bfTop", screen_h / 2);
+        int left = (int) SPUtil.get(RemoteCtlActivity.this, "bfLeft", 0);
+        int top = (int) SPUtil.get(RemoteCtlActivity.this, "bfTop", screen_h / 2);
         if (left != 0 || top != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fButton.getLayoutParams();
             params.leftMargin = left;

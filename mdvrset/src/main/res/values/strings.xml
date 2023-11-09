@@ -382,4 +382,5 @@
     <string name="wait_p2p_network">Creating wifip2o network connection, please wait…\nIf you keep failing to connect, try switching the flight mode on and off and reconnecting!</string>
     <string name="loading_home">Loading…</string>
     <string name="refresh">Refresh</string>
+    <string name="lock_gps_speed">Vehicle speed lock</string>
 </resources>

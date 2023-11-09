@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission
         android:name="android.permission.LOCAL_MAC_ADDRESS"
         tools:ignore="ProtectedPermissions" />
@@ -42,7 +49,7 @@
         </activity>
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.ArcsoftSetActivity"
+            android:name="com.flyzebra.mdrvset.activity.MD600Activity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Noactionbar" />
 
@@ -52,13 +59,13 @@
             android:theme="@style/Theme.Normal" />
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.WifiP2PSetActivity"
+            android:name="com.flyzebra.mdrvset.activity.MD201Activity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Normal" />
 
         <activity
-            android:name="com.flyzebra.mdrvset.activity.RemoteActivity"
+            android:name="com.flyzebra.mdrvset.activity.RemoteCtlActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Full" />

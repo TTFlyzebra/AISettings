@@ -25,7 +25,7 @@ import com.flyzebra.utils.ResUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArcsoftSetActivity extends AppCompatActivity implements View.OnClickListener {
+public class MD600Activity extends AppCompatActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,

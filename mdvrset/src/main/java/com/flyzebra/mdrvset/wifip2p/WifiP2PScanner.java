@@ -1,4 +1,4 @@
-package com.flyzebra.mdrvset.model;
+package com.flyzebra.mdrvset.wifip2p;
 
 import static android.os.Looper.getMainLooper;
 
